@@ -3,13 +3,21 @@
 <head>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "application/css/dashboard.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "application/css/font-awesome.css" %}">
+
     <script src="{% static "application/js/dashboard.js" %}"></script>
 </head>
 
 <body style="margin-top: 0px; margin-left: 0px; margin-right: 0px">
     <div class="header" >
-        <p id="hamburger" style="display: inline; cursor: pointer; color: blue" onclick="hamburgerClick()">&#9776;</p>&nbsp;&nbsp;Router
-    </div> <!-- Button to pop sidebar -->
+        <p id="hamburger" style="display: inline; cursor: pointer; color: blue" onclick="hamburgerClick()">&#9776;<!-- Button to pop sidebar --></p>&nbsp;&nbsp;Router
+        <div id="dropdownlst" class="dropbutton" onclick="dropdown()">Hi, {{user}}
+            <ul class="ddlist">
+                <li><a href="#" style="color: #AA1255; text-decoration: none;"><i class="icon-cog"></i>Settings</a></li>
+                <li><a href="#" style="color: #AA1255; text-decoration: none;"><i class="icon-remove"></i>Log out</a></li>
+            </ul>
+        </div>
+    </div>
     <div id="sidebar">  <!-- Sidebar -->
         <div style="margin-left: 10px" id="sideLinks">
             <!-- Sidebar links -->

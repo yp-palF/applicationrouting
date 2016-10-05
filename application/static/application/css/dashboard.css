@@ -48,3 +48,76 @@ body {
     height: 100vh;
     background-color:#F0F690;
 }
+
+.dropbutton {
+    min-width: 120px;
+    content: "";
+    cursor: pointer;
+    position: relative;
+    margin-right: 5px;
+    padding-top: 10px;
+    padding-right: 23px;
+    padding-left: 5px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    border-radius: 5px;
+    font-family: 'Lato', 'Arial', sans-serif;
+    font-size: 21px;
+    display: inline;
+    float: right;
+    height: 38px;
+    border-bottom: none;
+}
+.dropbutton:after { /* Little arrow */
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    margin-top: -3px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: #4cbeff transparent;
+    border-bottom: none;
+}
+.dropbutton:hover, .dropdown:focus {
+    background-color: #123456;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    transition: 1s;
+}
+.ddlist {
+    /* Size & position */
+    position: absolute;
+    top: 60%;
+    left: 0;
+    right: 0;
+    color: red;
+    /* Styles */
+    border-radius: 0 0 5px 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-top: none;
+    border-bottom: none;
+    list-style: none;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+
+    /* Hiding */
+    max-height: 0;
+    overflow: hidden;
+    padding-left: 5px;
+}
+.dropbutton.active {
+    border-radius: 5px 5px 0 0;
+    box-shadow: none;
+    border-bottom: none;
+    color: #FFFFFF;
+}
+.dropbutton.active .ddlist {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    max-height: 400px;
+    background: #123456;
+    padding-bottom: 5px;
+}
