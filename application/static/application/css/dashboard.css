@@ -3,13 +3,15 @@ body {
 }
 .header {
     height: 50px;
-    background: black;
+    color: #903A00;
+    background: #012323;
     font-family: Impact,Charcoal,sans-serif;
     font-size: 30px;
-    color: white;
+    padding-left: 10px;
+    padding-top: 5px;
 }
 #sidebar {
-    margin-top: 50px;
+    margin-top: 55px;
     display: block;
     height: 100%;
     width: 50px;
@@ -17,7 +19,7 @@ body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #233;
     overflow-x: hidden;
     padding-top: 10px;
     transition: 0.5s;
@@ -41,7 +43,6 @@ body {
 
 #main {
     transition: .5s;
-    padding: 20px;
     margin-left:50px;
     width: 100vw;
     height: 100vh;
