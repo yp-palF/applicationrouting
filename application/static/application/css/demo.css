@@ -51,7 +51,7 @@ footer, header, hgroup, menu, nav, section {
 /* General Demo Style */
 body{
 	font-family: Cambria, Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
-	background: #fff url(../images/bg.jpg) ;
+	background: #fff url(../images/l1.jpg) ;
 	font-weight: 400;
 	font-size: 15px;
 	color: #1d3c41;
@@ -158,4 +158,9 @@ a{
 	color: rgba(104,171,194,1);
 	background: rgba(255,255,255,0.9);
 	box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
+}
+
+img.resize{
+   max-width:50%;
+   max-height:50%;
 }

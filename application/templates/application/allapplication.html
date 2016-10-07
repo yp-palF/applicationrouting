@@ -16,7 +16,7 @@
     <div class="w3-top">
         <ul class="w3-navbar w3-theme-d2 w3-left-align w3-large">
             <li class="w3-padding-small w3-theme-d4" style="font-size: 30px; cursor: pointer; height: 57px;" onclick="hamburgerClick()"><p id="hamburger" style="color: blue; display: inline">&#9776;</p></li>
-            <li><a href="#" class="w3-padding-large w3-theme-d4" style="height: 57px"><i class="fa fa-home w3-margin-right"></i>Dashboard</a></li>
+            <li><a href="#" class="w3-padding-large w3-theme-d4" style="height: 57px"><i class="glyphicon glyphicon-duplicate w3-margin-right"></i>All Applications</a></li>
         </ul>
         <div class="w3-display-topright">
             <ul class="w3-navbar w3-theme-d2 w3-large">
@@ -69,93 +69,74 @@
     </div>
     <div id="main">
     <!-- The main content body-->
-    <div class="absolute">
-        <div class="w3-table w3-striped w3-border">
-            <h4 align="center" color>Status of the Ongoing Application</h4>
-            <div class="w3-responsive">
-                <table class="w3-table-all w3-hoverable">
-                <tr>
-                <th><input type="checkbox" onClick="toggle(this)" /></th>
-                <th>Subject</th>
-                <th>Status</th>
+        <div class="all">
+        <div class="w3-container">
+            <h4 align="center"><b><i>Your Applications</i></b></h4>
+                <div class="w3-responsive">
+                <div class="w3-container">
+                    <table class="w3-table-all w3-hoverable">
+                    <tr>
+                    <th><input type="checkbox" onClick="toggle(this)" /></th>
+                    <th>APPID</th>
+                    <th>TO</th>
+                    <th>SUBJECT</th>
+                    <th>DATE/TIME</th>
+                    <th>STATUS</th>
                 </tr>
                 <tr>
                 <td><input type="checkbox" name="foo" value="bar1"></td>
-                <td>Leave application</td>
-                <td><font color="#FF5733">
-                <!--<div class="tooltip">--><a href="">Show Status</a>
-                <!--<span class="tooltiptext">In process</span>
-                </div></font>--></td>
+                <td><a href="#">7554</a></td>
+                <td>Amy</td>
+                <td>Budget approval</td>
+                <td>02/10/16</td>
+                <td>In process</td>
                 </tr>
                 <tr>
                 <td><input type="checkbox" name="foo" value="bar2"></td>
-                <td>Budget approval</td>
-               <td><font color="#FF5733">
-                <!--<div class="tooltip">--><a href="">Show Status</a>
-                <!--<span class="tooltiptext">Approved</span>
-                </div></font>--></td>
+                <td><a href="#">4256</a></td>
+                <td>David</td>
+                <td>Workshop</td>
+                <td>22/04/16</td>
+                <td>Approved</td> 
                 </tr>
                 <tr>
                 <td><input type="checkbox" name="foo" value="bar3"></td>
-                <td>Workshop</td>
-                <td><font color="#FF5733">
-                <!--<div class="tooltip">--><a href="">Show Status</a>
-                <!--<span class="tooltiptext">Disapproved</span>
-                </div></font>--></td>
-                </tr>
-                </table>
-                </div>
-            </div>&nbsp;
-                <div align="center">
-                    <button type="button" class="w3-btn w3-theme"><i class="fa fa-trash"></i> &nbsp;Remove</button> &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="w3-btn w3-theme">Send Reminder</button> 
-                </div>
-        </div>
-    </div>
-        
-    <div class="absolute1">
-        <div class="w3-table w3-striped w3-border">
-            <h4 align="center" color>List of Applications to be approved</h4>
-            <div class="w3-responsive">
-                <table class="w3-table-all w3-hoverable">
-                <tr>
-                <th><input type="radio" onClick="toggle(this)" /></th>
-                <th>Application Id</th>
-                <th>Title</th>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar1"></td>
-                <td><!--<a href="">121</a>-->121</td>
+                <td><a href="#">3879</a></td>
+                <td>Michael</td>
                 <td>Leave application</td>
+                <td>10/04/16</td>
+                <td>Disapproved</td>
                 </tr>
                 <tr>
-                <td><input type="radio" name="foo" value="bar2"></td>
-                <td><!--<a href="">451</a>-->451</td>  
-                <td>Budget approval(TPC)</td>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar2"></td>
-                <td><!--<a href="">471</a>-->471</td>  
-                <td>Mess Refund</td>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar2"></td>
-                <td><!--<a href="">748</a>-->748</td>  
-                <td>SAC Occupancy</td>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar3"></td>
-                <td><!--<a href="">777</a>-->777</td>
-                <td>Workshop</td>
+                <td><input type="checkbox" name="foo" value="bar3"></td>
+                <td><a href="#">2559</a></td>
+                <td>Michael</td>
+                <td>KDE Conference</td>
+                <td>05/01/16</td>
+                <td>Approved</td>
                 </tr>
                 </table>
-            </div>
-            </div>&nbsp;<div align="center">
-                <button type="button" class="w3-btn w3-theme">Go to Application&nbsp;<i class="fa fa-arrow-right"></i></button> &nbsp;&nbsp;&nbsp;&nbsp;
+                <br>
+                <div align="left">
+                <div class="btn-group btn-group-xs">
+                    <button type="button" class="btn btn-primary"><</button>
+                    <button type="button" class="btn btn-primary">1</button>
+                    <button type="button" class="btn btn-primary">2</button>
+                    <button type="button" class="btn btn-primary">></button>    
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Page:1 of 2 Showing:1-4 of 4 applications
             </div>
         </div>
-    </div>
-
+        </div>
+        </div></div></form></div>
+        </form></div>
     <footer class="w3-container w3-theme-d3 w3-padding-16">
         <h5><p align="center">
             <a href="#" target="_blank">Admin Support</a>

@@ -154,7 +154,7 @@ input {
 #wrapper p.button input{
 	width: 30%;
 	cursor: pointer;	
-	background: rgb(61, 157, 179);
+	background: rgb(0, 128, 0);
 	padding: 8px 5px;
 	font-family: 'BebasNeueRegular','Arial Narrow',Arial,sans-serif;
 	color: #fff;
@@ -180,7 +180,7 @@ input {
 	        transition: all 0.2s linear;
 }
 #wrapper p.button input:hover{
-	background: rgb(74, 179, 198);
+	background: rgb(0, 128, 0);
 }
 #wrapper p.button input:active,
 #wrapper p.button input:focus{
@@ -443,7 +443,7 @@ p.fpassword{
 	padding: 0;
 }
 .lt8 #wrapper h1{
-	color: #066A75;
+	color: #066A70;
 }
 .lt8 #register{	
 	display: none;
