@@ -4,17 +4,43 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "application/css/dashboard.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "application/css/font-awesome.css" %}">
-
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-blue-grey.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <script src="{% static "application/js/dashboard.js" %}"></script>
 </head>
 
 <body style="margin-top: 0px; margin-left: 0px; margin-right: 0px">
-    <div class="header" >
-        <p id="hamburger" style="display: inline; cursor: pointer; color: blue" onclick="hamburgerClick()">&#9776;<!-- Button to pop sidebar --></p>&nbsp;&nbsp;Router
-        <div id="dropdownlst" class="dropbutton" onclick="dropdown()">Hi, {{user}}
-            <ul class="ddlist">
-                <li><a href="#" style="color: #AA1255; text-decoration: none;"><i class="icon-cog"></i>Settings</a></li>
-                <li><a href="#" style="color: #AA1255; text-decoration: none;"><i class="icon-remove"></i>Log out</a></li>
+    <div class="w3-top">
+        <ul class="w3-navbar w3-theme-d2 w3-left-align w3-large">
+            <li class="w3-padding-small w3-theme-d4" style="font-size: 30px; cursor: pointer; height: 57px;" onclick="hamburgerClick()"><p id="hamburger" style="color: blue; display: inline">&#9776;</p></li>
+            <li><a href="#" class="w3-padding-large w3-theme-d4" style="height: 57px"><i class="fa fa-home w3-margin-right"></i>Dashboard</a></li>
+        </ul>
+        <div class="w3-display-topright">
+            <ul class="w3-navbar w3-theme-d2 w3-large">
+                <li style="margin-top: 4px;">
+                    <form>
+                        <input id="searchBox" type="search" placeholder="Search" style="">
+                    </form>
+                </li>
+                <li class="w3-hide-small w3-dropdown-hover" align="right">
+                    <a href="#" class="w3-padding-large w3-hover-white" title="Notifications">
+                        <i class="fa fa-bell"></i>
+                        <span class="w3-badge w3-right w3-small w3-green">3</span>
+                    </a>     
+                </li>
+                <li>
+                    <div class="dropdown" style="all: initial;">
+                        <button onclick="myFunction()" class="dropbtn">Hey, {{user}}
+                        <div style="float: right;padding-top: 14px"><i class="apex-dn"></i></div></button>
+                        <div id="myDropdown" class="dropdown-content">
+                            <a href="#">Settings</a>
+                            <a href="#">Activity log</a>
+                            <a href="#">Sign Out</a>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -25,14 +51,11 @@
             <a href="#">New Application</a>
             <a href="#">All Applications</a>
             <a href="#">Sent Applications</a>
+            <a href="#">Members</a>
         </div>
     </div>
-
-    <div id="main" onclick="outsideClick()">
+    <div id="main">
     <!-- The main content body-->
-    </div>    
-    <script>
-    
-</script>
+    </div>
 </body>
 </html> 
