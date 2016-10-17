@@ -4,6 +4,6 @@ from application.views import client
 
 # Create your views here.
 def resetCloudantDB(request):
-    DB = client.create_database('router')
+    DB = client.create_database('users')
     if DB.exists():
         return  HttpResponse('SUCCESS!!')

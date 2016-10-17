@@ -41,9 +41,10 @@ def signup(request):
         # Saving in sqlite
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
-        # saving in cloudant
-        session = client.session()
-        
+        # Saving in cloudant
+        DBUSERS = client['users']
+        newUser = {'username': username, 'email': email}
+        doc = DBUSERS.create_document(newUser)
         return redirect('/login')
 
 @login_required
