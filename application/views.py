@@ -3,8 +3,12 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from cloudant.client import Cloudant
 
-
+from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME, CLOUDANTACCOUNT
+ 
+client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
+client.connect()
 # Create your views here.
 @login_required
 def home(request):
@@ -26,7 +30,7 @@ def loginUser(request):
             print("INVALID")
             return redirect('/login')
 
-
+@csrf_protect
 def signup(request):
     if request.method == 'GET':
         return render(request, 'application/signup.html')
@@ -34,11 +38,15 @@ def signup(request):
         username = request.POST['usernamesignup']
         email = request.POST['emailsignup']
         password = request.POST['passwordsignup']
+        # Saving in sqlite
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
+        # saving in cloudant
+        session = client.session()
+        
         return redirect('/login')
 
-
+@login_required
 def createApplication(request):
     return render(request, 'application/createApplication.html', {'user': request.POST['username']})
 
@@ -46,7 +54,7 @@ def createApplication(request):
 def mainpage(request):
     return render(request, 'application/main.html')
 
-
+@login_required
 def allApplication(request):
     return render(request, 'application/allapplication.html')
 
