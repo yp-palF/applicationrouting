@@ -46,8 +46,8 @@
                         <button onclick="myFunction()" class="dropbtn">Hey, {{user}}
                         <div style="float: right;padding-top: 14px"><i class="apex-dn"></i></div></button>
                         <div id="myDropdown" class="dropdown-content">
-                            <a href="#">Settings</a>
-                            <a href="#">Sign Out</a>
+                            <a onClick='settings()'>Settings</a>
+                            <a onClick='signOut()'>Sign Out</a>
                         </div>
                     </div>
                 </li>
@@ -168,11 +168,15 @@
 
     <script language="JavaScript">
         function toggle(source) {
-        checkboxes = document.getElementsByName('foo');
-        for(var i=0, n=checkboxes.length;i<n;i++) {
-        checkboxes[i].checked = source.checked;
+            checkboxes = document.getElementsByName('foo');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = source.checked;
+            }
         }
-    }
+        function signOut() {
+            window.location = "/logout";
+        }
+
 </script>
 
 </body>

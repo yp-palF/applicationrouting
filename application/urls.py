@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from application.views import home, login, createApplication, mainpage, allApplication
+from application.views import home, loginUser, createApplication, mainpage, allApplication, signup, logoutUser
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', mainpage),
-    url(r'^login', login),
+    url(r'^signup', signup),
+    url(r'^login', loginUser),
     url(r'^dashboard', home),
     url(r'^createApplication', createApplication),
     url(r'^allapplication', allApplication),
+    url(r'^logout', logoutUser),
 ]
