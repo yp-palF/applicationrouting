@@ -77,44 +77,20 @@
                     <table class="w3-table-all w3-hoverable">
                     <tr>
                     <th><input type="checkbox" onClick="toggle(this)" /></th>
-                    <th>APPID</th>
                     <th>TO</th>
                     <th>SUBJECT</th>
                     <th>DATE/TIME</th>
                     <th>STATUS</th>
                 </tr>
-                <tr>
-                <td><input type="checkbox" name="foo" value="bar1"></td>
-                <td><a href="#">7554</a></td>
-                <td>Amy</td>
-                <td>Budget approval</td>
-                <td>02/10/16</td>
-                <td>In process</td>
-                </tr>
-                <tr>
-                <td><input type="checkbox" name="foo" value="bar2"></td>
-                <td><a href="#">4256</a></td>
-                <td>David</td>
-                <td>Workshop</td>
-                <td>22/04/16</td>
-                <td>Approved</td> 
-                </tr>
-                <tr>
-                <td><input type="checkbox" name="foo" value="bar3"></td>
-                <td><a href="#">3879</a></td>
-                <td>Michael</td>
-                <td>Leave application</td>
-                <td>10/04/16</td>
-                <td>Disapproved</td>
-                </tr>
-                <tr>
-                <td><input type="checkbox" name="foo" value="bar3"></td>
-                <td><a href="#">2559</a></td>
-                <td>Michael</td>
-                <td>KDE Conference</td>
-                <td>05/01/16</td>
-                <td>Approved</td>
-                </tr>
+                {% for application in applicationList %}
+                    <tr>
+                        <td><input type="checkbox" name="foo" value="bar1"></td>
+                        <td>{{application.value.to}}</td>
+                        <td>{{application.value.subject}}</td>
+                        <td>{{application.value.date}}</td>
+                        <td>{{application.value.status}}</td>
+                    </tr>
+                {% endfor %}}
                 </table>
                 <br>
                 <div align="left">

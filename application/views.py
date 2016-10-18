@@ -5,10 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from cloudant.client import Cloudant
 
-from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME, CLOUDANTACCOUNT
+from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME
 
 client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
 client.connect()
+
+
 # Create your views here.
 @login_required
 def home(request):
@@ -44,6 +46,7 @@ def signup(request):
         user.save()
         # Saving in cloudant
         DBUSERS = client['users']
+        print (DBUSERS.all_docs())
         newUser = {'username': username, 'email': email}
         DBUSERS.create_document(newUser)
         return redirect('/login')
@@ -55,12 +58,17 @@ def createApplication(request):
 
 
 def mainpage(request):
+    DBUSERS = client['users']
+    print (DBUSERS.get_view_result('_design/fetch', 'by_email')['saurav@gm.c'])
     return render(request, 'application/main.html')
 
 
 @login_required
 def allApplication(request):
-    return render(request, 'application/allapplication.html')
+    DBAPPLICATIONS = client['applications']
+    applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'by_userid')[:]
+    print (applicationList)
+    return render(request, 'application/allapplication.html', {'applicationList': applicationList})
 
 
 def logoutUser(request):
