@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from cloudant.client import Cloudant
 
 from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME, CLOUDANTACCOUNT
- 
+
 client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
 client.connect()
 # Create your views here.
@@ -30,6 +30,7 @@ def loginUser(request):
             print("INVALID")
             return redirect('/login')
 
+
 @csrf_protect
 def signup(request):
     if request.method == 'GET':
@@ -44,8 +45,9 @@ def signup(request):
         # Saving in cloudant
         DBUSERS = client['users']
         newUser = {'username': username, 'email': email}
-        doc = DBUSERS.create_document(newUser)
+        DBUSERS.create_document(newUser)
         return redirect('/login')
+
 
 @login_required
 def createApplication(request):
@@ -54,6 +56,7 @@ def createApplication(request):
 
 def mainpage(request):
     return render(request, 'application/main.html')
+
 
 @login_required
 def allApplication(request):

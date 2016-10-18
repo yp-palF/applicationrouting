@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib import admin
-from devFunctions.views import resetCloudantDB
+from devFunctions.views import resetCloudantDB, populateData, createDesignDoc
 urlpatterns = [
     url(r'^resetdb$', resetCloudantDB),
+    url(r'^populatedata$', populateData),
+    url(r'^createdd$', createDesignDoc),
 ]
