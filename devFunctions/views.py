@@ -18,7 +18,7 @@ def createDesignDoc(request):
         "views": {
             "by_email": {
                 "map": """function(doc) {
-                    if (doc.ts) {
+                    if (doc.email) {
                         emit(doc.email, null);
                     }
                 }"""
