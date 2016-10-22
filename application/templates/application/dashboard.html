@@ -1,180 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static "application/css/dashboard.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "application/css/font-awesome.css" %}">
-    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-blue-grey.css">
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="{% static "application/js/dashboard.js" %}"></script>
-</head>
 
-<body style="margin-top: 0px; margin-left: 0px; margin-right: 0px">
-    <div class="w3-top">
-        <ul class="w3-navbar w3-theme-d2 w3-left-align w3-large">
-            <li class="w3-padding-small w3-theme-d4" style="font-size: 30px; cursor: pointer; height: 57px;" onclick="hamburgerClick()"><p id="hamburger" style="color: blue; display: inline">&#9776;</p></li>
-            <li><a href="#" class="w3-padding-large w3-theme-d4" style="height: 57px"><i class="fa fa-home w3-margin-right"></i>Dashboard</a></li>
-        </ul>
-        <div class="w3-display-topright">
-            <ul class="w3-navbar w3-theme-d2 w3-large">
-                <li style="margin-top: 4px;">
-                    <form>
-                        <input id="searchBox" type="search" placeholder="Search" style="">
-                    </form>
-                </li>
-                <li class="w3-hide-small">
-                    <a href="#" class="w3-padding-large w3-hover-white" title="Activity-log">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                </li>
-                <li class="w3-hide-small">
-                    <a href="#" class="w3-padding-large w3-hover-white" title="Account Settings">
-                        <i class="fa fa-user"></i>
-                    </a>
-                </li>
-                <li class="w3-hide-small w3-dropdown-hover" align="right">
-                    <a href="#" class="w3-padding-large w3-hover-white" title="Notifications">
-                        <i class="fa fa-bell"></i>
-                        <span class="w3-badge w3-right w3-small w3-green">3</span>
-                    </a>     
-                </li>
-                <li>
-                    <div class="dropdown" style="all: initial;">
-                        <button onclick="myFunction()" class="dropbtn">Hey, {{user}}
-                        <div style="float: right;padding-top: 14px"><i class="apex-dn"></i></div></button>
-                        <div id="myDropdown" class="dropdown-content">
-                            <a onClick='settings()'>Settings</a>
-                            <a onClick='signOut()'>Sign Out</a>
-                        </div>
-                    </div>
+  <title>Router| Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
+  <link href="{% static "application/css/sidebar.css" %}" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="{% static "application/js/bootstrap.min.js" %}"></script>
+</head>
+<body style="height: 100vh">
+    <nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
+        <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
+            <ul class="nav navbar-nav">
+                <li style="cursor: pointer;"><a style="font-size:18px" data-toggle="collapse" id="menu-toggle-2"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+            </ul>
+            <div class="navbar-header">
+                <span class="navbar-brand">Router</span>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="line-height: 2; padding-top: 2%;"><input name='search' type='search' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
+                <li><a href="#"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li class="dropdown">
+                    <button style="margin-top: 6%" class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown">Hey, {{username}}!<span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><span class="glyphicon glyphicon-time"></span> Activity Log</a></li>
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
-    </div>
-    <div id="sidebar">  <!-- Sidebar -->
-            <!-- Sidebar links -->
-            {% csrf_token %}
-            <a style="cursor: pointer"><i class="fa fa-user"></i>&nbsp;&nbsp;Dashboard</a>
-            <a href="/createApplication"  style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;New Application</a>
-            <a onclick="allApplication()" style="cursor: pointer"><i class="glyphicon glyphicon-duplicate"></i>&nbsp;&nbsp;All Applications</a>
-            <a href="#"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Sent Applications</a>
-            <a href="#"><i class="fa fa-users"></i>&nbsp;&nbsp;Members</a>
-            <a href="#"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Trash</a>
-    </div>
-    <div id="main">
-    <!-- The main content body-->
-    <div class="absolute">
-        <div class="w3-table w3-striped w3-border">
-            <h4 align="center" color>Status of the Ongoing Application</h4>
-            <div class="w3-responsive">
-                <table class="w3-table-all w3-hoverable">
-                <tr>
-                <th><input type="checkbox" onClick="toggle(this)" /></th>
-                <th>Subject</th>
-                <th>Status</th>
-                </tr>
-                <tr>
-                <td><input type="checkbox" name="foo" value="bar1"></td>
-                <td>Leave application</td>
-                <td><font color="#FF5733">
-                <!--<div class="tooltip">--><a href="">Show Status</a>
-                <!--<span class="tooltiptext">In process</span>
-                </div></font>--></td>
-                </tr>
-                <tr>
-                <td><input type="checkbox" name="foo" value="bar2"></td>
-                <td>Budget approval</td>
-               <td><font color="#FF5733">
-                <!--<div class="tooltip">--><a href="">Show Status</a>
-                <!--<span class="tooltiptext">Approved</span>
-                </div></font>--></td>
-                </tr>
-                <tr>
-                <td><input type="checkbox" name="foo" value="bar3"></td>
-                <td>Workshop</td>
-                <td><font color="#FF5733">
-                <!--<div class="tooltip">--><a href="">Show Status</a>
-                <!--<span class="tooltiptext">Disapproved</span>
-                </div></font>--></td>
-                </tr>
-                </table>
+    </nav>
+    <div id="wrapper" class="toggled-2">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" style="height: 100vh">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+ 
+                <li class="active">
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
+                </li>
+                <li>
+                    <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span> New Application</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
+                </li>
+                <li>
+                    <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
+                </li>
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper" style="max-height: 90vh">
+            <div class="row"><div class="col-lg-12" style="height: 40px"></div></div>
+            <div class="row"><div class="col-sm-12"></div></div>
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-10 col-md-offset-1">
+                        <div class="panel-group" id="accordion">
+                            {% for application in applicationList %}
+                                <div class="panel panel-default" style="margin-top: 10px">
+                                    <div  class="btn btn-primary btn-lg btn-block">
+                                        <h4 class="panel-title">
+                                            <input class="pull-left" type="checkbox" value="">
+                                            <span data-toggle="collapse" data-parent="#accordion" href={{application.id}}>
+                                            <div class="row">
+                                                <div class="col-sm-3">{{application.title}}</div>
+                                                <span class="col-sm-2 label label-success">{{application.type}}</span>
+                                                <div class="col-sm-2">{{application.status}}</div>
+                                                <div class="col-sm-2">{{application.dueDate}}</div>
+                                                <div class="col-sm-2">{{application.nextBy}}</div>
+                                            </div>
+                                            </span>
+                                        </h4>
+                                    </div>
+                                    <div id={{application.class}} class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-9" style="word-wrap: break-word;">{{application.subject}}</div>
+                                            <div class="col-sm-2"><a class="btn btn-info">View application</a></div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                        {% endfor %}
+                        </div>
+                    </div>
                 </div>
-            </div>&nbsp;
-                <div align="center">
-                    <button type="button" class="w3-btn w3-theme"><i class="fa fa-trash"></i> &nbsp;Remove</button> &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="w3-btn w3-theme">Send Reminder</button> 
-                </div>
-        </div>
-    </div>
-        
-    <div class="absolute1">
-        <div class="w3-table w3-striped w3-border">
-            <h4 align="center" color>List of Applications to be approved</h4>
-            <div class="w3-responsive">
-                <table class="w3-table-all w3-hoverable">
-                <tr>
-                <th><input type="radio" onClick="toggle(this)" /></th>
-                <th>Application Id</th>
-                <th>Title</th>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar1"></td>
-                <td><!--<a href="">121</a>-->121</td>
-                <td>Leave application</td>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar2"></td>
-                <td><!--<a href="">451</a>-->451</td>  
-                <td>Budget approval(TPC)</td>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar2"></td>
-                <td><!--<a href="">471</a>-->471</td>  
-                <td>Mess Refund</td>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar2"></td>
-                <td><!--<a href="">748</a>-->748</td>  
-                <td>SAC Occupancy</td>
-                </tr>
-                <tr>
-                <td><input type="radio" name="foo" value="bar3"></td>
-                <td><!--<a href="">777</a>-->777</td>
-                <td>Workshop</td>
-                </tr>
-                </table>
-            </div>
-            </div>&nbsp;<div align="center">
-                <button type="button" class="w3-btn w3-theme">Go to Application&nbsp;<i class="fa fa-arrow-right"></i></button> &nbsp;&nbsp;&nbsp;&nbsp;
             </div>
         </div>
     </div>
-
-    <footer class="w3-container w3-theme-d3 w3-padding-16">
-        <h5><p align="center">
-            <a href="#" target="_blank">Admin Support</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#" target="_blank">Contact Us</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#" target="_blank">FAQ's</a></p>
-        </h5>
-    </footer>
-
-    <script language="JavaScript">
-        function toggle(source) {
-            checkboxes = document.getElementsByName('foo');
-            for(var i=0, n=checkboxes.length;i<n;i++) {
-                checkboxes[i].checked = source.checked;
-            }
-        }
-        function signOut() {
-            window.location = "/logout";
-        }
-
-</script>
-
+    <script>
+        $('#searchbox').focus(function() {
+            $('#searchbox').animate({width: "100%"});
+        });
+        $('#searchbox').blur(function() {
+            $('#searchbox').animate({width: "60%"});
+        });
+     $("#menu-toggle-2").click(function(e) {
+        $("#wrapper").toggleClass("toggled-2");
+        $('#menu ul').hide();
+    });
+    </script>
 </body>
-</html> 
+</html>
