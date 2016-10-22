@@ -76,7 +76,7 @@
             <div class="landing-page" id="form-page">
             <div class="form-appointment" id="form-tr">
                 <div class="wpcf7" id="wpcf7-f560-p590-o1">
-                <form action="/landing-page-template-do-not-delete/#wpcf7-f560-p590-o1" method="post" class="wpcf7-form" novalidate="novalidate"_lpchecked="1">
+                <form method="post" class="wpcf7-form" novalidate="novalidate"_lpchecked="1">
                     <div style="display: none;">
                     <input type="hidden" name="_wpcf7" value="560">
                     <input type="hidden" name="_wpcf7_version" value="3.5">
@@ -87,7 +87,7 @@
                     <div class="group">
                         <div style="width: 48%; float: left;">
                         <span class="wpcf7-form-control-wrap text-680">
-                        <input type="text" name="text-680" value="" size="45" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" placeholder="Title">
+                        <input type="text" id='title' name="text-680" value="" size="45" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" placeholder="Title">
                         </span>
                         <br>
                         <span class="wpcf7-form-control-wrap email-680">
@@ -180,6 +180,7 @@
                         </div>
                     </div>
                     <div style="text-align: center; padding-top: 2em; border-top: 1px solid rgb(153, 202, 129); margin-top: 1em;">
+                    {% csrf_token %}
                     <input type="submit" value="Submit" class="wpcf7-form-control wpcf7-submit">
                     <img class="ajax-loader" src="http://www.professionalaudiologicalservices.com/wp-content/plugins/contact-form-7/images/ajax-loader.gif" alt="Sending ..." style="visibility: hidden;">
                     </div>

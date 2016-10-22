@@ -14,7 +14,21 @@ client.connect()
 # Create your views here.
 @login_required
 def home(request):
-    return render(request, 'application/dashboard.html', {'user': request.user.username})
+    application1 = {'id': '#collapse1', 'class': 'collapse1', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
+                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsakjfgjhddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsakjfgjhddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsakjfgjhddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsakjfgjhddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
+    application2 = {'id': '#collapse2', 'class': 'collapse2', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
+                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
+    application3 = {'id': '#collapse3', 'class': 'collapse3', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
+                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
+    application4 = {'id': '#collapse4', 'class': 'collapse4', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
+                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
+    application5 = {'id': '#collapse5', 'class': 'collapse5', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
+                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
+    application6 = {'id': '#collapse6', 'class': 'collapse6', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
+                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
+    applicationList = [application1, application2, application3, application4, application5, application6]
+    return render(request, 'application/dashboardV2.html', {'username': request.user.username,
+                                                            'applicationList': applicationList})
 
 
 @csrf_protect
@@ -54,7 +68,10 @@ def signup(request):
 
 @login_required
 def createApplication(request):
-    return render(request, 'application/createApplication.html', {'user': request.POST['username']})
+    if request.method == "GET":
+        return render(request, 'application/createApplication.html', {'user': request.user.username})
+    else:
+        print(request.POST)
 
 
 def mainpage(request):

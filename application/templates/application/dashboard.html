@@ -55,17 +55,14 @@
         </div>
     </div>
     <div id="sidebar">  <!-- Sidebar -->
-        <form method="POST" style="margin-left: 10px" id="sideLinks">
             <!-- Sidebar links -->
             {% csrf_token %}
-            <input type="hidden" name="username" value="sadasdsadadas">
-            <a onclick="dashboard()" style="cursor: pointer"><i class="fa fa-user"></i>&nbsp;&nbsp;Dashboard</a>
-            <a onclick="newApp()" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;New Application</a>
+            <a style="cursor: pointer"><i class="fa fa-user"></i>&nbsp;&nbsp;Dashboard</a>
+            <a href="/createApplication"  style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;New Application</a>
             <a onclick="allApplication()" style="cursor: pointer"><i class="glyphicon glyphicon-duplicate"></i>&nbsp;&nbsp;All Applications</a>
             <a href="#"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Sent Applications</a>
             <a href="#"><i class="fa fa-users"></i>&nbsp;&nbsp;Members</a>
             <a href="#"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Trash</a>
-        </div>
     </div>
     <div id="main">
     <!-- The main content body-->

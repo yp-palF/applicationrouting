@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
+  <link href="{% static "application/css/sidebar.css" %}" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="{% static "application/js/bootstrap.min.js" %}"></script>
+</head>
+<body style="height: 100vh">
+    <nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
+        <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
+            <ul class="nav navbar-nav">
+                <li style="cursor: pointer;"><a style="font-size:18px" data-toggle="collapse" id="menu-toggle-2"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+            </ul>
+            <div class="navbar-header">
+                <span class="navbar-brand">Router</span>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="line-height: 2; padding-top: 2%;"><input name='search' type='search' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
+                <li><a href="#"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li class="dropdown">
+                    <button style="margin-top: 6%" class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown">Hey, {{username}}!<span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><span class="glyphicon glyphicon-time"></span> Activity Log</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="wrapper" class="toggled-2">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" style="height: 100vh">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+ 
+                <li class="active">
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span> New Application</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
+                </li>
+                <li>
+                    <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
+                </li>
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper" style="max-height: 90vh">
+            <div class="row"><div class="col-lg-12" style="height: 40px"></div></div>
+            <div class="row"><div class="col-sm-12"></div></div>
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-10 col-md-offset-1">
+                        <div class="panel-group" id="accordion">
+                            {% for application in applicationList %}
+                                <div class="panel panel-default" style="margin-top: 10px">
+                                    <div  class="btn btn-primary btn-lg btn-block">
+                                        <h4 class="panel-title">
+                                            <input class="pull-left" type="checkbox" value="">
+                                            <span data-toggle="collapse" data-parent="#accordion" href={{application.id}}>
+                                            <div class="row">
+                                                <div class="col-sm-3">{{application.title}}</div>
+                                                <span class="col-sm-2 label label-success">{{application.type}}</span>
+                                                <div class="col-sm-2">{{application.status}}</div>
+                                                <div class="col-sm-2">{{application.dueDate}}</div>
+                                                <div class="col-sm-2">{{application.nextBy}}</div>
+                                            </div>
+                                            </span>
+                                        </h4>
+                                    </div>
+                                    <div id={{application.class}} class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-10" style="word-wrap: break-word;">{{application.subject}}</div>
+                                            <div class="col-sm-2"><a class="btn btn-info">View application</a></div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#searchbox').focus(function() {
+            $('#searchbox').animate({width: "100%"});
+        });
+        $('#searchbox').blur(function() {
+            $('#searchbox').animate({width: "60%"});
+        });
+     $("#menu-toggle-2").click(function(e) {
+        $("#wrapper").toggleClass("toggled-2");
+        $('#menu ul').hide();
+    });
+    </script>
+</body>
+</html>
