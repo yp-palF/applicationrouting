@@ -1,55 +1,24 @@
-function hamburgerClick() {
-    document.getElementById("sidebar").style.transitionDuration = "0.4s"; 
-    if(document.getElementById("sidebar").style.width == "221px"){
-        document.getElementById("main").style.transitionDuration = "0.4s"; 
-        document.getElementById("form-tr").style.transitionDuration = "0.2s"; 
-        document.getElementById("sidebar").style.width = "50px";
-        document.getElementById("main").style.marginLeft = "50px";
-        document.getElementById("sideLinks").style.display = "none";    
-        document.getElementById("main").style.backgroundColor = "#F0F690";  
-        document.getElementById("form-tr").style.backgroundColor = "rgba(200, 252, 239, 0.6)";  
-    } 
-    else{
-        document.getElementById("main").style.transitionDuration = "1s"; 
-        document.getElementById("form-tr").style.transitionDuration = "0.5s"; 
-        document.getElementById("sidebar").style.width = "221px";
-        document.getElementById("main").style.marginLeft = "120px";  
-        document.getElementById("sideLinks").style.display = "block";   
-        document.getElementById("main").style.backgroundColor = "rgba(0,0,0,0.3)";
-        document.getElementById("form-tr").style.backgroundColor = "rgb(239, 252, 239)";
-
-    }
-}
-function newApp() {
-    document.getElementById("sideLinks").action="/createApplication";
-    document.getElementById("sideLinks").submit()
-}
-function dashboard() {
-    document.getElementById("sideLinks").action="/dashboard";
-    document.getElementById("sideLinks").submit()
-}
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-    document.getElementById("main").style.transitionDuration = "0.4s"; 
-    document.getElementById("form-tr").style.transitionDuration = "0.2s"; 
-    if (!event.target.matches('#sidebar') && !event.target.matches('#hamburger')) {
-        document.getElementById("sidebar").style.width = "50px";
-        document.getElementById("main").style.marginLeft = "50px";
-        document.getElementById("sideLinks").style.display = "none";    
-        document.getElementById("main").style.backgroundColor = "#F0F690"; 
-    }
-    if (!event.target.matches('.dropbtn')) {
-        document.getElementById("myDropdown").classList.remove("show");
-    }
-}
-
 $(document).ready(function () {
   $('input[type=submit]').click(function () {
-    $('input[type=submit]').toggleClass('red');
+    var nicE = new nicEditors.findEditor('area1');
+    question = nicE.getContent();
+    av=document.getElementsByName("checkbox-465[]");
+    l = av.length;
+    v= new Array();
+    for (var i = av.length - 1; i >= 0; i--) {
+        v[i]=av[i].checked;
+    }
+    $.post('newapplicationdata', {'v[]': v}, function(response){
+});
+//    alert(question);
+  //  alert(av);
+    /*$.ajax({
+        method: 'POST',
+        url: 'newapplicationdata',
+        data: {'v[]': v},
+        data: {'question': question},
+        
+    });*/
   });
 });
 /* NicEdit - Micro Inline WYSIWYG

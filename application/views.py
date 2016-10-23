@@ -14,21 +14,23 @@ client.connect()
 # Create your views here.
 @login_required
 def home(request):
-    application1 = {'id': '#collapse1', 'class': 'collapse1', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
-                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd dddddddddddddddddddddddddddddddddddddd kjdfaskfjdfjsga fas fkjanf kahf gafk'}
-    application2 = {'id': '#collapse2', 'class': 'collapse2', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
-                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
-    application3 = {'id': '#collapse3', 'class': 'collapse3', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
-                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
-    application4 = {'id': '#collapse4', 'class': 'collapse4', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
-                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
-    application5 = {'id': '#collapse5', 'class': 'collapse5', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
-                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
-    application6 = {'id': '#collapse6', 'class': 'collapse6', 'title': 'Regarding LT9', 'type': 'academic', 'status': 'pending',
-                   'dueDate': '11/10/16', 'nextBy': 'Ajit Patel', 'subject': 'hui hiuh huashdalkdhfad kahfhd hasdkj hgg ash hjsagkdkj ashfgsa sakjfgjhsagfash fkjfdg fkjsnajfdjfgask kjdfaskfjdfjsga fas fkjanf kahf gafk'}
-    applicationList = [application1, application2, application3, application4, application5, application6]
+    DBAPPLICATIONS = client['applications']
+    if request.method == "POST":
+        if request.POST['submit'] == 'Delete':
+            print(request.POST.getlist('applicationList'))
+            for appId in request.POST.getlist('applicationList'):
+                print(appId)
+                doc = DBAPPLICATIONS[appId]
+                doc.delete()
+        return redirect('/dashboard')
+    applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byAppId')[:]
+    for application in applicationList:
+        application['class'] = application['id']
+        application['id'] = "#" + application['id']
+    # applicationList = [application1, application2, application3]
     return render(request, 'application/dashboard.html', {'username': request.user.username,
-                                                            'applicationList': applicationList})
+                                                          'applicationList': applicationList})
+
 
 
 @csrf_protect
@@ -69,22 +71,38 @@ def signup(request):
 @login_required
 def createApplication(request):
     if request.method == "GET":
-        return render(request, 'application/createApplication.html', {'user': request.user.username})
+        return render(request, 'application/createApplication.html', {'username': request.user.username})
     else:
         print(request.POST)
+        title = request.POST['text-680']
+        appType = request.POST.get('type', 'General')
+        status = 'Pending'
+        dueDate = request.POST['dead_line']
+        nextBy = request.POST.getlist('checkbox-465[]')[0]
+        facultyList = request.POST.getlist('checkbox-465[]')
+        subject = request.POST['textarea-398'].strip()
+        print(title)
+        print(appType)
+        print(status)
+        print(dueDate)
+        print(nextBy)
+        print(facultyList)
+        print(subject)
+        newApplication = {'title': title, 'type': appType, 'status': status, 'dueDate': dueDate, 'nextBy': nextBy, 'subject': subject}
+        DBAPPLICATIONS = client['applications']
+        DBAPPLICATIONS.create_document(newApplication)
+
+
 
 
 def mainpage(request):
-    DBUSERS = client['users']
-    print (DBUSERS.get_view_result('_design/fetch', 'by_email')['saurav@gm.c'])
     return render(request, 'application/main.html')
 
 
 @login_required
 def allApplication(request):
     DBAPPLICATIONS = client['applications']
-    applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'by_userid')[:]
-    print (applicationList)
+    applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byAppId')[:]
     return render(request, 'application/allapplication.html', {'applicationList': applicationList})
 
 

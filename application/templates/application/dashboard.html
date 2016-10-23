@@ -41,7 +41,7 @@
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
                 <li class="active">
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
+                    <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
                 </li>
                 <li>
                     <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span> New Application</a>
@@ -58,42 +58,55 @@
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->
-        <div id="page-content-wrapper" style="max-height: 90vh">
+        <div id="page-content-wrapper" style="max-height: 90vh;">
             <div class="row"><div class="col-lg-12" style="height: 40px"></div></div>
-            <div class="row"><div class="col-sm-12"></div></div>
-            <div class="container-fluid xyz">
-                <div class="row">
-                    <div class="col-lg-10 col-md-offset-1">
-                        <div class="panel-group" id="accordion">
-                            {% for application in applicationList %}
-                                <div class="panel panel-default" style="margin-top: 10px">
-                                    <div  class="btn btn-primary btn-lg btn-block">
-                                        <h4 class="panel-title">
-                                            <input class="pull-left" type="checkbox" value="">
-                                            <span data-toggle="collapse" data-parent="#accordion" href={{application.id}}>
-                                            <div class="row">
-                                                <div class="col-sm-3">{{application.title}}</div>
-                                                <span class="col-sm-2 label label-success">{{application.type}}</span>
-                                                <div class="col-sm-2">{{application.status}}</div>
-                                                <div class="col-sm-2">{{application.dueDate}}</div>
-                                                <div class="col-sm-2">{{application.nextBy}}</div>
+                <div class="row"><div class="col-sm-12"></div></div>
+                <div class="container-fluid xyz col-sm-12">
+                    <form method="POST" id="appSelected">
+                    <!-- set COLOR -->
+                        <div  style="padding-left: 50px; padding-right: 50px; padding-top: 30px; border-radius: 10px; background-color: #DCDCDC" class="col-lg-12">
+                            <div class="row">
+                                    <input style="margin-left: 3.5%;margin-right: 20px;" type="checkbox" onclick="selectAll(this)">
+                                    <input type="submit" onclick="deleteApp()" name="submit" value="Delete" class="btn btn-md btn-danger">
+                                    <input type="submit" onclick="" name="submit" style="margin-left: 17px;" value="Send Reminder" class="btn btn-md btn-danger">
+                            </div>
+                            <div class="row">
+                                    <div class="panel-group" id="accordion">
+                                        {% for app in applicationList %}
+                                            {% with application=app.value %}
+                                            <div class="panel panel-default" style="margin-top: 10px;">
+                                                <div  class="btn btn-primary btn-lg btn-block">
+                                                    <h4 class="panel-title">
+                                                        <input type="checkbox" style="margin-left: 2%" class="pull-left" name="applicationList" value={{app.class}}>
+                                                        <span data-toggle="collapse" data-parent="#accordion" href={{app.id}}>
+                                                        <div class="row">
+                                                            <div class="col-sm-3">{{application.title}}</div>
+                                                            <span class="col-sm-2 label label-success">{{application.type}}</span>
+                                                            <div class="col-sm-2">{{application.status}}</div>
+                                                            <div class="col-sm-2">{{application.dueDate}}</div>
+                                                            <div class="col-sm-2">{{application.nextBy}}</div>
+                                                        </div>
+                                                        </span>
+                                                    </h4>
+                                                </div>
+                                                <div id={{app.class}} class="panel-collapse collapse">
+                                                <!-- set COLOR-->
+                                                    <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-9" style="word-wrap: break-word;">{{application.subject}}</div>
+                                                        <div class="col-sm-2"><a class="btn btn-info">View application</a></div>
+                                                    </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            </span>
-                                        </h4>
+                                            {% endwith %}    
+                                    {% endfor %}
+                                    {% csrf_token %}
                                     </div>
-                                    <div id={{application.class}} class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-sm-9" style="word-wrap: break-word;">{{application.subject}}</div>
-                                            <div class="col-sm-2"><a class="btn btn-info">View application</a></div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>    
-                        {% endfor %}
-                        </div>
-                    </div>
-                </div>
+                                </div>
+
+                            </div>
+                        </form>
             </div>
         </div>
     </div>
@@ -104,10 +117,19 @@
         $('#searchbox').blur(function() {
             $('#searchbox').animate({width: "60%"});
         });
-     $("#menu-toggle-2").click(function(e) {
-        $("#wrapper").toggleClass("toggled-2");
-        $('#menu ul').hide();
-    });
+        $("#menu-toggle-2").click(function(e) {
+            $("#wrapper").toggleClass("toggled-2");
+            $('#menu ul').hide();
+        });
+        function deleteApp() {
+            document.getElementById("appSelected").submit();
+        }
+        function selectAll(source) {
+            var checkboxes = document.getElementsByName('applicationList');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
     </script>
 </body>
 </html>
