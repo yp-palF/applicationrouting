@@ -31,7 +31,7 @@
                 <li style="cursor: pointer;"><a style="font-size:18px" data-toggle="collapse" id="menu-toggle-2"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
             </ul>
             <div class="navbar-header">
-                <span class="navbar-brand">Router</span>
+                <span class="navbar-brand"><i>e</i>-Router</span>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li style="line-height: 2; padding-top: 2%;"><input name='search' type='search' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
@@ -52,10 +52,10 @@
         <div id="sidebar-wrapper" style="height: 100vh">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
-                <li class="active">
+                <li>
                     <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span> New Application</a>
                 </li>
                 <li>
@@ -65,13 +65,13 @@
                     <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
+                    <a href="/members"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
                 </li>
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper" style="max-height: 90vh;">
-            <div class="landing-page" id="form-page">
+            <div class="landing-page" id="form-page" style="margin-top: 2%">
             <div class="form-appointment" id="form-tr">
                 <div class="wpcf7" id="wpcf7-f560-p590-o1">
                     <form method="post" class="wpcf7-form" novalidate="novalidate" _lpchecked="1">
@@ -174,12 +174,10 @@
                                 </p>
                             </div>
                         </div>
-                        <div style="text-align: center; padding-top: 2em; border-top: 1px solid rgb(153, 202, 129); margin-top: 1em;">
+                        <div style="text-align: center; padding-top: 1em; border-top: 1px solid rgb(153, 202, 129); margin-top: 1em;">
                             {% csrf_token %}
-                            <input type="submit" value="Submit" class="wpcf7-form-control wpcf7-submit">
-                            <img class="ajax-loader" src="http://www.professionalaudiologicalservices.com/wp-content/plugins/contact-form-7/images/ajax-loader.gif" alt="Sending ..." style="visibility: hidden;">
+                            <input style="margin-top:10px;" type="submit" value="Submit" class="">
                         </div>
-                        <div class="wpcf7-response-output wpcf7-display-none"> </div>
                     </form>
                 </div>
             </div>

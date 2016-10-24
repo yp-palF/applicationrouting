@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>e Router|ApplicationDetail</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href="{% static "application/css/bootstrap1.css" %}" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static "application/css/style1.css" %}" type="text/css" media="all" />
+    <link href='//fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Cinzel+Decorative:400,700,900' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>
+    
+    <link href="{% static "application/css/sidebar.css" %}" rel="stylesheet">
+    <!--<link rel="stylesheet" type="text/css" href="{% static "application/css/dashboard.css" %}">-->
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>   
+    <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
+    <script src="{% static "application/js/jquery-1.11.1.min1.js" %}"></script>
+    <script src="{% static "application/js/bootstrap1.js" %}"></script>
+    <script src="{% static "application/js/SmoothScroll.min1.js" %}"></script>
+    <script src="{% static "application/js/dashboard.js" %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static "application/js/bootstrap.min.js" %}"></script>
+    <style>
+    hr {
+        display: block;
+        margin-top: 2em;
+        margin-bottom: 0.5em;
+        margin-left: 20px;
+   
+        border-style: inset;
+        border-width: 1.5px;
+   
+        width:100%;
+
+    }
+    </style>
+</head>
+<body style="height: 100vh">
+    <nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
+        <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
+            <ul class="nav navbar-nav">
+                <li style="cursor: pointer;"><a style="font-size:18px" data-toggle="collapse" id="menu-toggle-2"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+            </ul>
+            <div class="navbar-header">
+                <span class="navbar-brand"><i>e</i> Router</span>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="line-height: 2; padding-top: 2%;"><input name='search' type='search' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
+                <li><a href="#"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li class="dropdown">
+                    <button style="margin-top: 6%" class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown">Hey, {{username}}!<span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><span class="glyphicon glyphicon-time"></span> Activity Log</a></li>
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="wrapper" class="toggled-2">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" style="height: 100vh">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+ 
+                <li>
+                    <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
+                </li>
+                <li>
+                    <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span> New Application</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
+                </li>
+                <li>
+                    <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
+                </li>
+                <li>
+                    <a href="/members"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
+                </li>
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+        <div id="page-content-wrapper" style="max-height: 90vh">
+            <!-- single -->
+    <div class="blog">
+                <!-- container -->
+                <div class="container">
+                    <div class="col-md-8 blog-top-left-grid">
+                        <div class="left-blog left-single">
+                            <div class="blog-left"><b>{{application.title}}</b>
+                                <div class="single-left-left">
+                                    <p>By <a href="#">{{application.from}}</a>  on {{application.dateCreated}} <a href="#">Comments (0{{numComments}})</a></p>
+                                    <img src="{% static 'application/images/m4.jpg' %}" alt="">
+                                </div>
+                                <div class="blog-left-bottom">
+                                    {{application.subject|safe|escape}}
+                                </div>
+                                <div class="row">
+                                <form method="POST">
+                                    <div class="col-md-7"></div>
+                                    {% csrf_token %}
+                                    {% if application.status == 'Approved' %}
+                                        <div class="col-md-4 btn btn-success"><span style="color:red" class="glyphicon glyphicon-ok"></span>Approved</div>
+                                    {% elif application.status == 'Disapproved' %}
+                                        <div class="col-md-4 btn btn-danger"><span style="color:red" class="glyphicon glyphicon-ok"></span>Disapproved</div>
+                                    {% else %}
+                                    <div class="col-md-2"><button class="btn btn-success" type="submit" name="submit" value="Approved"><span style="color:red" class="glyphicon glyphicon-ok"></span> Approve</button></div>
+                                    <div class="col-md-2"><button class="btn btn-danger"  type="submit" name="submit" value="Disapproved"><span style="color:red" class="glyphicon glyphicon-remove"></span> Disapprove</button></div>
+                                    {% endif %}
+                                </form>
+                            </div>
+                            <div class="response">
+                                <h3>Comments</h3>
+                                <div class="media response-info">
+                                    <div class="media-left response-text-left">
+                                        <a href="#">
+                                            <img class="media-object" src="{% static 'application/images/t1.jpg' %}" alt="">
+                                        </a>
+                                        <h5><a href="#">Admin</a></h5>
+                                    </div>
+                                    <div class="media-body response-text-right">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,There are many variations of passages of Lorem Ipsum available, 
+                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        <ul>
+                                            <li>June 21, 2016</li>
+                                            <li><a href="single.html">Reply</a></li>
+                                        </ul>
+                                        <div class="media response-info">
+                                            <div class="media-left response-text-left">
+                                                <a href="#">
+                                                    <img class="media-object" src="{% static 'application/images/t2.jpg' %}" alt="">
+                                                </a>
+                                                <h5><a href="#">Admin</a></h5>
+                                            </div>
+                                            <div class="media-body response-text-right">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,There are many variations of passages of Lorem Ipsum available, 
+                                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                <ul>
+                                                    <li>June 21, 2016</li>
+                                                    <li><a href="single.html">Reply</a></li>
+                                                </ul>       
+                                            </div>
+                                            <div class="clearfix"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                                <div class="media response-info">
+                                    <div class="media-left response-text-left">
+                                        <a href="#">
+                                            <img class="media-object" src="{% static 'application/images/t3.jpg' %}" alt="">
+                                        </a>
+                                        <h5><a href="#">Admin</a></h5>
+                                    </div>
+                                    <div class="media-body response-text-right">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,There are many variations of passages of Lorem Ipsum available, 
+                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        <ul>
+                                            <li>June 21, 2016</li>
+                                            <li><a href="single.html">Reply</a></li>
+                                        </ul>       
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                            </div>
+                            
+                            <div class="opinion">
+                                <h2>Leave Your Comment</h2>
+                                <form action="#" method="post">
+                                    <input type="text" name="Name" placeholder="Name" required="">
+                                    <input type="text" name="Email" placeholder="Email" required="">
+                                    <textarea name="Message" placeholder="Message" required=""></textarea>
+                                    <input type="submit" value="SEND">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <!-- //container -->
+    </div>
+    <div class="copyright">
+        <div class="container">
+            <div class="w3agile-list">
+                <ul>
+                    <li><a href="about.html">Admin Support</a></li>
+                    <li><a href="menu.html">Contact Us</a></li>
+                    <li><a href="codes.html">FAQ's</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- //copyright -->
+    <script>
+        $('#searchbox').focus(function() {
+            $('#searchbox').animate({width: "100%"});
+        });
+        $('#searchbox').blur(function() {
+            $('#searchbox').animate({width: "60%"});
+        });
+     $("#menu-toggle-2").click(function(e) {
+        $("#wrapper").toggleClass("toggled-2");
+        $('#menu ul').hide();
+    });
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from cloudant.client import Cloudant
-
+import datetime
 from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME
 
 client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
@@ -25,6 +25,8 @@ def home(request):
         return redirect('/dashboard')
     applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byAppId')[:]
     for application in applicationList:
+        if application.get('from', 'sa') == 'saurav':
+            print (application)
         application['class'] = application['id']
         application['id'] = "#" + application['id']
     # applicationList = [application1, application2, application3]
@@ -81,18 +83,12 @@ def createApplication(request):
         nextBy = request.POST.getlist('checkbox-465[]')[0]
         facultyList = request.POST.getlist('checkbox-465[]')
         subject = request.POST['textarea-398'].strip()
-        print(title)
-        print(appType)
-        print(status)
-        print(dueDate)
-        print(nextBy)
-        print(facultyList)
-        print(subject)
-        newApplication = {'title': title, 'type': appType, 'status': status, 'dueDate': dueDate, 'nextBy': nextBy, 'subject': subject}
+        author = request.user.username
+        dateCreated = str(datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d, %H:%M %p'))
+        newApplication = {'from': author, 'title': title, 'type': appType, 'status': status, 'dueDate': dueDate, 'nextBy': nextBy, 'subject': subject, 'facultyList': facultyList, 'dateCreated': dateCreated}
         DBAPPLICATIONS = client['applications']
         DBAPPLICATIONS.create_document(newApplication)
-
-
+        return redirect('/dashboard')
 
 
 def mainpage(request):
@@ -109,3 +105,21 @@ def allApplication(request):
 def logoutUser(request):
     logout(request)
     return redirect('/')
+
+
+@login_required
+def members(request):
+    return render(request, 'application/members.html', {'username': request.user.username})
+
+@login_required
+def applicationDetail(request, appId):
+    if request.method == "GET":
+        DBAPPLICATIONS = client['applications']
+        application = DBAPPLICATIONS[appId]
+        return render(request, 'application/applicationDetail.html', {'username': request.user.username, 'application': application})
+    else:
+        DBAPPLICATIONS = client['applications']
+        application = DBAPPLICATIONS[appId]
+        application['status'] = request.POST['submit']
+        application.save()
+        return render(request, 'application/applicationDetail.html', {'username': request.user.username, 'application': application})

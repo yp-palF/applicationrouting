@@ -5,8 +5,12 @@ import json
 
 # Create your views here.
 def resetCloudantDB(request):
+    client.delete_database('users')
+    client.delete_database('applications')
     DB1 = client.create_database('users')
     DB2 = client.create_database('applications')
+    populateData('a')
+    createDesignDoc('a')
     if DB1.exists() and DB2.exists():
         return HttpResponse('SUCCESS!!')
 
@@ -17,7 +21,7 @@ def createDesignDoc(request):
     designDoc = {
         "_id": "_design/fetch",
         "views": {
-            "by_email": {
+            "byEmail": {
                 "map": """function(doc) {
                     if (doc.email) {
                         emit(doc.email, null);
@@ -32,10 +36,10 @@ def createDesignDoc(request):
     designDoc = {
         "_id": "_design/fetch",
         "views": {
-            "by_userid": {
+            "byAppId": {
                 "map": """function(doc) {
-                    if (doc.to) {
-                        emit(doc.to, doc);
+                    if (doc._id) {
+                        emit(doc._id, doc);
                     }
                 }""",
             }
@@ -46,6 +50,7 @@ def createDesignDoc(request):
 
 
 def populateData(request):
+    print("________________________________________________________________________________________")
     DBUSERS = client['users']
     with open('devFunctions/users.json') as data_file:
         data = json.load(data_file)
