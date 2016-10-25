@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -49,6 +49,15 @@ def loginUser(request):
         else:
             print("INVALID")
             return redirect('/login')
+
+
+@csrf_exempt
+def googleSignUp(request):
+    email = request.POST['email']
+    DBAUSER = client['users']
+    user = DBUSER.get_view_result('_design/fetch', 'byEmail').get(email, None)
+    if user is not None:
+        login(request, )
 
 
 @csrf_protect

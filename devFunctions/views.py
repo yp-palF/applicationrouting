@@ -24,7 +24,7 @@ def createDesignDoc(request):
             "byEmail": {
                 "map": """function(doc) {
                     if (doc.email) {
-                        emit(doc.email, null);
+                        emit(doc.email, doc);
                     }
                 }""",
                 "reduce": "_count",
@@ -50,7 +50,6 @@ def createDesignDoc(request):
 
 
 def populateData(request):
-    print("________________________________________________________________________________________")
     DBUSERS = client['users']
     with open('devFunctions/users.json') as data_file:
         data = json.load(data_file)

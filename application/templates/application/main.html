@@ -21,6 +21,50 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!--<script src="{% static "application/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js" %}"></script>-->
   <script src="{% static "application/js/modernizr-2.8.3-respond-1.4.2.min.js" %}"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <script src="https://apis.google.com/js/api:client.js"></script>
+  <script>
+  var startApp = function() {
+    gapi.load('auth2', function(){
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      auth2 = gapi.auth2.init({
+        client_id: '174353696507-u0m8khup9s8d35aqpbr5ul9j1inrbtsj.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        // Request scopes in addition to 'profile' and 'email'
+        //scope: 'additional_scope'
+      });
+      alert(auth2.isSignedIn.get());
+      attachSignin(document.getElementById('customBtn'));
+    });
+  };
+
+  function attachSignin(element) {
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+           form = document.createElement("form");
+           emailNode = document.createElement("input");
+           picUrlNode = document.createElement("input");
+           fullNameNode = document.createElement("input");
+           fullNameNode.name = "fullName";
+           fullNameNode.value = googleUser.getBasicProfile().getName();
+           emailNode.name = "email";
+           emailNode.value = googleUser.getBasicProfile().getEmail();
+           picUrlNode.name = "picUrl";
+           picUrlNode.value = googleUser.getBasicProfile().getImageUrl();
+           form.appendChild(emailNode.cloneNode());
+           form.appendChild(picUrlNode.cloneNode());
+           form.action = '/signup';
+           form.method = 'POST';
+           document.body.appendChild(form);
+           alert(picUrlNode.value);
+           alert(auth2.isSignedIn.get());
+           form.submit();
+        }, function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
+  }
+  </script>
+
 </head>
 <style>
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
@@ -29,6 +73,23 @@
 /* ==========================================================================
 Typography
 ========================================================================== */
+#customBtn {
+      white-space: nowrap;
+    }
+    #customBtn:hover {
+      cursor: pointer;
+    }
+    span.label {
+      font-family: serif;
+      font-weight: normal;
+    }
+    span.icon {
+      background: url('/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+      display: inline-block;
+      vertical-align: middle;
+      width: 42px;
+      height: 42px;
+    }
 p {
   font-size: 15px;
   line-height: 29px;
@@ -1206,7 +1267,14 @@ you can use the generic selector below, but it's slower:
                         <h1>Create, Send and Approve!</h1>
                         <p class="intro">Introducing “e-Router”. To save your time and make your work easy.</p>
             <form id="formch">
-                        <a onclick="signin()" class="btn btn-fill btn-large btn-margin-right">Sign In</a> <a onclick="signup()" class="btn btn-accent btn-large">Sign up</a></form>
+              <a onclick="signin()" class="btn btn-fill btn-large btn-margin-right">Sign In</a>
+              <span id="gSignInWrapper">
+              <a id="customBtn" class="customGPlusSignIn btn btn-fill btn-large">
+                Sign up
+              </a>
+              </span><script>startApp();</script>
+
+                        </form>
                     </div>
                 </div>
             </div>
