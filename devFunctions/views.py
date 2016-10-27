@@ -22,12 +22,10 @@ def createDesignDoc(request):
         "_id": "_design/fetch",
         "views": {
             "byEmail": {
-                "map": """function(doc) {
-                    if (doc.email) {
-                        emit(doc.email, doc);
-                    }
-                }""",
-                "reduce": "_count",
+                "map": "function(doc) { if (doc.email) { emit(doc.email, doc);} }""",
+            },
+            "byUsername": {
+                "map": "function(doc) { if (doc.username) { emit(doc.username, doc);} }""",
             }
         },
         "language": "javascript"
