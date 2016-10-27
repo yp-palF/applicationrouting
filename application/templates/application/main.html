@@ -33,7 +33,6 @@
         // Request scopes in addition to 'profile' and 'email'
         //scope: 'additional_scope'
       });
-      alert(auth2.isSignedIn.get());
       attachSignin(document.getElementById('customBtn'));
     });
   };
@@ -53,11 +52,10 @@
            picUrlNode.value = googleUser.getBasicProfile().getImageUrl();
            form.appendChild(emailNode.cloneNode());
            form.appendChild(picUrlNode.cloneNode());
-           form.action = '/signup';
+           form.appendChild(fullNameNode.cloneNode());
+           form.action = '/googlesignup';
            form.method = 'POST';
            document.body.appendChild(form);
-           alert(picUrlNode.value);
-           alert(auth2.isSignedIn.get());
            form.submit();
         }, function(error) {
           alert(JSON.stringify(error, undefined, 2));

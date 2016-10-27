@@ -11,6 +11,22 @@
     <link rel="stylesheet" type="text/css" href="{% static "application/css/animate-custom.css" %}" />
 </head>
 <style>
+.avatar {
+    position: relative;
+    top: -50px;
+    margin-bottom: -50px;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.5);
+}
 @font-face {
     font-family: 'BebasNeueRegular';
     src: url('fonts/BebasNeue-webfont.eot');
@@ -187,14 +203,21 @@ img.resize{
                 <div id="wrapper">
                     <div id="login" class="animate form">
                         <form method="POST" action='/signup' autocomplete="on"> 
-                            <h1> Sign up </h1> 
+                            <center><img  style="margin-top: 9%" src="{{picUrl}}" class="avatar img-circle img-thumbnail" alt="avatar"></center>
                             <p> 
-                                <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
-                                <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="mysuperusername690" />
+                                <input type="hidden" value="{{picUrl}}" name="picUrl" />
+                                <input type="hidden" value="{{email}}" name="emailsignup" />
+                                <input type="hidden" value="{{fullName}}" name="fullName" />
+                                <label for="emailsignup" class="youname" data-icon="e" > Your Name</label>
+                                <input id="emailsignup" name="fullNamesignup" required="required" value="{{fullName}}" disabled type="email" placeholder="{{email}}"/> 
                             </p>
                             <p> 
                                 <label for="emailsignup" class="youmail" data-icon="e" > Your email</label>
-                                <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="mysupermail@mail.com"/> 
+                                <input id="emailsignup" name="emailsignup" required="required" value="{{email}}" disabled type="email" placeholder="{{email}}"/> 
+                            </p>
+                            <p>
+                                <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
+                                <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="mysuperusername690" />
                             </p>
                             <p> 
                                 <label for="passwordsignup" class="youpasswd" data-icon="p">Your password </label>

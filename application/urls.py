@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from application.views import home, loginUser, createApplication, mainpage, allApplication, signup, logoutUser, members, applicationDetail
+from application.views import home, loginUser, createApplication, mainpage, allApplication
+from application.views import signup, logoutUser, members, applicationDetail, googleSignup
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,5 +29,6 @@ urlpatterns = [
     url(r'^logout', logoutUser),
     url(r'^members', members),
     url(r'^applicationDetail/(?P<appId>\w+)$', applicationDetail),
+    url(r'^googlesignup', googleSignup),
 
 ]

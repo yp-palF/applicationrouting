@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from application.views import client
 import json
+from django.contrib.auth.models import User
+
 
 
 # Create your views here.
@@ -11,8 +13,15 @@ def resetCloudantDB(request):
     DB2 = client.create_database('applications')
     populateData('a')
     createDesignDoc('a')
+    deleteSqlite('a')
     if DB1.exists() and DB2.exists():
         return HttpResponse('SUCCESS!!')
+
+
+def deleteSqlite(request):
+    userList = User.objects.all()
+    for user in userList:
+        user.delete()
 
 
 def createDesignDoc(request):
