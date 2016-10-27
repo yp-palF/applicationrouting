@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from application.views import home, loginUser, createApplication, mainpage, allApplication
 from application.views import signup, logoutUser, members, applicationDetail, googleSignup
+from application.views import editProfile
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,5 +31,6 @@ urlpatterns = [
     url(r'^members', members),
     url(r'^applicationDetail/(?P<appId>\w+)$', applicationDetail),
     url(r'^googlesignup', googleSignup),
+    url(r'^editProfile', editProfile),
 
 ]

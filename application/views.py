@@ -147,3 +147,11 @@ def applicationDetail(request, appId):
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         return render(request, 'application/applicationDetail.html', {'user': user[0]['value'], 'application': application})
+
+
+@login_required
+def editProfile(request):
+    if request.method == "GET":
+        DBUSER = client['users']
+        user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+        return render(request, 'application/editProfile.html',  {'user': user[0]['value']})
