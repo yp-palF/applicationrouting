@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from devFunctions.views import resetCloudantDB, populateData, createDesignDoc
+from devFunctions.views import resetCloudantDB, populateData, createDesignDoc, deleteSqlite
 urlpatterns = [
     url(r'^resetdb$', resetCloudantDB),
     url(r'^populatedata$', populateData),
     url(r'^createdd$', createDesignDoc),
+    url(r'^resetsqlite$', deleteSqlite),
 ]

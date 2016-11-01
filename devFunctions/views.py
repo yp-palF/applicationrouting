@@ -4,7 +4,6 @@ import json
 from django.contrib.auth.models import User
 
 
-
 # Create your views here.
 def resetCloudantDB(request):
     client.delete_database('users')
@@ -22,6 +21,7 @@ def deleteSqlite(request):
     userList = User.objects.all()
     for user in userList:
         user.delete()
+    return HttpResponse('SUCCESS!!')
 
 
 def createDesignDoc(request):
