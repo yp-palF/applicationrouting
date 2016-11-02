@@ -14,7 +14,6 @@ client.connect()
 # Create your views here.
 @login_required
 def home(request):
-    users = User.objects.all()
     DBAPPLICATIONS = client['applications']
     DBUSER = client['users']
     if request.method == "POST":
@@ -23,7 +22,7 @@ def home(request):
                 doc = DBAPPLICATIONS[appId]
                 doc.delete()
         return redirect('/dashboard')
-    applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byAppId')[:]
+    applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     for application in applicationList:
         application['class'] = application['id']
         application['id'] = "#" + application['id']
