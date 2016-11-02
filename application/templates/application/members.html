@@ -93,221 +93,33 @@
                         <h2>MEMBERS</h2><hr>
                     </div>
                     <div class="menu-top-grids">
-                        <div class="w3ls-menu-grids">
+                            {% for member in memberList %}
+                            {% if forloop.counter0|divisibleby:4 %}
+                        <div class="w3ls-menu-grids agileinfo">
+                        {% endif %}
                             <div class="col-md-3 menu-grid">
                                 <div class="agile-menu-grid">
                                     <a href="#">
                                         <div class="crop">
-                                        <img src="static/application/images/i7.jpg" alt=""/>
+                                        <img src="{{member.value.picUrl}}" alt=""/>
                                         </div>
                                         <div class="agileits-caption">
-                                        <h4>Mr. Joe Allen</h4>
-                                        <h4>Director</h4><p><h5>joeall@gmail.com</h5></p>
+                                        <h4>{{member.value.username}}</h4>
+                                        <h4>Director</h4><p><h5>{{member.value.email}}</h5></p>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-3 menu-grid">
-                                <div class="agile-menu-grid">
-                                    <a href="#">
-                                        <img src="static/application/images/i2.jpg" alt="" />
-                                        <div class="agileits-caption">
-                                        <h4>Ms.Eiris West</h4>
-                                        <h4>Dean of Student Affairs</h4><p><h5>wester@gmail.com</h5></p>
-                                        </div>
-                                    </a>
-                                </div>
+                            {% if forloop.counter|divisibleby:4 %}
+                            <div class="clearfix"> </div>
                             </div>
-                            <div class="col-md-3 menu-grid">
-                                <div class="agile-menu-grid">
-                                    <a href="single.html">
-                                        <img src="static/application/images/i3.jpg" alt="" />
-                                        <div class="agileits-caption">
-                                        <h4>Mr.Mycroft Tran</h4>
-                                        <h4>Dean Academics</h4><p><h5>mycroft18@gmail.com</h5></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-3 menu-grid">
-                                <div class="agile-menu-grid">
-                                    <a href="single.html">
-                                        <img src="static/application/images/i4.jpg" alt="" />
-                                        <div class="agileits-caption">
-                                       <h4>Mr.Wahlter White</h4>
-                                        <h4>Dean Academics</h4><p><h5>white784@gmail.com</h5></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        <div class="clearfix"> </div>
+                            {% endif %}
+                            {% endfor %}
                     </div>
-                    <div class="w3ls-menu-grids agileinfo">
-                        <div class="col-md-3 menu-grid">
-                            <div class="agile-menu-grid">
-                                <a href="single.html">
-                                    <img src="static/application/images/im1.jpg" alt="" />
-                                    <div class="agileits-caption">
-                                    <h4>Mr.Tim Kelleher</h4>
-                                    <h4>H.O.D
-                                    <h6>(Mathematics)</h6>
-                                    <p><h5>timkell13@gmail.com</h5></p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 menu-grid">
-                            <div class="agile-menu-grid">
-                                <a href="#">
-                                    <img src="static/application/images/im2.jpg" alt="" />
-                                    <div class="agileits-caption">
-                                    <h4>Mr.Michael Gaston</h4>
-                                    <h4>H.O.D</h4>
-                                    <h6>(Mechanical)</h6>
-                                    <p><h5>maikegas@gmail.com</h5></p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 menu-grid">
-                            <div class="agile-menu-grid">
-                                <a href="#">
-                                    <img src="static/application/images/im3.jpg" alt="" />
-                                    <div class="agileits-caption">
-                                    <h4>Mr.Ryan Hayward</h4>
-                                    <h4>H.O.D</h4>
-                                    <h6>(Computer Science)</h6>
-                                    <p><h5>rayan45@gmail.com</h5></p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 menu-grid">
-                            <div class="agile-menu-grid">
-                                <a href="single.html">
-                                    <img src="static/application/images/im4.jpg" alt="" />
-                                    <div class="agileits-caption">
-                                    <h4>Mr.Andrew Scott</h4>
-                                    <h4>H.O.D</h4>
-                                    <h6>(Electrical)</h6>
-                                    <p><h5>andrew1267@gmail.com</h5></p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                    <div class="w3ls-menu-grids agileinfo">
-                        <div class="col-md-3 menu-grid">
-                            <div class="agile-menu-grid">
-                                <a href="single.html">
-                                    <img src="static/application/images/i12.jpg" alt="" />
-                                    <div class="agileits-caption">
-                                    <h4>Mr. Peter Clarke</h4>
-                                    <h4>H.O.D</h4>
-                                    <h6>(Electronics and Communication)</h6>
-                                    <p><h5>maurirose@gmail.com</h5></p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 menu-grid">
-                            <div class="agile-menu-grid">
-                                <a href="single.html">
-                                    <img src="static/application/images/i1.jpg" alt="" />
-                                    <div class="agileits-caption">
-                                    <h4>Ms. Cateylen Leslie</h4>
-                                    <h4>H.O.D</h4>
-                                    <h6>(Humanities)</h6>
-                                    <p><h5>catelyen@gmail.com</h5></p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 menu-grid">
-                            <div class="agile-menu-grid">
-                                <a href="single.html">
-                                    <img src="static/application/images/i6.jpg" alt="" />
-                                    <div class="agileits-caption">
-                                    <h4>Mr. Rajeev Saxena</h4>
-                                    <h4>Registrar</h4>
-                                    <p><h5>rajeev56@gmail.com</h5></p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 menu-grid">
-                            <div class="agile-menu-grid">
-                                <a href="single.html">
-                                    <img src="static/application/images/i8.jpg" alt="" />
-                                    <div class="agileits-caption">
-                                    <h4>Mr. Bran Green </h4>
-                                    <h4>President</h4>
-                                    <p><h5>brangreen@gmail.com</h5></p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="w3ls-menu-grids wthree-menu-grids">
-                    <div class="col-md-3 menu-grid">
-                        <div class="agile-menu-grid">
-                            <a href="single.html">
-                                <img src="static/application/images/c1.jpg" alt="" />
-                                <div class="agileits-caption">
-                                    <h4>Mr.Rob Miligan</h4>
-                                    <h4>Vise President</h4>
-                                    <p><h5>miligan25@gmail.com</h5></p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 menu-grid">
-                        <div class="agile-menu-grid">
-                            <a href="single.html">
-                                <img src="static/application/images/i10.jpg" alt="" />
-                                <div class="agileits-caption">
-                                    <h4>Mr. Adam Boult</h4>
-                                    <h4>Genral Secretary</h4>
-                                    <h6>(Science And Tech.)</h6>
-                                    <p><h5>adam1394@gmail.com</h5></p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 menu-grid">
-                        <div class="agile-menu-grid">
-                            <a href="single.html">
-                                <img src="static/application/images/i15.jpg" alt="" />
-                                <div class="agileits-caption">
-                                    <h4>Ms. Pamela Bames</h4>
-                                    <h4>Genral Secretary</h4>
-                                    <h6>(Sports)</h6>
-                                    <p><h5>pam123@gmail.com</h5></p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-3 menu-grid">
-                        <div class="agile-menu-grid">
-                            <a href="#">
-                                <img src="static/application/images/i5.jpg" alt="" />
-                                <div class="agileits-caption">
-                                    <h4>Ms. Mauris Rosen</h4>
-                                    <h4>Genral Secretary</h4>
-                                    <h6>(Cultural)</h6>
-                                    <p><h5>maurirose@gmail.com</h5></p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="clearfix"> </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
+
     <br> <br> <br> <br> <br> <br><br><br><br>
     <footer><!-- class="w3-container w3-theme-d3 w3-padding-16">-->
         <h5><p align="center">
