@@ -128,7 +128,8 @@ def logoutUser(request):
 def members(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-    return render(request, 'application/members.html', {'user': user[0]['value']})
+    memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
+    return render(request, 'application/members.html', {'user': user[0]['value'], 'memberList': memberList})
 
 @login_required
 def applicationDetail(request, appId):
