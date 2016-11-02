@@ -49,6 +49,13 @@ def createDesignDoc(request):
                         emit(doc._id, doc);
                     }
                 }""",
+            },
+            "byUsername": {
+                "map": """function(doc) {
+                    if (doc.from) {
+                        emit(doc.from, doc);
+                    }
+                }""",
             }
         },
         "language": "javascript"
