@@ -387,9 +387,13 @@ i.fa.fa-twitter,i.fa.fa-facebook,i.fa.fa-google-plus,i.fa.fa-dribbble{
 /*-- //footer --*/
 /*-- copyright --*/
 .copyright{
-    padding: 2em 0;
+    padding: 1em 0;
     background: #000;
     text-align: center;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
 }
 .w3agile-list ul{
 	margin:0;
@@ -1253,7 +1257,6 @@ h2.typoh2{
 .opinion {
     padding: 1em;
     background: #FFFFFF;
-    border: solid 10px #EAF7FD;
 }
 .opinion h2{
     font-size: 1.5em;
@@ -1267,7 +1270,7 @@ h2.typoh2{
 }
 .opinion form input[type="text"] {
     width: 100%;
-    color: #BBBBBB;
+    color: black;
     outline: none;
     font-size: 1em;
     padding: .5em;
@@ -1278,7 +1281,7 @@ h2.typoh2{
 .opinion form textarea {
     resize: none;
     width: 100%;
-    color: #BBBBBB;
+    color: black;
     font-size: 1em;
     outline: none;
     resize: none;

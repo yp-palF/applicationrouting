@@ -8,8 +8,10 @@ from django.contrib.auth.models import User
 def resetCloudantDB(request):
     client.delete_database('users')
     client.delete_database('applications')
+    client.delete_database('comments')
     DB1 = client.create_database('users')
     DB2 = client.create_database('applications')
+    DB3 = client.create_database('comments')
     populateData('a')
     createDesignDoc('a')
     deleteSqlite('a')
@@ -61,7 +63,17 @@ def createDesignDoc(request):
         "language": "javascript"
     }
     DBAPPLICATIONS.create_document(designDoc)
-
+    DBCOMMENTS = client['comments']
+    designDoc = {
+        "_id": "_design/fetch",
+        "views": {
+            "byAppId": {
+                "map": "function(doc) { if (doc.appId) { emit(doc.appId, doc);} }""",
+            }
+        },
+        "language": "javascript"
+    }
+    DBCOMMENTS.create_document(designDoc)
 
 def populateData(request):
     DBUSERS = client['users']

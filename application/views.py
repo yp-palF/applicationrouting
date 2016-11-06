@@ -10,6 +10,7 @@ from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME
 client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
 client.connect()
 
+
 # Create your views here.
 @login_required
 def home(request):
@@ -98,10 +99,12 @@ def createApplication(request):
         facultyList = request.POST.getlist('checkbox-465[]')
         subject = request.POST['textarea-398'].strip()
         author = request.user.username
+        DBUSER = client['users']
+        user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         dateCreated = str(datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d, %H:%M %p'))
         newApplication = {'from': author, 'title': title, 'type': appType, 'status': status,
                           'dueDate': dueDate, 'nextBy': nextBy, 'subject': subject,
-                          'facultyList': facultyList, 'dateCreated': dateCreated}
+                          'facultyList': facultyList, 'dateCreated': dateCreated, 'picUrl': user[0]['value']['picUrl']}
         DBAPPLICATIONS = client['applications']
         DBAPPLICATIONS.create_document(newApplication)
         return redirect('/dashboard')
@@ -130,6 +133,7 @@ def members(request):
     memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
     return render(request, 'application/members.html', {'user': user[0]['value'], 'memberList': memberList})
 
+
 @login_required
 def applicationDetail(request, appId):
     if request.method == "GET":
@@ -137,15 +141,9 @@ def applicationDetail(request, appId):
         application = DBAPPLICATIONS[appId]
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        return render(request, 'application/applicationDetail.html', {'user': user[0]['value'], 'application': application})
-    else:
-        DBAPPLICATIONS = client['applications']
-        application = DBAPPLICATIONS[appId]
-        application['status'] = request.POST['submit']
-        application.save()
-        DBUSER = client['users']
-        user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        return render(request, 'application/applicationDetail.html', {'user': user[0]['value'], 'application': application})
+        DBCOMMENT = client['comments']
+        commentList = DBCOMMENT.get_view_result('_design/fetch', 'byAppId')[appId]
+        return render(request, 'application/applicationDetail.html', {'user': user[0]['value'], 'application': application, 'appId': appId, 'commentList': commentList})
 
 
 @login_required
@@ -175,12 +173,14 @@ def editProfile(request):
         print(user)
         return redirect('/profile')
 
+
 @login_required
 def profile(request):
     if request.method == "GET":
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         return render(request, 'application/profile.html', {'user': user[0]['value']})
+
 
 @login_required
 def faculty(request):
@@ -189,12 +189,14 @@ def faculty(request):
     memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
     return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList})
 
+
 @login_required
 def gymkhana(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
     return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList})
+
 
 @login_required
 def student(request):
@@ -203,9 +205,31 @@ def student(request):
     memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
     return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList})
 
+
 @login_required
 def admindashboard(request):
     if request.method == "GET":
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         return render(request, 'application/admindashboard.html', {'user': user[0]['value']})
+
+
+def comment(request, appId):
+    print(request.POST)
+    DBCOMMENT = client['comments']
+    DBUSER = client['users']
+    user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    picUrl = user[0]['value']['picUrl']
+    dateCreated = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+    DBCOMMENT.create_document({'appId': appId, 'body': request.POST['body'],
+                               'username': request.user.username, 'picUrl': picUrl,
+                               'dateCreated': dateCreated})
+    return redirect('/applicationDetail/' + appId)
+
+
+def facultyAction(request, appId):
+    DBAPPLICATIONS = client['applications']
+    application = DBAPPLICATIONS[appId]
+    application['status'] = request.POST['submit']
+    application.save()
+    return redirect('/applicationDetail/' + appId)

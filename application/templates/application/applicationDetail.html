@@ -62,7 +62,7 @@
     </nav>
     <div id="wrapper" class="toggled-2">
         <!-- Sidebar -->
-        <div id="sidebar-wrapper" style="height: 100vh">
+        <div id="sidebar-wrapper" style="height: 90vh">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
                 <li>
@@ -89,16 +89,18 @@
                 <div class="container">
                     <div class="col-md-8 blog-top-left-grid">
                         <div class="left-blog left-single">
-                            <div class="blog-left"><b>{{application.title}}</b>
+                            <div class="blog-left"><h1><b>{{application.title}}</b></h1>
                                 <div class="single-left-left">
-                                    <p>By <a href="#">{{application.from}}</a>  on {{application.dateCreated}} <a href="#">Comments (0{{numComments}})</a></p>
-                                    <img src="{% static 'application/images/m4.jpg' %}" alt="">
-                                </div>
-                                <div class="blog-left-bottom">
-                                    {{application.subject|safe|escape}}
+                                    <p>By <a href="#">{{application.from}}</a>  on {{application.dateCreated}} <a href="#">Comments ({{commentList|length}})</a></p>
                                 </div>
                                 <div class="row">
-                                <form method="POST">
+                                <div class="col-md-1"><img class="media-object" style="height: 40px; width: 40px;"  src="{{application.picUrl}}" alt=""></div>
+
+                                <div class="col-md-11">    {{application.subject|safe|escape}}</div>
+
+                                </div>
+                                <div class="row">
+                                <form method="POST" action="/facultyAction/{{appId}}">
                                     <div class="col-md-7"></div>
                                     {% csrf_token %}
                                     {% if application.status == 'Approved' %}
@@ -111,67 +113,42 @@
                                     {% endif %}
                                 </form>
                             </div>
+                            {% if commentList|length > 0 %}
+                                
                             <div class="response">
                                 <h3>Comments</h3>
-                                <div class="media response-info">
+                                {% for comment in commentList %}
+                                {% if commentList|length > 1 %}
+                                    <div class="media response-info" style="border-bottom: 1px solid">
+                                {% else %}
+                                    <div class="media response-info">
+                                {% endif %}
                                     <div class="media-left response-text-left">
                                         <a href="#">
-                                            <img class="media-object" src="{% static 'application/images/t1.jpg' %}" alt="">
+                                            <img class="media-object img-circle" style="height: 40px; width: 40px;" src="{{comment.value.picUrl}}" alt="">
                                         </a>
-                                        <h5><a href="#">Admin</a></h5>
+                                        <h5><a href="#" style="color: blue;">{{comment.value.username}}</a></h5>
                                     </div>
                                     <div class="media-body response-text-right">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,There are many variations of passages of Lorem Ipsum available, 
-                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        <p>{{comment.value.body}}</p>
                                         <ul>
-                                            <li>June 21, 2016</li>
-                                            <li><a href="single.html">Reply</a></li>
+                                            <li>{{comment.value.dateCreated}}</li>
                                         </ul>
-                                        <div class="media response-info">
-                                            <div class="media-left response-text-left">
-                                                <a href="#">
-                                                    <img class="media-object" src="{% static 'application/images/t2.jpg' %}" alt="">
-                                                </a>
-                                                <h5><a href="#">Admin</a></h5>
-                                            </div>
-                                            <div class="media-body response-text-right">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,There are many variations of passages of Lorem Ipsum available, 
-                                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                <ul>
-                                                    <li>June 21, 2016</li>
-                                                    <li><a href="single.html">Reply</a></li>
-                                                </ul>       
-                                            </div>
-                                            <div class="clearfix"> </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"> </div>
+                                      </div>
                                 </div>
-                                <div class="media response-info">
-                                    <div class="media-left response-text-left">
-                                        <a href="#">
-                                            <img class="media-object" src="{% static 'application/images/t3.jpg' %}" alt="">
-                                        </a>
-                                        <h5><a href="#">Admin</a></h5>
-                                    </div>
-                                    <div class="media-body response-text-right">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,There are many variations of passages of Lorem Ipsum available, 
-                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                        <ul>
-                                            <li>June 21, 2016</li>
-                                            <li><a href="single.html">Reply</a></li>
-                                        </ul>       
-                                    </div>
                                     <div class="clearfix"> </div>
-                                </div>
+                                {% endfor %}
                             </div>
+                            
+                            {% endif %}
+                            <div class="response">
+                                     
                             
                             <div class="opinion">
                                 <h2>Leave Your Comment</h2>
-                                <form action="#" method="post">
-                                    <input type="text" name="Name" placeholder="Name" required="">
-                                    <input type="text" name="Email" placeholder="Email" required="">
-                                    <textarea name="Message" placeholder="Message" required=""></textarea>
+                                <form action="/comment/{{appId}}" method="post">
+                                    <textarea id='body' name="body" placeholder="Comment" required=""></textarea>
+                                    {% csrf_token %}
                                     <input type="submit" value="SEND">
                                 </form>
                             </div>
@@ -180,6 +157,9 @@
                     <div class="clearfix"> </div>
                 </div>
                 <!-- //container -->
+    </div>
+    </div>
+    </div>
     </div>
     <div class="copyright">
         <div class="container">

@@ -18,6 +18,7 @@ from django.contrib import admin
 from application.views import home, loginUser, createApplication, mainpage, allApplication
 from application.views import signup, logoutUser, members, applicationDetail, googleSignup
 from application.views import editProfile, profile, faculty, gymkhana, admindashboard, student
+from application.views import comment, facultyAction
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -33,9 +34,11 @@ urlpatterns = [
     url(r'^googlesignup', googleSignup),
     url(r'^editProfile', editProfile),
     url(r'^profile', profile),
-    url(r'^faculty', faculty),
+    url(r'^faculty$', faculty),
     url(r'^gymkhana', gymkhana),
     url(r'^student', student),
     url(r'^admindashboard', admindashboard),
+    url(r'^comment/(?P<appId>\w+)$', comment),
+    url(r'^facultyAction/(?P<appId>\w+)$', facultyAction),
 
 ]
