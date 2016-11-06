@@ -3,7 +3,7 @@
 <head>
     {% load static %}
 
-  <title>e Router|Members</title>
+  <title>e - Router|Admin</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -69,19 +69,19 @@
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
                 <li>
-                    <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
+                    <a href="/admindashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
                 </li>
                 <li>
-                    <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span> New Application</a>
+                    <a href="/student"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span> Student Users</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
+                    <a href="/gymkhana"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Gymkhana Users</a>
                 </li>
                 <li>
-                    <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
+                    <a href="/faculty"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Faculty Users</a>
                 </li>
                 <li class="active">
-                    <a href="/members"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
                 </li>
             </ul>
         </div><!-- /#sidebar-wrapper -->
@@ -90,7 +90,7 @@
             <div class="menu">
                 <div class="container">
                     <div class="menu-heading">
-                        <h2>MEMBERS</h2><hr>
+                        <h2>FACULTY MEMBERS</h2><hr>
                     </div>
                     <div class="menu-top-grids">
                             {% for member in memberList %}
@@ -99,15 +99,18 @@
                         {% endif %}
                             <div class="col-md-3 menu-grid">
                                 <div class="agile-menu-grid">
-                                    <a href="#">
+                                    <a><center>
                                         <div class="crop">
-                                        <img src="{{member.value.picUrl}}" alt=""/>
-                                        </div>
-                                        <div class="agileits-caption">
+                                        <img src="{{member.value.picUrl}}" alt="" class="img img-circle"/>
+                                        </div><center><br>
+                                        <div><font color="#333CFF">{{member.value.username}}</font></div></a>
+                                        <div><font color="#333CFF">{{member.value.email}}</font></div><br>
+                                        <div><input class="btn btn-danger" onclick="" value="edit Designation" type="button"></div>
+                                        <!--<div class="agileits-caption">
                                         <h4>{{member.value.username}}</h4>
                                         <h4>Director</h4><p><h5>{{member.value.email}}</h5></p>
-                                        </div>
-                                    </a>
+                                        </div>--></center>
+                                    
                                 </div>
                             </div>
                             {% if forloop.counter|divisibleby:4 %}

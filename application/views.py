@@ -10,7 +10,6 @@ from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME
 client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
 client.connect()
 
-
 # Create your views here.
 @login_required
 def home(request):
@@ -155,3 +154,58 @@ def editProfile(request):
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         return render(request, 'application/editProfile.html',  {'user': user[0]['value']})
+    else:
+        # Saving in cloudant
+        DBUSER = client['users']
+        user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+        #print(user)
+        user = DBUSER[user[0]['id']]
+        user['username'] = request.POST['username']
+        user['email'] = request.POST['email']
+        user['collegeName'] = request.POST['collegename']
+        user['password'] = request.POST['password']
+        user['fullName'] = request.POST['fullname']
+        user['dob'] = request.POST['dob']
+        user['gender'] = request.POST['gender']
+        user['motto'] = request.POST['motto']
+        user['designation'] = 'User'
+        #user['picUrl'] = request.POST['dp']
+        #print(request.POST['gender'])
+        user.save()
+        print(user)
+        return redirect('/profile')
+
+@login_required
+def profile(request):
+    if request.method == "GET":
+        DBUSER = client['users']
+        user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+        return render(request, 'application/profile.html', {'user': user[0]['value']})
+
+@login_required
+def faculty(request):
+    DBUSER = client['users']
+    user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
+    return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList})
+
+@login_required
+def gymkhana(request):
+    DBUSER = client['users']
+    user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
+    return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList})
+
+@login_required
+def student(request):
+    DBUSER = client['users']
+    user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
+    return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList})
+
+@login_required
+def admindashboard(request):
+    if request.method == "GET":
+        DBUSER = client['users']
+        user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+        return render(request, 'application/admindashboard.html', {'user': user[0]['value']})

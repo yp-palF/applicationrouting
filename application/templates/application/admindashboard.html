@@ -3,13 +3,14 @@
 <head>
     {% load static %}
 
-  <title>e Router|Members</title>
+  <title>e - Router|Admin</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
     <!--<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>-->
     <!--<link href="{% static "application/css/bootstrap1.css" %}" rel="stylesheet" type="text/css" media="all" />-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static "application/css/style1.css" %}" type="text/css" media="all" />
     <link href='//fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Cinzel+Decorative:400,700,900' rel='stylesheet' type='text/css'>
@@ -21,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{% static "application/css/font-awesome.css" %}">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-blue-grey.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'> 
+    <link href="{% static "application/css/main-style.css" %}" rel="stylesheet" />
     <script src="{% static "application/js/jquery-1.11.1.min1.js" %}"></script>
     <script src="{% static "application/js/SmoothScroll.min1.js" %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -37,6 +39,10 @@
    
         width:100%;
 
+    }
+
+    .try{
+        height:30px;
     }
     </style>
 </head>
@@ -69,55 +75,110 @@
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
                 <li>
-                    <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
+                    <a href="/admindashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
                 </li>
                 <li>
-                    <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span> New Application</a>
+                    <a href="/student"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span> Student Users</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
+                    <a href="/gymkhana"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Gymkhana Users</a>
                 </li>
                 <li>
-                    <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
+                    <a href="/faculty"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Faculty Users</a>
                 </li>
                 <li class="active">
-                    <a href="/members"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
                 </li>
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper" style="max-height: 90vh">
-            <div class="menu">
-                <div class="container">
-                    <div class="menu-heading">
-                        <h2>MEMBERS</h2><hr>
+            <div class="row">
+                <!--quick info section -->
+                <div class="col-lg-3">
+                    <div class="alert alert-danger text-center">
+                        <i class="fa fa-user-plus" style="font-size:78px;color:black"></i>
+                        <font size="5px"><b> 20 </b>Users</font>
                     </div>
-                    <div class="menu-top-grids">
-                            {% for member in memberList %}
-                            {% if forloop.counter0|divisibleby:4 %}
-                        <div class="w3ls-menu-grids agileinfo">
-                        {% endif %}
-                            <div class="col-md-3 menu-grid">
-                                <div class="agile-menu-grid">
-                                    <a href="#">
-                                        <div class="crop">
-                                        <img src="{{member.value.picUrl}}" alt=""/>
-                                        </div>
-                                        <div class="agileits-caption">
-                                        <h4>{{member.value.username}}</h4>
-                                        <h4>Director</h4><p><h5>{{member.value.email}}</h5></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            {% if forloop.counter|divisibleby:4 %}
-                            <div class="clearfix"> </div>
-                            </div>
-                            {% endif %}
-                            {% endfor %}
+                    
+                </div>
+                <div class="col-lg-3">
+                    <div class="alert alert-info text-center">
+                        <i class="fa fa-users" style="font-size:48px;color:blue;"></i><font size="5px"><b>27 </b>Students</font>
                     </div>
                 </div>
+                <div class="col-lg-3">
+                    <div class="alert alert-danger">
+                        <i class="fa fa-users" style="font-size:48px;color:black"></i><font size="5px">
+                        <b>19 </b>Gymkhana</font>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="alert alert-info text-center" style="">
+                        <i class="fa fa-users" style="font-size:48px;color:blue;"></i><font size="5px"><b>20 </b>Faculty</font>
+                    </div>
+                </div>
+                <!--end quick info section -->
             </div>
+             <div class="row">
+                <div class="container-fluid xyz col-sm-11" style="margin-left: 55px;">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default" style="margin-top: 5px;">
+                        <div  class="btn btn-default btn-lg btn-block">
+                            <h4 class="panel-title">
+                                <span data-toggle="collapse" data-parent="#accordion" href={{app.id}}>
+                                <div class="row">
+                                    <!--<div class="col-sm-3">{{user.username}}</div>
+                                    <span class="col-sm-2 label label-danger">{{user.designation}}</span>-->
+                                <div class="col-sm-4"><font size="5px">{{user.username}}</font></div>
+                                <span class="col-sm-3 label label-primary" style="font-size: 20px;">{{user.designation}}</span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="col-sm-4"><a class="btn btn-danger"  style="font-size: 12px;" rel="publisher"
+                                onclick="edit()">edit Designation
+                                </a></div>
+                                </div>
+                            </span>
+                        </h4>
+                    </div>
+                    </div>
+            </div>
+            </div>
+            <!--<div class="row">
+                <div class="col-lg-8">  
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-warning text-center no-boder">
+                        <div class="panel-body green">
+                            <i class="fa fa-bar-chart-o fa-3x"></i>
+                            <h3>20,741 </h3>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="panel-eyecandy-title">Daily User Visits
+                            </span>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary text-center no-boder">
+                        <div class="panel-body blue-grey" style="background-color: khaki;">
+                            <i class="fa fa-pencil-square-o fa-3x"></i>
+                            <h3>2,060 </h3>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="panel-eyecandy-title">Pending Applications
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="panel panel-primary text-center no-boder">
+                        <div class="panel-body red" style="background-color: pink;">
+                            <i class="fa fa-thumbs-up fa-3x"></i>
+                            <h3>2,700 </h3>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="panel-eyecandy-title">New User Registered
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                -->
         </div>
 
     <br> <br> <br> <br> <br> <br><br><br><br>
