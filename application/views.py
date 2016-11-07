@@ -41,8 +41,13 @@ def loginUser(request):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
+            DBUSER = client['users']
+            userList = DBUSER.get_view_result('_design/fetch', 'byUsername')[username]
             login(request, user)
-            return redirect('/dashboard')
+            if userList[0]['value']['designation'] == 'admin':
+                return redirect('/admindashboard')
+            else:
+                return redirect('/dashboard')
         else:
             return redirect('/login')
 
@@ -56,8 +61,13 @@ def googleSignup(request):
         # user already exists
         username = newUser[0]['value']['username']
         user = User.objects.get(username=username)
+        DBUSER = client['users']
+        userList = DBUSER.get_view_result('_design/fetch', 'byUsername')[username]
         login(request, user)
-        return redirect('/dashboard')
+        if userList[0]['value']['designation'] == 'admin':
+            return redirect('/admindashboard')
+        else:
+            return redirect('/dashboard')
     else:
         picUrl = request.POST['picUrl']
         fullName = request.POST['fullName']
@@ -79,7 +89,7 @@ def signup(request):
         user.save()
         # Saving in cloudant
         DBUSERS = client['users']
-        newUser = {'username': username, 'email': email, 'picUrl': picUrl, 'fullName': fullName}
+        newUser = {'username': username, 'email': email, 'picUrl': picUrl, 'fullName': fullName, 'designation': 'user'}
         DBUSERS.create_document(newUser)
         return redirect('/login')
 
@@ -112,13 +122,6 @@ def createApplication(request):
 
 def mainpage(request):
     return render(request, 'application/main.html')
-
-
-@login_required
-def allApplication(request):
-    DBAPPLICATIONS = client['applications']
-    applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byAppId')[:]
-    return render(request, 'application/allapplication.html', {'applicationList': applicationList})
 
 
 def logoutUser(request):
@@ -230,6 +233,15 @@ def comment(request, appId):
 def facultyAction(request, appId):
     DBAPPLICATIONS = client['applications']
     application = DBAPPLICATIONS[appId]
-    application['status'] = request.POST['submit']
+    if request.POST['submit'] == "Approved":
+        idx = application['facultyList'].index(application['nextBy'])
+        if (idx + 1) != len(application['facultyList']):
+            application['nextBy'] = application['facultyList'][idx+1]
+        else:
+            application['status'] = request.POST['submit']
+            application['nextBy'] = 'Its Over!!!'
+    else:
+        application['status'] = request.POST['submit']
+
     application.save()
     return redirect('/applicationDetail/' + appId)

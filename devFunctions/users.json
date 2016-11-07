@@ -1,10 +1,51 @@
-[{"email":"jjackson0@addtoany.com","username":"jsanchez0"},
-{"email":"whenry1@state.tx.us","username":"sferguson1"},
-{"email":"gburns2@who.int","username":"lflores2"},
-{"email":"bcrawford3@oracle.com","username":"dsimmons3"},
-{"email":"rward4@dedecms.com","username":"gwatson4"},
-{"email":"cruiz5@vistaprint.com","username":"jfields5"},
-{"email":"cwilson6@theguardian.com","username":"kmurray6"},
-{"email":"fhenderson7@businessinsider.com","username":"hhowell7"},
-{"email":"kriley8@biglobe.ne.jp","username":"twebb8"},
-{"email":"jnguyen9@prweb.com","username":"gstevens9"}]
+[{
+  "email": "cbrown0@smugmug.com",
+  "username": "abarnes0",
+  "picUrl": "http://dummyimage.com/107x188.png/dddddd/000000",
+  "designation": "user"
+}, {
+  "email": "khoward1@buzzfeed.com",
+  "username": "nclark1",
+  "picUrl": "http://dummyimage.com/161x167.jpg/cc0000/ffffff",
+  "designation": "user"
+}, {
+  "email": "srivera2@google.de",
+  "username": "palvarez2",
+  "picUrl": "http://dummyimage.com/199x188.jpg/ff4444/ffffff",
+  "designation": "user"
+}, {
+  "email": "eyoung3@macromedia.com",
+  "username": "preynolds3",
+  "picUrl": "http://dummyimage.com/163x133.png/5fa2dd/ffffff",
+  "designation": "user"
+}, {
+  "email": "garmstrong4@geocities.jp",
+  "username": "mdaniels4",
+  "picUrl": "http://dummyimage.com/229x150.png/ff4444/ffffff",
+  "designation": "user"
+}, {
+  "email": "vlopez5@dot.gov",
+  "username": "wlawrence5",
+  "picUrl": "http://dummyimage.com/145x100.png/5fa2dd/ffffff",
+  "designation": "user"
+}, {
+  "email": "jgomez6@ezinearticles.com",
+  "username": "rwagner6",
+  "picUrl": "http://dummyimage.com/202x246.jpg/dddddd/000000",
+  "designation": "user"
+}, {
+  "email": "ldixon7@guardian.co.uk",
+  "username": "scox7",
+  "picUrl": "http://dummyimage.com/227x138.png/5fa2dd/ffffff",
+  "designation": "user"
+}, {
+  "email": "lbennett8@huffingtonpost.com",
+  "username": "lperez8",
+  "picUrl": "http://dummyimage.com/178x202.bmp/cc0000/ffffff",
+  "designation": "user"
+}, {
+  "email": "dhenry9@t.co",
+  "username": "wolson9",
+  "picUrl": "http://dummyimage.com/203x112.jpg/dddddd/000000",
+  "designation": "user"
+}]

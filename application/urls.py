@@ -27,7 +27,6 @@ urlpatterns = [
     url(r'^login', loginUser),
     url(r'^dashboard', home),
     url(r'^createApplication', createApplication),
-    url(r'^allapplication', allApplication),
     url(r'^logout', logoutUser),
     url(r'^members', members),
     url(r'^applicationDetail/(?P<appId>\w+)$', applicationDetail),

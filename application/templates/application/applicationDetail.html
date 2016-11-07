@@ -99,6 +99,7 @@
                                 <div class="col-md-11">    {{application.subject|safe|escape}}</div>
 
                                 </div>
+                                {% if  application.nextBy == user.designation%}
                                 <div class="row">
                                 <form method="POST" action="/facultyAction/{{appId}}">
                                     <div class="col-md-7"></div>
@@ -113,6 +114,7 @@
                                     {% endif %}
                                 </form>
                             </div>
+                            {% endif %}
                             {% if commentList|length > 0 %}
                                 
                             <div class="response">
@@ -138,16 +140,14 @@
                                 </div>
                                     <div class="clearfix"> </div>
                                 {% endfor %}
-                            </div>
+
                             
                             {% endif %}
-                            <div class="response">
                                      
                             
                             <div class="opinion">
-                                <h2>Leave Your Comment</h2>
                                 <form action="/comment/{{appId}}" method="post">
-                                    <textarea id='body' name="body" placeholder="Comment" required=""></textarea>
+                                    <textarea id='body' name="body" placeholder="Comment..." required=""></textarea>
                                     {% csrf_token %}
                                     <input type="submit" value="SEND">
                                 </form>
@@ -158,6 +158,7 @@
                 </div>
                 <!-- //container -->
     </div>
+    <div style="margin-top: 10%"></div>
     </div>
     </div>
     </div>

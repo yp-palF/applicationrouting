@@ -1168,13 +1168,14 @@ h2.typoh2{
 /*-- //contact --*/
 /*-- single --*/
 .blog {
-    padding: 4em 0;
+    padding-top: 1em;
+    padding-left: 7em ;
     background: #FFFFFF;
 }
 .blog-left {
     padding: 1em;
     background: #FFFFFF;
-    border: solid 10px #EAF7FD;
+
 }
 .single-left-left p{
     margin: 0 0 1em;
@@ -1287,7 +1288,7 @@ h2.typoh2{
     resize: none;
     padding: .5em;
     border: solid 1px #BBBBBB;
-    min-height: 125px;
+    height: 60px;
 }
 .opinion form input[type="submit"] {
     border: solid 2px #383838;
