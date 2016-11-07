@@ -28,6 +28,8 @@ def home(request):
         application['id'] = "#" + application['id']
     # applicationList = [application1, application2, application3]
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    if user[0]['value']['designation'] == 'admin':
+        return redirect('/admindashboard')
     return render(request, 'application/dashboard.html', {'user': user[0]['value'],
                                                           'applicationList': applicationList})
 
@@ -121,6 +123,8 @@ def createApplication(request):
 
 
 def mainpage(request):
+    if request.user.is_authenticated:
+        return redirect('/dashboard')
     return render(request, 'application/main.html')
 
 
@@ -214,6 +218,8 @@ def admindashboard(request):
     if request.method == "GET":
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+        if user[0]['value']['designation'] != 'admin':
+            return redirect('/dashboard')
         return render(request, 'application/admindashboard.html', {'user': user[0]['value']})
 
 
