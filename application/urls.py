@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from application.views import home, loginUser, createApplication, mainpage, allApplication
+from application.views import home, loginUser, createApplication, mainpage
 from application.views import signup, logoutUser, members, applicationDetail, googleSignup
 from application.views import editProfile, profile, faculty, gymkhana, admindashboard, student
 from application.views import comment, facultyAction
