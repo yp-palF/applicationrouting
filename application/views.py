@@ -217,10 +217,21 @@ def student(request):
 def admindashboard(request):
     if request.method == "GET":
         DBUSER = client['users']
-        user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+        usernameView = DBUSER.get_view_result('_design/fetch', 'byUsername')
+        user = usernameView[request.user.username]
+        desigView = DBUSER.get_view_result('_design/fetch', 'byDesignation')
+        userList = desigView['user'][:]
+        print (userList)
         if user[0]['value']['designation'] != 'admin':
             return redirect('/dashboard')
-        return render(request, 'application/admindashboard.html', {'user': user[0]['value']})
+        total = len(usernameView[:])
+        gymkhana = len(desigView['gymkhana'][:])
+        students = len(desigView['student'][:])
+        faculty = len(desigView['faculty'][:])
+        return render(
+            request, 'application/admindashboard.html',
+            {'user': user[0]['value'], 'newUserList': userList, 'total': total,
+             'students': students, 'gymkhana': gymkhana, 'faculty': faculty})
 
 
 def comment(request, appId):
@@ -242,7 +253,7 @@ def facultyAction(request, appId):
     if request.POST['submit'] == "Approved":
         idx = application['facultyList'].index(application['nextBy'])
         if (idx + 1) != len(application['facultyList']):
-            application['nextBy'] = application['facultyList'][idx+1]
+            application['nextBy'] = application['facultyList'][idx + 1]
         else:
             application['status'] = request.POST['submit']
             application['nextBy'] = 'Its Over!!!'
@@ -251,3 +262,10 @@ def facultyAction(request, appId):
 
     application.save()
     return redirect('/applicationDetail/' + appId)
+
+
+def deleteUser(request):
+    DBUSERS = client['users']
+    user = DBUSERS[request.POST['userId']]
+    user.delete()
+    redirect('/admindashboard')

@@ -58,6 +58,13 @@ def createDesignDoc(request):
                         emit(doc.from, doc);
                     }
                 }""",
+            },
+            "byDesignation": {
+                "map": """function(doc) {
+                    if (doc.designation) {
+                        emit(doc.designation, doc);
+                    }
+                }""",
             }
         },
         "language": "javascript"
