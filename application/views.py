@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from cloudant.client import Cloudant
 import datetime
 from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME
+import json
 
 client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
 client.connect()
@@ -193,7 +194,7 @@ def profile(request):
 def faculty(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-    memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
+    memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Faculty'][:]
     return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
@@ -201,7 +202,7 @@ def faculty(request):
 def gymkhana(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-    memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
+    memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Gymkhana'][:]
     return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
@@ -209,7 +210,7 @@ def gymkhana(request):
 def student(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-    memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
+    memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Student'][:]
     return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
@@ -231,7 +232,8 @@ def admindashboard(request):
         return render(
             request, 'application/admindashboard.html',
             {'user': user[0]['value'], 'newUserList': userList, 'total': total,
-             'students': students, 'gymkhana': gymkhana, 'faculty': faculty})
+             'students': students, 'gymkhana': gymkhana, 'faculty': faculty,
+             'designation': json.dumps(['Faculty', 'Admin', 'Gymkhana'])})
 
 
 def comment(request, appId):
@@ -268,4 +270,23 @@ def deleteUser(request):
     DBUSERS = client['users']
     user = DBUSERS[request.POST['userId']]
     user.delete()
-    redirect('/admindashboard')
+    return redirect('/admindashboard')
+
+
+def editDesignation(request):
+    print(request.POST)
+    DBUSERS = client['users']
+    user = DBUSERS[request.POST['userId']]
+    facultyList = ['Director', 'Dean Academics', 'Dean Student Affair', 'Cultural Council Mentor',
+                   'Sports Council Mentor', 'Sci. and Tech Council Mentor', 'Registrar']
+    gymkhanaList = ['Student President', 'Cultural G.Sec.', 'Sports G.Sec.', 'Sci&Tech G.Sec.']
+    if request.POST['designation'] in facultyList:
+        user['designation'] = 'Faculty'
+        user['post'] = request.POST['designation']
+    elif request.POST['designation'] in gymkhanaList:
+        user['designation'] = 'Gymkhana'
+        user['post'] = request.POST['designation']
+    else:
+        user['designation'] = 'Student'
+    user.save()
+    return redirect('/admindashboard')

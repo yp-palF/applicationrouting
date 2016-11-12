@@ -99,7 +99,7 @@
                                 <div class="col-md-11">    {{application.subject|safe|escape}}</div>
 
                                 </div>
-                                {% if  application.nextBy == user.designation%}
+                                {% if  application.nextBy == user.post%}
                                 <div class="row">
                                 <form method="POST" action="/facultyAction/{{appId}}">
                                     <div class="col-md-7"></div>
