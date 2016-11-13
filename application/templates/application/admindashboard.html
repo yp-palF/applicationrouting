@@ -38,6 +38,7 @@
         <option value='Cultural G.Sec.'>
         <option value='Sports G.Sec.'>
         <option value="Sci&Tech G.Sec.">
+        <option value="Student">
     </datalist>
     <style>
     hr {
@@ -228,7 +229,7 @@
                             while(data.hasChildNodes())
                                 data.removeChild(data.lastChild);
                             var content = element.value;
-                            var desig = ['Director', 'Dean Academics', 'Dean Student Affair', 'Cultural Council Mentor', 'Sports Council Mentor', 'Sci. and Tech Council Mentor', 'Registrar', 'Student President', 'Cultural G.Sec.', 'Sports G.Sec.', 'Sci&Tech G.Sec.'];
+                            var desig = ['Director', 'Dean Academics', 'Dean Student Affair', 'Cultural Council Mentor', 'Sports Council Mentor', 'Sci. and Tech Council Mentor', 'Registrar', 'Student President', 'Cultural G.Sec.', 'Sports G.Sec.', 'Sci&Tech G.Sec.', 'Student'];
                             for (var i = 0; i<desig.length; i++){
                                 if (desig[i].toLowerCase().startsWith(content.toLowerCase())){
                                     var option = document.createElement('option');

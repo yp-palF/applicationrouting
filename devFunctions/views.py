@@ -37,6 +37,13 @@ def createDesignDoc(request):
             },
             "byUsername": {
                 "map": "function(doc) { if (doc.username) { emit(doc.username, doc);} }""",
+            },
+            "byDesignation": {
+                "map": """function(doc) {
+                    if (doc.designation) {
+                        emit(doc.designation, doc);
+                    }
+                }""",
             }
         },
         "language": "javascript"
@@ -56,13 +63,6 @@ def createDesignDoc(request):
                 "map": """function(doc) {
                     if (doc.from) {
                         emit(doc.from, doc);
-                    }
-                }""",
-            },
-            "byDesignation": {
-                "map": """function(doc) {
-                    if (doc.designation) {
-                        emit(doc.designation, doc);
                     }
                 }""",
             }

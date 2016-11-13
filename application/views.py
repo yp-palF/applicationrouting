@@ -92,7 +92,7 @@ def signup(request):
         user.save()
         # Saving in cloudant
         DBUSERS = client['users']
-        newUser = {'username': username, 'email': email, 'picUrl': picUrl, 'fullName': fullName, 'designation': 'user'}
+        newUser = {'username': username, 'email': email, 'picUrl': picUrl, 'fullName': fullName, 'designation': 'User'}
         DBUSERS.create_document(newUser)
         return redirect('/login')
 
@@ -221,14 +221,14 @@ def admindashboard(request):
         usernameView = DBUSER.get_view_result('_design/fetch', 'byUsername')
         user = usernameView[request.user.username]
         desigView = DBUSER.get_view_result('_design/fetch', 'byDesignation')
-        userList = desigView['user'][:]
+        userList = desigView['User'][:]
         print (userList)
         if user[0]['value']['designation'] != 'admin':
             return redirect('/dashboard')
         total = len(usernameView[:])
-        gymkhana = len(desigView['gymkhana'][:])
-        students = len(desigView['student'][:])
-        faculty = len(desigView['faculty'][:])
+        gymkhana = len(desigView['Gymkhana'][:])
+        students = len(desigView['Student'][:])
+        faculty = len(desigView['Faculty'][:])
         return render(
             request, 'application/admindashboard.html',
             {'user': user[0]['value'], 'newUserList': userList, 'total': total,

@@ -10,6 +10,8 @@
     <meta name="keywords" content="" />
     <!--<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>-->
     <!--<link href="{% static "application/css/bootstrap1.css" %}" rel="stylesheet" type="text/css" media="all" />-->
+        <link rel="stylesheet" href="{% static "application/css/cloudflarefont.css" %}">
+
     <link rel="stylesheet" href="{% static "application/css/style1.css" %}" type="text/css" media="all" />
     <link href='//fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Cinzel+Decorative:400,700,900' rel='stylesheet' type='text/css'>
@@ -38,6 +40,24 @@
         width:100%;
 
     }
+    .editForm {
+        visibility: hidden;
+    }
+    </style>
+    <datalist id="designationList">
+        <option value='Director'>
+        <option value='Dean Academics'>
+        <option value='Dean Student Affair'>
+        <option value='Cultural Council Mentor'>
+        <option value='Sports Council Mentor'>
+        <option value='Sci. and Tech Council Mentor'>
+        <option value='Registrar'>
+        <option value='Student President'>
+        <option value='Cultural G.Sec.'>
+        <option value='Sports G.Sec.'>
+        <option value="Sci&Tech G.Sec.">
+        <option value="Student">
+    </datalist>
     </style>
 </head>
 <body style="height: 100vh; background-color: #F5F5F5">
@@ -93,23 +113,41 @@
                         <h2>FACULTY MEMBERS</h2><hr>
                     </div>
                     <div class="menu-top-grids">
-                            {% for member in memberList %}
+                           {% for member in memberList %}
                             {% if forloop.counter0|divisibleby:4 %}
                         <div class="w3ls-menu-grids agileinfo">
                         {% endif %}
                             <div class="col-md-3 menu-grid">
-                                <div class="agile-menu-grid">
+                                <div class="agile-menu-grid" onmouseover="show(this)" onmouseout="hide(this)" id="div{{member.id}}">
                                     <a><center>
                                         <div class="crop">
                                         <img src="{{member.value.picUrl}}" alt="" class="img img-circle"/>
-                                        </div><center><br>
+                                        </div>
+                                        <center>
+                                        <br>
                                         <div><font color="#333CFF">{{member.value.username}}</font></div></a>
-                                        <div><font color="#333CFF">{{member.value.email}}</font></div><br>
-                                        <div><input class="btn btn-danger" onclick="" value="edit Designation" type="button"></div>
-                                        <!--<div class="agileits-caption">
-                                        <h4>{{member.value.username}}</h4>
-                                        <h4>Director</h4><p><h5>{{member.value.email}}</h5></p>
-                                        </div>--></center>
+                                        <div><font color="#333CFF">{{member.value.email}}</font></div>
+                                        <div><font color="brown"><b>{{member.value.post}}</b></font></div>
+                                        <form method="POST" id="form1{{member.id}}">
+                                        <input type="hidden" name="userId" value="{{member.id}}">
+                                        {% csrf_token %}
+                                        <div class="editForm" id="form{{member.id}}">
+                                            <input style="width: 170px" type="text" placeholder="Designation" onkeyup="fun(this)" name="designation" list="designationList" id="input{{member.id}}">
+                                             <a onclick="cancel(this)" class="searchBox" id="close{{member.id}}" class="table-link">
+                                                <span class="fa-stack1">
+                                                    <i class="fa fa-square fa-stack1-2x"></i>
+                                                    <i class="fa fa-close fa-stack1-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a onclick="edit(this)" id="{{member.id}}" class="table-link searchBox">
+                                                <span class="fa-stack1">
+                                                    <i class="fa fa-square fa-stack1-2x"></i>
+                                                    <i class="fa fa-lock fa-stack1-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                        </form>
+                                        </center>
                                     
                                 </div>
                             </div>
@@ -146,6 +184,40 @@
         $("#wrapper").toggleClass("toggled-2");
         $('#menu ul').hide();
     });
+    function show(element){
+        var id = element.id.substr(3);
+        document.getElementById("form".concat(id)).style.visibility = "visible";
+     }
+      function hide(element){
+        var id = element.id.substr(3);
+        if (document.getElementById("input".concat(id))!=document.activeElement){
+            document.getElementById("form".concat(id)).style.visibility = "hidden";
+        }
+     }
+     function cancel(element){
+                            var searchBoxId = "input".concat(element.id.substr(5));
+                            document.getElementById(searchBoxId).value = "";
+                        }
+    function edit(element){
+        var id = element.id;
+        var formId = "form1".concat(id);
+        document.getElementById(formId).action = "/editdesignation";
+        document.getElementById(formId).submit();
+    }
+     function fun(element){
+                            var data = document.getElementById("designationList"); 
+                            while(data.hasChildNodes())
+                                data.removeChild(data.lastChild);
+                            var content = element.value;
+                            var desig = ['Director', 'Dean Academics', 'Dean Student Affair', 'Cultural Council Mentor', 'Sports Council Mentor', 'Sci. and Tech Council Mentor', 'Registrar', 'Student President', 'Cultural G.Sec.', 'Sports G.Sec.', 'Sci&Tech G.Sec.', 'Student'];
+                            for (var i = 0; i<desig.length; i++){
+                                if (desig[i].toLowerCase().startsWith(content.toLowerCase())){
+                                    var option = document.createElement('option');
+                                    option.value = desig[i];
+                                    data.appendChild(option);
+                                }
+                            }
+                        }
     </script>
 </body>
 </html>
