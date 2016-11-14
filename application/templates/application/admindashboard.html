@@ -147,6 +147,8 @@
             <form method="POST" id="form{{member.id}}">
             {% csrf_token %}
             <input type="hidden" name="userId" value="{{member.id}}">
+            <input type="hidden" name="next" value="admindashboard">
+
                 <tr>
                     <td>
                         <img src="{{member.value.picUrl}}" alt="" style="min-height: 50px">

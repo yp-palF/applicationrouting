@@ -3,6 +3,44 @@
   margin: 55px auto 0;  
   padding-top: 15px;
 }
+.dropbtn1 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown1 {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown1-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown1-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown1-content a:hover {background-color: #f1f1f1}
+
+.dropdown1:hover .dropdown1-content {
+    display: block;
+}
+
+.dropdown1:hover .dropbtn1 {
+    background-color: #3e8e41;
+}
 #notification {
     position:fixed;
     top:0px; /* Set to 0 or wherever */
@@ -54,8 +92,7 @@
 
 .landing-page .note {   
     background-color: black;
-    border: 1px dashed; 
-    border-radius: 4px; 
+
     color: rgb(115, 136, 96);
     font-family: georgia;   
     font-size: .9em;
@@ -66,9 +103,7 @@
 .form-appointment {
     padding: 2em;
     background-color: rgba(200, 252, 239, 0.6);
-    border-radius: 4px;
-    border: 1px solid rgb(130, 228, 130);
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.1);
+
     font-family: 'PT Sans', Arial, sans-serif;
     margin: 25px auto;
 }
@@ -77,14 +112,12 @@
 .form-appointment input[type=email],
 .form-appointment input[type=tel],
 .form-appointment textarea {    
-    border: 1px solid rgb(153, 202, 129);
-    border-radius: .2em;    
     font-family: 'PT Sans', Arial, sans-serif;
     font-size: 1.1em;
     padding: .4em 1em;
     margin: 0 0 .8em;
     width: 100%;
-  box-shadow: 0 0 8px rgba(0,0,0,.08) inset;
+
 }
 
 .form-appointment input[type=text],
@@ -106,7 +139,7 @@
 .form-appointment textarea:active,
 .form-appointment textarea:focus {  
   outline: 0;
-  box-shadow: 0 0 6px rgb(176, 226, 188);
+
 }
 
 .form-appointment textarea {

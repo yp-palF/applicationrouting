@@ -179,3 +179,10 @@
  
     }
 }
+.close {
+      color: #0ad;
+      cursor: pointer;
+      float: right;
+      font-size: 20px;
+      margin-right: 4px
+    }

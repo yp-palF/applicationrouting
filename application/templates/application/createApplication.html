@@ -16,15 +16,64 @@
     <link href="{% static "application/css/sidebar.css" %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static "application/css/dashboard.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "application/css/font-awesome.css" %}">
-    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-blue-grey.css">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{% static "application/js/notify.js" %}"></script>
+
+
 </head>
 <body style="height: 100vh">
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Approval List</h4>
+        </div>
+        <div class="modal-body">
+            <div style="border: groove; min-height: 40px; padding: 0px">
+              <ul id="list" style="margin: 0px; padding-left: 2px; padding-right: 2px; padding-top: 5px; list-style: none;"></ul>
+            </div>
+              {% if facultyList|length != 0 %}
+              <h4><b>Faculties</b></h4>
+              <div class="row">
+              {% for faculty in facultyList %}
+                <div class="col-md-3" style="text-align: center; min-height: 180px" onclick="addToList(this)" id="{{faculty.value.username}}">
+                    <img src="{{faculty.value.picUrl}}" class="img-circle" style="height: 100px; width: 88px">
+                    <b style="color: brown">{{faculty.value.post}}</b><br>
+                    {{faculty.value.username}}
+                </div>
+              {% endfor %}
+              {% endif %}
+              </div>
+              {% if gymkhanaList|length != 0 %}
+              <h4><b>Gymkhana Members</b></h4>
+              <div class="row">
+              {% for gymkhana in gymkhanaList %}
+                <div class="col-md-3" style="text-align: center; min-height: 180px" onclick="addToList(this)" id="{{gymkhana.value.username}}">
+                    <img src="{{gymkhana.value.picUrl}}" class="img-circle" style="height: 100px; width: 88px;">
+                    <b style="color: brown">{{gymkhana.value.post}}</b><br>
+                    {{gymkhana.value.username}}
+                </div>
+              {% endfor %}
+              {% endif %}
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="send()">Send Application</button>
+      </div>
+      
+    </div>
+  </div></div></div>
     <nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
         <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
             <ul class="nav navbar-nav">
@@ -71,124 +120,35 @@
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper" style="max-height: 90vh;">
-            <div class="landing-page" id="form-page" style="margin-top: 2%">
-            <div class="form-appointment" id="form-tr">
-                <div class="wpcf7" id="wpcf7-f560-p590-o1">
-                    <form method="post" class="wpcf7-form" novalidate="novalidate" _lpchecked="1">
-                        {%csrf_token%}
-                        <div style="display: none;">
-                            <input type="hidden" name="_wpcf7" value="560">
-                            <input type="hidden" name="_wpcf7_version" value="3.5">
-                            <input type="hidden" name="_wpcf7_locale" value="">
-                            <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f560-p590-o1">
-                            <input type="hidden" name="_wpnonce" value="dbb28877d5">
-                        </div>
-                        <div class="group">
-                            <div style="width: 48%; float: left;">
-                                <span class="wpcf7-form-control-wrap text-680">
-                                    <input type="text" name="text-680" value="" size="45" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" placeholder="Title">
-                                </span>
-                                <br>
-                                <span class="wpcf7-form-control-wrap email-680">
-                                    <input type="text" id="datepicker" name="dead_line" value="" size="45" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email" aria-required="true" placeholder="Deadline">
-                                </span>
-                                <br>
-                                <span class="wpcf7-form-control-wrap textarea-398">
-                                    <textarea id="area1" name="textarea-398" cols="40" rows="10" class="wpcf7-form-control wpcf7-textarea" placeholder="Body">
-                                    </textarea>
-                                </span>
-                            </div>
-                            <div style="width: 48%; float: right;">
-                                <p>
-                                <span class="wpcf7-form-control-wrap checkbox-465">
-                                    <span class="wpcf7-form-control wpcf7-checkbox">
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                            <input type="checkbox" name="checkbox-465[]" value="Director">&nbsp;
-                                            <span class="wpcf7-list-item-label">Director</span>
-                                                </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                            <input type="checkbox" name="checkbox-465[]" value="Dean Academics">&nbsp;
-                                            <span class="wpcf7-list-item-label">Dean Academics</span>
-                                            </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                                <input type="checkbox" name="checkbox-465[]" value="Dean Student Affair">&nbsp;
-                                                <span class="wpcf7-list-item-label">Dean Student Affair</span>
-                                            </label>
-                                        </span>        
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                                <input type="checkbox" name="checkbox-465[]" value="Cultural Council Mentor">&nbsp;
-                                                <span class="wpcf7-list-item-label">Cultural Council Mentor
-                                                </span>
-                                            </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                                <input type="checkbox" name="checkbox-465[]" value="Sports Council Mentor">&nbsp;
-                                                <span class="wpcf7-list-item-label">Sports Council Mentor</span>
-                                            </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                                <input type="checkbox" name="checkbox-465[]" value="Sci. and Tech Council Mentor">&nbsp;
-                                                <span class="wpcf7-list-item-label">Sci. and Tech Council Mentor</span>
-                                            </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                                <input type="checkbox" name="checkbox-465[]" value="Registrar">&nbsp;
-                                                <span class="wpcf7-list-item-label">Registrar</span>
-                                            </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                                <input type="checkbox" name="checkbox-465[]" value="Student President">&nbsp;
-                                                <span class="wpcf7-list-item-label">Student President</span>
-                                            </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                                <input type="checkbox" name="checkbox-465[]" value="Cultural G.Sec.">&nbsp;
-                                                <span class="wpcf7-list-item-label">Cultural G.Sec.</span>
-                                            </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                                <input type="checkbox" name="checkbox-465[]" value="Sports G.Sec.">&nbsp;
-                                                <span class="wpcf7-list-item-label">Sports G.Sec.</span>
-                                            </label>
-                                        </span>
-                                        <span class="wpcf7-list-item">
-                                            <label>
-                                            <input type="checkbox" name="checkbox-465[]" value="Sci&Tech G.Sec.">&nbsp;
-                                            <span class="wpcf7-list-item-label">Sci&Tech G.Sec.</span>
-                                            </label>
-                                        </span>
-                                    </span>
-                                </span>
-                                </p>
-                            </div>
-                        </div>
-                        <div style="text-align: center; padding-top: 1em; border-top: 1px solid rgb(153, 202, 129); margin-top: 1em;">
-                            {% csrf_token %}
-                            <input style="margin-top:10px;" type="submit" value="Submit" class="">
-                        </div>
-                    </form>
+        <div style="margin-top: 70px; margin-left: 20%;">
+            <form style="" action="/createApplication" method="POST" id="formApp" class="formApp">
+            <input type="hidden" name="subject" id="subject">
+            <div class="row">
+                <div class="col-md-7">
+                    <textarea class="title" placeholder="Title..." name="title" style="resize: none; width: 100%; height: 56px" id="title"></textarea>
+                </div>
+                <div class="col-md-2">
+                    <input type="date" name="dueDate" value="{{date}}" min="{{date}}" style="width: 150px; margin-bottom: 8px">
+                    <br>
+                    <select name="priority" class="priority" style="width: 150px" id="priority">
+                        <option value="" disabled selected style="display: none;">Priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <textarea id="area1" name="textarea-398" cols="92" rows="15" class="subject wpcf7-form-control wpcf7-textarea" placeholder="Body"></textarea>
+                </div>
+            </div>
+            {% csrf_token %}
+            <br>
+            <button type="button" class="btn btn-info btn-lg" onclick="proceed()">Approval List</button>
+            </form>
         </div>
-
-
-
-
-
         </div>
-    </div>
     <script>
         $('#searchbox').focus(function() {
             $('#searchbox').animate({width: "100%"});
@@ -203,13 +163,75 @@
         $(document).ready(function() {
             $("#datepicker").datepicker();
         });
-        bkLib.onDomLoaded(function() {
-            new nicEditor().panelInstance('area1');
-            new nicEditor({fullPanel : true}).panelInstance('area2');
-            new nicEditor({iconsPath : '../nicEditorIcons.gif'}).panelInstance('area3');
-            new nicEditor({buttonList : ['fontSize','bold','italic','underline','strikeThrough','subscript','superscript','html','image']}).panelInstance('area4');
-            new nicEditor({maxHeight : 100}).panelInstance('area5');
-        });
+  </script>
+<script type="text/javascript">
+  bkLib.onDomLoaded(function() {
+        new nicEditor().panelInstance('area1');
+        nicEditors.findEditor( "area1" ).setContent( '' );
+  });
     </script>
+        <script type="text/javascript">
+            function proceed() {
+                var nicE = new nicEditors.findEditor('area1');
+                document.getElementById("subject").value = nicE.getContent();
+                var len = nicE.getContent().length;
+                if (document.getElementById("title").value.length == 0)
+                    $(".title").notify("Title is required", {position: "top center"});
+                else if(len == 0)
+                    $(".subject").notify("Body is required", {position: "top center"});
+                else if(document.getElementById('priority').selectedIndex == 0)
+                    $(".priority").notify("Priority is required", {position: "top left"});
+                else
+                    $('#myModal').modal();
+            }
+            function addToList(element){
+                username=element.id;
+                element.style.border = "solid orange";
+                element.style.background = "#EEEEDD";
+                var li = document.createElement("li");;
+                var ul = document.getElementById("list");
+                var children = ul.children;
+                for (var i = 0; i < children.length; i++) {
+                    var existing = children[i].id;
+                    if (existing == username){
+                        ul.removeChild(children[i]);
+                        element.style.border = "none";
+                        element.style.background = "none";
+                        return;
+                    }
+                }
+                var but = document.createElement("i");
+                but.innerHTML = '<b> \u02DF </b>';
+                but.setAttribute("style", "margin-right: 5px; cursor: pointer");
+                but.setAttribute("onclick", "removeFromList(this.parentNode)");
+                but.setAttribute("onmouseover", "this.style.color='red'");
+                but.setAttribute("onmouseout", "this.style.color='inherit'");
+                li.appendChild(document.createTextNode(username));
+                li.appendChild(but);
+                li.setAttribute("style", "display: inline; padding: 5px; background: #098765; border-radius: 10px; margin: 1px");
+                li.setAttribute("id", username);
+                ul.appendChild(li);
+            }
+            function removeFromList(element){
+                var ul = document.getElementById("list");
+                ul.removeChild(element);
+            }
+            function send(){
+                var ul = document.getElementById("list");
+                form = document.getElementById("formApp");
+                var children = ul.children;
+                for (var i = 0; i < children.length; i++) {
+                    var chk = document.createElement("input");
+                    chk.setAttribute("type", "checkbox");
+                    chk.setAttribute("name", "facultyList");
+                    chk.setAttribute("value", children[i].id);
+                    chk.checked = true;
+                    form.appendChild(chk);
+                }
+                var nicE = new nicEditors.findEditor('area1');
+                document.getElementById("subject").value = nicE.getContent();
+                form.submit();
+            }
+        </script>
 </body>
 </html>

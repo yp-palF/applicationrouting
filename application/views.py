@@ -101,23 +101,34 @@ def signup(request):
 def createApplication(request):
     if request.method == "GET":
         DBUSER = client['users']
+        desigView = DBUSER.get_view_result('_design/fetch', 'byDesignation')
+        facultyList = desigView['Faculty'][:]
+        gymkhanaList = desigView['Gymkhana'][:]
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        return render(request, 'application/createApplication.html', {'user': user[0]['value']})
+        return render(request, 'application/createApplication.html', {
+            'user': user[0]['value'],
+            'facultyList': facultyList,
+            'gymkhanaList': gymkhanaList,
+            'date': datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')})
     else:
-        title = request.POST['text-680']
+        print(request.POST)
+        title = request.POST['title']
         appType = request.POST.get('type', 'General')
         status = 'Pending'
-        dueDate = request.POST['dead_line']
-        nextBy = request.POST.getlist('checkbox-465[]')[0]
-        facultyList = request.POST.getlist('checkbox-465[]')
-        subject = request.POST['textarea-398'].strip()
+        dueDate = request.POST['dueDate']
+        nextBy = request.POST.getlist('facultyList')[0]
+        facultyList = request.POST.getlist('facultyList')
+        subject = request.POST['subject'].strip()
+        priority = request.POST['priority']
         author = request.user.username
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         dateCreated = str(datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d, %H:%M %p'))
         newApplication = {'from': author, 'title': title, 'type': appType, 'status': status,
                           'dueDate': dueDate, 'nextBy': nextBy, 'subject': subject,
-                          'facultyList': facultyList, 'dateCreated': dateCreated, 'picUrl': user[0]['value']['picUrl']}
+                          'facultyList': facultyList, 'dateCreated': dateCreated,
+                          'picUrl': user[0]['value']['picUrl'], 'priority': priority}
+        print(newApplication)
         DBAPPLICATIONS = client['applications']
         DBAPPLICATIONS.create_document(newApplication)
         return redirect('/dashboard')
@@ -191,31 +202,40 @@ def profile(request):
 
 
 @login_required
-def faculty(request):
+def faculty(request, notification=None):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Faculty'][:]
-    return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList})
+    if len(notification) == 0:
+        return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList})
+    else:
+        return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList, 'text': ("1 user designated as " + notification)})
 
 
 @login_required
-def gymkhana(request):
+def gymkhana(request, notification=None):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Gymkhana'][:]
-    return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList})
+    if len(notification) == 0:
+        return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList})
+    else:
+        return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList, 'text': ("1 user designated as " + notification)})
 
 
 @login_required
-def student(request):
+def student(request, notification=None):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Student'][:]
-    return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList})
+    if len(notification) == 0:
+        return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList})
+    else:
+        return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList, 'text': ("1 user designated as " + notification)})
 
 
 @login_required
-def admindashboard(request):
+def admindashboard(request, notification=None):
     if request.method == "GET":
         DBUSER = client['users']
         usernameView = DBUSER.get_view_result('_design/fetch', 'byUsername')
@@ -283,10 +303,13 @@ def editDesignation(request):
     if request.POST['designation'] in facultyList:
         user['designation'] = 'Faculty'
         user['post'] = request.POST['designation']
+        notification = 'Faculty'
     elif request.POST['designation'] in gymkhanaList:
         user['designation'] = 'Gymkhana'
         user['post'] = request.POST['designation']
+        notification = 'Gymkhana'
     else:
         user['designation'] = 'Student'
+        notification = 'Student'
     user.save()
-    return redirect('/admindashboard')
+    return redirect(request.POST['next'], notification=notification)

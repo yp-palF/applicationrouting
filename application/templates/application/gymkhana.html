@@ -10,6 +10,7 @@
     <meta name="keywords" content="" />
     <!--<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>-->
     <!--<link href="{% static "application/css/bootstrap1.css" %}" rel="stylesheet" type="text/css" media="all" />-->
+
     <link rel="stylesheet" href="{% static "application/css/style1.css" %}" type="text/css" media="all" />
     <link href='//fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Cinzel+Decorative:400,700,900' rel='stylesheet' type='text/css'>
@@ -26,6 +27,7 @@
     <script src="{% static "application/js/SmoothScroll.min1.js" %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{% static "application/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "application/js/notify.js" %}"></script>
     <style>
     hr {
         display: block;
@@ -105,6 +107,7 @@
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->
+        <script> $.notify("{{text}}", {className:'success', clickToHide: true, autoHide: true, globalPosition: 'top center', autoHideDelay: 5000});</script>
         <div id="page-content-wrapper" style="max-height: 90vh">
             <div class="menu">
                 <div class="container">
@@ -128,6 +131,7 @@
                                         <div><font color="#333CFF">{{member.value.email}}</font></div><br>
                                         <form method="POST" id="form1{{member.id}}">
                                         <input type="hidden" name="userId" value="{{member.id}}">
+                                        <input type="hidden" name="next" value="gymkhana">
                                         {% csrf_token %}
                                         <div class="editForm" id="form{{member.id}}">
                                             <input style="width: 170px" type="text" placeholder="Designation" onkeyup="fun(this)" name="designation" list="designationList" id="input{{member.id}}">
