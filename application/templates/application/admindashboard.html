@@ -243,8 +243,13 @@
                         function edit(element){
                             var id = element.id;
                             var formId = "form".concat(id);
-                            document.getElementById(formId).action = "/editdesignation";
-                            document.getElementById(formId).submit();
+                            var inputId = "designation".concat(id);
+                            if(document.getElementById(inputId).value.length >0){
+                                var text = "User set as ".concat(document.getElementById(inputId).value);
+                                $.notify(text, {className:'success', clickToHide: true, autoHide: true, globalPosition: 'top center', autoHideDelay: 5000});
+                                document.getElementById(formId).action = "/editdesignation";
+                                document.getElementById(formId).submit();
+                            }
                         }
                         function show(element){
                             var elements = document.querySelectorAll('.searchBox');

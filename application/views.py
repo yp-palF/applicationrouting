@@ -111,7 +111,6 @@ def createApplication(request):
             'gymkhanaList': gymkhanaList,
             'date': datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')})
     else:
-        print(request.POST)
         title = request.POST['title']
         appType = request.POST.get('type', 'General')
         status = 'Pending'
@@ -128,7 +127,6 @@ def createApplication(request):
                           'dueDate': dueDate, 'nextBy': nextBy, 'subject': subject,
                           'facultyList': facultyList, 'dateCreated': dateCreated,
                           'picUrl': user[0]['value']['picUrl'], 'priority': priority}
-        print(newApplication)
         DBAPPLICATIONS = client['applications']
         DBAPPLICATIONS.create_document(newApplication)
         return redirect('/dashboard')
@@ -170,12 +168,11 @@ def editProfile(request):
     if request.method == "GET":
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        return render(request, 'application/editProfile.html',  {'user': user[0]['value']})
+        return render(request, 'application/editProfile.html', {'user': user[0]['value']})
     else:
         # Saving in cloudant
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        #print(user)
         user = DBUSER[user[0]['id']]
         user['username'] = request.POST['username']
         user['email'] = request.POST['email']
@@ -186,10 +183,7 @@ def editProfile(request):
         user['gender'] = request.POST['gender']
         user['motto'] = request.POST['motto']
         user['designation'] = 'User'
-        #user['picUrl'] = request.POST['dp']
-        #print(request.POST['gender'])
         user.save()
-        print(user)
         return redirect('/profile')
 
 
@@ -202,47 +196,37 @@ def profile(request):
 
 
 @login_required
-def faculty(request, notification=None):
+def faculty(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Faculty'][:]
-    if len(notification) == 0:
-        return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList})
-    else:
-        return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList, 'text': ("1 user designated as " + notification)})
+    return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
 @login_required
-def gymkhana(request, notification=None):
+def gymkhana(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Gymkhana'][:]
-    if len(notification) == 0:
-        return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList})
-    else:
-        return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList, 'text': ("1 user designated as " + notification)})
+    return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
 @login_required
-def student(request, notification=None):
+def student(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Student'][:]
-    if len(notification) == 0:
-        return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList})
-    else:
-        return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList, 'text': ("1 user designated as " + notification)})
+    return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
 @login_required
-def admindashboard(request, notification=None):
+def admindashboard(request):
     if request.method == "GET":
         DBUSER = client['users']
         usernameView = DBUSER.get_view_result('_design/fetch', 'byUsername')
         user = usernameView[request.user.username]
         desigView = DBUSER.get_view_result('_design/fetch', 'byDesignation')
         userList = desigView['User'][:]
-        print (userList)
         if user[0]['value']['designation'] != 'admin':
             return redirect('/dashboard')
         total = len(usernameView[:])
@@ -257,7 +241,6 @@ def admindashboard(request, notification=None):
 
 
 def comment(request, appId):
-    print(request.POST)
     DBCOMMENT = client['comments']
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
@@ -294,7 +277,6 @@ def deleteUser(request):
 
 
 def editDesignation(request):
-    print(request.POST)
     DBUSERS = client['users']
     user = DBUSERS[request.POST['userId']]
     facultyList = ['Director', 'Dean Academics', 'Dean Student Affair', 'Cultural Council Mentor',
@@ -303,13 +285,10 @@ def editDesignation(request):
     if request.POST['designation'] in facultyList:
         user['designation'] = 'Faculty'
         user['post'] = request.POST['designation']
-        notification = 'Faculty'
     elif request.POST['designation'] in gymkhanaList:
         user['designation'] = 'Gymkhana'
         user['post'] = request.POST['designation']
-        notification = 'Gymkhana'
     else:
         user['designation'] = 'Student'
-        notification = 'Student'
     user.save()
-    return redirect(request.POST['next'], notification=notification)
+    return redirect(request.POST['next'])

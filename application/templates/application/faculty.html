@@ -107,7 +107,6 @@
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->
-        <script> $.notify("{{text}}", {className:'success', clickToHide: true, autoHide: true, globalPosition: 'top center', autoHideDelay: 5000});</script>
         <div id="page-content-wrapper" style="max-height: 90vh">
             <div class="menu">
                 <div class="container">
@@ -204,8 +203,13 @@
     function edit(element){
         var id = element.id;
         var formId = "form1".concat(id);
-        document.getElementById(formId).action = "/editdesignation";
-        document.getElementById(formId).submit();
+        var inputId = "input".concat(id);
+        if(document.getElementById(inputId).value.length >0){
+            var text = "User set as ".concat(document.getElementById(inputId).valu);
+            $.notify(text, {className:'success', clickToHide: true, autoHide: true, globalPosition: 'top center', autoHideDelay: 5000});
+            document.getElementById(formId).action = "/editdesignation";
+            document.getElementById(formId).submit();
+        }
     }
      function fun(element){
                             var data = document.getElementById("designationList"); 

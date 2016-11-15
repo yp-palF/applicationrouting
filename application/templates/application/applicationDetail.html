@@ -185,6 +185,16 @@
         $("#wrapper").toggleClass("toggled-2");
         $('#menu ul').hide();
     });
+
+
+  function generatePDF(){
+alert();
+  var conv = new ActiveXObject("pdfServMachine.converter");
+  conv.convert("http://www.google.com", "c:\\google.pdf", false);
+  WScript.Echo("finished conversion");
+ }
+
+
     </script>
 </body>
 </html>
