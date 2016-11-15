@@ -86,6 +86,7 @@
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <div id="page-content-wrapper" style="max-height: 90vh">
+        <a href="http://www.web2pdfconvert.com/convert">Save to PDF</a>
             <!-- single -->
     <div class="blog">
                 <!-- container -->
@@ -102,14 +103,14 @@
                                 <div class="col-md-11">    {{application.subject|safe|escape}}</div>
 
                                 </div>
-                                {% if  application.nextBy == user.post%}
+                                {% if  status != 'hide'%}
                                 <div class="row">
                                 <form method="POST" action="/facultyAction/{{appId}}">
                                     <div class="col-md-7"></div>
                                     {% csrf_token %}
-                                    {% if application.status == 'Approved' %}
+                                    {% if status == 'Approved' %}
                                         <div class="col-md-4 btn btn-success"><span style="color:red" class="glyphicon glyphicon-ok"></span>Approved</div>
-                                    {% elif application.status == 'Disapproved' %}
+                                    {% elif status == 'Disapproved' %}
                                         <div class="col-md-4 btn btn-danger"><span style="color:red" class="glyphicon glyphicon-ok"></span>Disapproved</div>
                                     {% else %}
                                     <div class="col-md-2"><button class="btn btn-success" type="submit" name="submit" value="Approved"><span style="color:red" class="glyphicon glyphicon-ok"></span> Approve</button></div>

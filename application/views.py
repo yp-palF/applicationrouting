@@ -196,9 +196,23 @@ def applicationDetail(request, appId):
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         DBCOMMENT = client['comments']
         commentList = DBCOMMENT.get_view_result('_design/fetch', 'byAppId')[appId]
+        print(application)
+        status = "hide"
+        for faculty in application['facultyList']:
+            if faculty == request.user.username and application['status'] == "Disapproved":
+                status = "Disapproved"
+                break
+            elif request.user.username == application['nextBy']:
+                status = "yourTurn"
+                break
+            elif request.user.username == faculty:
+                status = "Approved"
+                break
+            elif faculty == application['nextBy']:
+                break
         return render(request, 'application/applicationDetail.html', {
             'user': user[0]['value'], 'application': application, 'appId': appId,
-            'commentList': commentList})
+            'commentList': commentList, 'status': status})
 
 
 @login_required

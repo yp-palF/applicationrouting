@@ -26,23 +26,7 @@
                 <form method="GET" action='/searchby'>
                 <input name='search' type='text' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
                 </form>
-                <li><a class="dropdown1-toggle" data-toggle="dropdown1"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a>
-                <ul class="dropdown1-menu-right dropdown1-navbar navbar-pink dropdown1-menu dropdown1-caret dropdown1-close">
-                <li class="dropdown1-content">
-                                    <ul class="dropdown1-menu dropdown1-navbar navbar-pink">
-                        {% for notification in notificationList %}
-                        <li>
-                            <a href="{{notification.value.link}}">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i>{{notification.value.text}}
-                                    <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                                </div>
-                            </a>
-                        </li>
-                        {% endfor %}
-                </ul>
-                </li>
-                </ul></li>
+                <li><a href="#"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a></li>
                 <li><a href="/profile"><span class="glyphicon glyphicon-wrench"></span></a></li>
                 <li class="dropdown">
                     <a style="margin-top: -7px; margin-bottom: -10px" class="dropdown-toggle" type="button" data-toggle="dropdown"><img src='{{user.picUrl}}' style="height: 35px" class="img img-circle"><span class="caret"></span></a>
