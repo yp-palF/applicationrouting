@@ -86,7 +86,6 @@
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <div id="page-content-wrapper" style="max-height: 90vh">
-        <a href="/pdfPage/{{appId}}">Save this page as PDF</a>
             <!-- single -->
     <div class="blog">
                 <!-- container -->
@@ -103,6 +102,7 @@
                                 <div class="col-md-11">    {{application.subject|safe|escape}}</div>
 
                                 </div>
+                                <div align="right"><a href="/pdfPage/{{appId}}"><b>Generate PDF</b></a></div>
                                 {% if  status != 'hide'%}
                                 <div class="row">
                                 <form method="POST" action="/facultyAction/{{appId}}">

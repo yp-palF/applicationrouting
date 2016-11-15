@@ -429,6 +429,8 @@ def pdfPage(request, appId):
     app = DBAPPLICATIONS[appId]
     DBUSERS = client['users']
     facultyList = []
+    view = DBUSERS.get_view_result('_design/fetch', 'byUsername')
     for user in app['facultyList']:
-        facultyList.append(DBUSERS.get_view_result('_design/fetch', 'byUsername')[user][0]['value']['fullName'])
+        result = view[user]
+        facultyList.append({'fullName': result[0]['value']['fullName'], 'post': result[0]['value']['post']})
     return render(request, 'application/pdf.html', {'application': app, 'facultyList': facultyList})
