@@ -25,13 +25,16 @@
                 <span class="navbar-brand"><i>e</i> Router</span>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li style="line-height: 2; padding-top: 2%;"><input name='search' type='search' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
+                <li style="line-height: 2; padding-top: 2%;">
+                <form method="GET" action='/searchby'>
+                <input name='search' type='text' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
+                </form>
                 <li><a href="#"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a></li>
-                <li><a href="/editProfile"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li><a href="/profile"><span class="glyphicon glyphicon-wrench"></span></a></li>
                 <li class="dropdown">
                     <a style="margin-top: -7px; margin-bottom: -10px" class="dropdown-toggle" type="button" data-toggle="dropdown"><img src='{{user.picUrl}}' style="height: 35px" class="img img-circle"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"><span class="glyphicon glyphicon-time"></span> Activity Log</a></li>
+                        <li><a href="/activitylog"><span class="glyphicon glyphicon-time"></span> Activity Log</a></li>
                         <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
                     </ul>
                 </li>
@@ -50,7 +53,7 @@
                     <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span>&nbsp;&nbsp;New Application</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>&nbsp;&nbsp;Sent Applications</a>
+                    <a href="/sentApplications"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>&nbsp;&nbsp;Sent Applications</a>
                 </li>
                 <li>
                     <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>&nbsp;&nbsp;Trash</a>
@@ -79,13 +82,13 @@
         <div class="form-group">
           <label class="col-lg-3 control-label">Full Name:</label>
           <div class="col-lg-7">
-            <input class="form-control" name="fullname" required="required" value="{{user.fullName}}" type="text">
+            <input class="form-control" name="fullname" required="required" disabled="" value="{{user.fullName}}" type="text">
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label">Username:</label>
           <div class="col-md-7">
-            <input class="form-control" name="username" required="required" value="{{user.username}}" type="text">
+            <input class="form-control" name="username" required="required" disabled="" value="{{user.username}}" type="text">
           </div>
         </div>
         <div class="form-group">
@@ -97,7 +100,7 @@
         <div class="form-group">
           <label class="col-lg-3 control-label">Email:</label>
           <div class="col-lg-7">
-            <input class="form-control" name="email" required="required" value="{{user.email}}" type="text">
+            <input class="form-control" name="email" required="required" disabled="" value="{{user.email}}" type="text">
           </div>
         </div>
         <div class="form-group">

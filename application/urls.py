@@ -19,6 +19,7 @@ from application.views import home, loginUser, createApplication, mainpage
 from application.views import signup, logoutUser, members, applicationDetail, googleSignup
 from application.views import editProfile, profile, faculty, gymkhana, admindashboard, student
 from application.views import comment, facultyAction, editDesignation, deleteUser
+from application.views import searchby, activitylog, sentApplications
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -41,5 +42,7 @@ urlpatterns = [
     url(r'^facultyAction/(?P<appId>\w+)$', facultyAction),
     url(r'^editdesignation$', editDesignation),
     url(r'^deleteuser$', deleteUser),
-
+    url(r'^searchby', searchby),
+    url(r'^sentApplications', sentApplications),
+    url(r'^activitylog', activitylog),
 ]

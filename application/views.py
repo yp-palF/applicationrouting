@@ -7,6 +7,7 @@ from cloudant.client import Cloudant
 import datetime
 from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME
 import json
+import re
 
 client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
 client.connect()
@@ -17,11 +18,18 @@ client.connect()
 def home(request):
     DBAPPLICATIONS = client['applications']
     DBUSER = client['users']
+    DBACTIVITYLOG = client['activitylog']
     if request.method == "POST":
         if request.POST['submit'] == 'Delete':
             for appId in request.POST.getlist('applicationList'):
                 doc = DBAPPLICATIONS[appId]
+                title = doc['title']
                 doc.delete()
+                string = 'You deleted an application named ' + title + '.'
+                date = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+                DBACTIVITYLOG.create_document({'string': string, 'type': 'delete',
+                                               'username': request.user.username,
+                                               'date': date})
         return redirect('/dashboard')
     applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     for application in applicationList:
@@ -32,7 +40,8 @@ def home(request):
     if user[0]['value']['designation'] == 'admin':
         return redirect('/admindashboard')
     return render(request, 'application/dashboard.html', {'user': user[0]['value'],
-                                                          'applicationList': applicationList})
+                                                          'applicationList': applicationList,
+                                                          'notificationList': getNotification(request.user.username)})
 
 
 @csrf_protect
@@ -128,7 +137,20 @@ def createApplication(request):
                           'facultyList': facultyList, 'dateCreated': dateCreated,
                           'picUrl': user[0]['value']['picUrl'], 'priority': priority}
         DBAPPLICATIONS = client['applications']
+        DBACTIVITYLOG = client['activitylog']
+        string = 'You created an application named ' + title + '.'
+        dateCreated1 = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+        DBACTIVITYLOG.create_document({'string': string, 'type': 'newapplication',
+                                       'username': request.user.username,
+                                       'date': dateCreated1})
         DBAPPLICATIONS.create_document(newApplication)
+        applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+        for app in applicationList:
+            if app['value']['dateCreated'] == dateCreated:
+                appId = app['id']
+        for faculty in facultyList:
+            text = request.user.username + " sent a new application " + newApplication['title']
+            addNotification(text, faculty, "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "create")
         return redirect('/dashboard')
 
 
@@ -141,6 +163,20 @@ def mainpage(request):
 def logoutUser(request):
     logout(request)
     return redirect('/')
+
+
+@login_required
+def activitylog(request):
+    DBACTIVITYLOG = client['activitylog']
+    activities = DBACTIVITYLOG.get_view_result('_design/fetch', 'byDate')
+    activityList = []
+    user = request.user.username
+    for activity in activities:
+        if activity['value']['username'] == user:
+            activityList.append(activity)
+    activityList.reverse()
+    return render(request, 'application/activitylog.html', {'user': request.user.username,
+                                                            'activityList': activityList})
 
 
 @login_required
@@ -160,7 +196,9 @@ def applicationDetail(request, appId):
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         DBCOMMENT = client['comments']
         commentList = DBCOMMENT.get_view_result('_design/fetch', 'byAppId')[appId]
-        return render(request, 'application/applicationDetail.html', {'user': user[0]['value'], 'application': application, 'appId': appId, 'commentList': commentList})
+        return render(request, 'application/applicationDetail.html', {
+            'user': user[0]['value'], 'application': application, 'appId': appId,
+            'commentList': commentList})
 
 
 @login_required
@@ -174,16 +212,19 @@ def editProfile(request):
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         user = DBUSER[user[0]['id']]
-        user['username'] = request.POST['username']
-        user['email'] = request.POST['email']
         user['collegeName'] = request.POST['collegename']
         user['password'] = request.POST['password']
-        user['fullName'] = request.POST['fullname']
         user['dob'] = request.POST['dob']
         user['gender'] = request.POST['gender']
         user['motto'] = request.POST['motto']
         user['designation'] = 'User'
         user.save()
+        DBACTIVITYLOG = client['activitylog']
+        string = 'You edited your profile.'
+        date = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+        DBACTIVITYLOG.create_document({'string': string, 'type': 'editprofile',
+                                       'username': request.user.username,
+                                       'date': date})
         return redirect('/profile')
 
 
@@ -192,6 +233,7 @@ def profile(request):
     if request.method == "GET":
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+        print(request.user.username)
         return render(request, 'application/profile.html', {'user': user[0]['value']})
 
 
@@ -242,14 +284,45 @@ def admindashboard(request):
 
 def comment(request, appId):
     DBCOMMENT = client['comments']
+    DBAPPLICATIONS = client['applications']
+
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     picUrl = user[0]['value']['picUrl']
     dateCreated = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+    DBACTIVITYLOG = client['activitylog']
+    title = DBAPPLICATIONS[appId]['title']
+    string = 'You commented on ' + title + '.'
+    DBACTIVITYLOG.create_document({'string': string, 'type': 'comment',
+                                   'username': request.user.username,
+                                   'date': dateCreated})
     DBCOMMENT.create_document({'appId': appId, 'body': request.POST['body'],
                                'username': request.user.username, 'picUrl': picUrl,
                                'dateCreated': dateCreated})
     return redirect('/applicationDetail/' + appId)
+
+
+@login_required
+def searchby(request):
+    DBAPPLICATIONS = client['applications']
+    DBACTIVITYLOG = client['activitylog']
+    applications = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    query = ''
+    query = request.GET.get("search")
+    print(query)
+    string = 'You searched ' + query + '.'
+    date = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+    DBACTIVITYLOG.create_document({'string': string, 'type': 'search',
+                                   'username': request.user.username,
+                                   'date': date})
+    i = 0
+    searchlist = []
+    for application in applications:
+        if re.search(query, application['value']['title'], re.IGNORECASE):
+            searchlist.append(application)
+            i += 1
+    return render(request, 'application/search.html', {'user': request.user.username,
+                                                       'searchList': searchlist, 'i': i})
 
 
 def facultyAction(request, appId):
@@ -267,6 +340,32 @@ def facultyAction(request, appId):
 
     application.save()
     return redirect('/applicationDetail/' + appId)
+
+
+@login_required
+def sentApplications(request):
+    DBAPPLICATIONS = client['applications']
+    DBUSER = client['users']
+    DBACTIVITYLOG = client['activitylog']
+    if request.method == "POST":
+        if request.POST['submit'] == 'Delete':
+            for appId in request.POST.getlist('applicationList'):
+                doc = DBAPPLICATIONS[appId]
+                title = doc['title']
+                doc.delete()
+                string = 'You deleted a sent application named ' + title + '.'
+                date = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+                DBACTIVITYLOG.create_document({'string': string, 'type': 'delete',
+                                               'username': request.user.username,
+                                               'date': date})
+        return redirect('/sentApplications')
+    applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    for application in applicationList:
+        application['class'] = application['id']
+        application['id'] = "#" + application['id']
+    user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    return render(request, 'application/sentapplications.html', {'user': user[0]['value'],
+                                                                 'applicationList': applicationList})
 
 
 def deleteUser(request):
@@ -292,3 +391,16 @@ def editDesignation(request):
         user['designation'] = 'Student'
     user.save()
     return redirect(request.POST['next'])
+
+
+def addNotification(text, user, link, typeApp):
+    DBNOTIFICATION = client['notifications']
+    dateCreated = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+    DBNOTIFICATION.create_document({'text': text, 'to': user, 'dateCreated': dateCreated,
+                                    'read': "false", 'link': link, "type": typeApp})
+
+
+def getNotification(username):
+    DBNOTIFICATION = client['notifications']
+    notificationList = DBNOTIFICATION.get_view_result('_design/fetch', 'byUsername')[username]
+    return notificationList

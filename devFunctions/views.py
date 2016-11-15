@@ -6,12 +6,15 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def resetCloudantDB(request):
-    client.delete_database('users')
-    client.delete_database('applications')
-    client.delete_database('comments')
+    #client.delete_database('users')
+    #client.delete_database('applications')
+    #client.delete_database('comments')
+    #client.delete_database('activitylog')
     DB1 = client.create_database('users')
     DB2 = client.create_database('applications')
     DB3 = client.create_database('comments')
+    DB4 = client.create_database('activitylog')
+    DB5 = client.create_database('notifications')
     populateData('a')
     createDesignDoc('a')
     deleteSqlite('a')
@@ -29,6 +32,7 @@ def deleteSqlite(request):
 def createDesignDoc(request):
     DBUSERS = client['users']
     DBAPPLICATIONS = client['applications']
+    DBNOTIFICATION = client['notifications']
     designDoc = {
         "_id": "_design/fetch",
         "views": {
@@ -81,6 +85,42 @@ def createDesignDoc(request):
         "language": "javascript"
     }
     DBCOMMENTS.create_document(designDoc)
+    DBACTIVITYLOG = client['activitylog']
+    designDoc = {
+        "_id": "_design/fetch",
+        "views": {
+            "byUsername": {
+                "map": """function(doc) {
+                    if (doc.username) {
+                        emit(doc.username, doc);
+                    }
+                }""",
+            },
+            "byDate": {
+                "map": """function(doc) {
+                    if (doc.date) {
+                        emit(doc.date, doc);
+                    }
+                }""",
+            }
+        },
+        "language": "javascript"
+    }
+    DBACTIVITYLOG.create_document(designDoc)
+    designDoc = {
+        "_id": "_design/fetch",
+        "views": {
+            "byUsername": {
+                "map": """function(doc) {
+                    if (doc.username) {
+                        emit(doc.username, doc);
+                    }
+                }""",
+            }
+        },
+        "language": "javascript"
+    }
+    DBNOTIFICATION.create_document(designDoc)
 
 def populateData(request):
     DBUSERS = client['users']

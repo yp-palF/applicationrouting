@@ -3,7 +3,7 @@
 <head>
     {% load static %}
 
-  <title>e Router| Dashboard</title>
+  <title>e Router|Search Applications</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
@@ -12,6 +12,78 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="{% static "application/js/bootstrap.min.js" %}"></script>
 </head>
+<style>
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 60%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #F5A9A9;
+    color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #F5A9A9;
+    color: white;
+    height: 16px;
+}
+</style>
 <body style="height: 100vh; background-color: #F5F5F5">
     <nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
         <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
@@ -26,23 +98,7 @@
                 <form method="GET" action='/searchby'>
                 <input name='search' type='text' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
                 </form>
-                <li><a class="dropdown1-toggle" data-toggle="dropdown1"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a>
-                <ul class="dropdown1-menu-right dropdown1-navbar navbar-pink dropdown1-menu dropdown1-caret dropdown1-close">
-                <li class="dropdown1-content">
-                                    <ul class="dropdown1-menu dropdown1-navbar navbar-pink">
-                        {% for notification in notificationList %}
-                        <li>
-                            <a href="{{notification.value.link}}">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i>{{notification.value.text}}
-                                    <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                                </div>
-                            </a>
-                        </li>
-                        {% endfor %}
-                </ul>
-                </li>
-                </ul></li>
+                <li><a href="#"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a></li>
                 <li><a href="/profile"><span class="glyphicon glyphicon-wrench"></span></a></li>
                 <li class="dropdown">
                     <a style="margin-top: -7px; margin-bottom: -10px" class="dropdown-toggle" type="button" data-toggle="dropdown"><img src='{{user.picUrl}}' style="height: 35px" class="img img-circle"><span class="caret"></span></a>
@@ -59,7 +115,7 @@
         <div id="sidebar-wrapper" style="height: 100vh">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
-                <li class="active">
+                <li>
                     <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
                 </li>
                 <li>
@@ -85,18 +141,18 @@
                     <!-- set COLOR -->
                         <div  style="padding-left: 50px; padding-right: 50px; padding-top: 30px; border-radius: 8px; background-color: #F5F5F5; " class="col-lg-12">
                             <div class="row" style="margin-bottom: 10px; background-color: #999999; padding: 10px; border-radius: 10px">
-                                    <input style="margin-left: 2.8%;margin-right: 20px;" type="checkbox" onclick="selectAll(this)">
-                                    <input type="submit" onclick="deleteApp()" name="submit" value="Delete" class="btn btn-sm btn-success">
-                                    <input type="submit" onclick="" name="submit" style="margin-left: 17px;" value="Send Reminder" class="btn btn-sm btn-success">
+                                    <span class="col-sm-3 label" style="font-size: 20px;">Search Results</span>
                             </div>
                             <div class="row">
                                     <div class="panel-group" id="accordion">
-                                        {% for app in applicationList %}
+                                    {% if i is not 0 %}
+                                        {% for app in searchList %}
                                             {% with application=app.value %}
+                                            <a href="applicationDetail/{{app.id}}">
                                             <div class="panel panel-default" style="margin-top: 5px;">
+                                            
                                                 <div  class="btn btn-default btn-lg btn-block">
                                                     <h4 class="panel-title">
-                                                        <input type="checkbox" style="margin-left: 2%" class="pull-left" name="applicationList" value={{app.class}}>
                                                         <span data-toggle="collapse" data-parent="#accordion" href={{app.id}}>
                                                         <div class="row">
                                                             <div class="col-sm-3">{{application.title}}</div>
@@ -110,33 +166,31 @@
                                                             {% else %}
                                                                 <div class="col-sm-2">{{application.status}}</div>
                                                             {% endif %}
-                                                            <div class="col-sm-2">{{application.dueDate}}</div>
-                                                            <div class="col-sm-2">{{application.nextBy}}</div>
+                                                            <div class="col-sm-2">Deadline : {{application.dueDate}}</div>
                                                         </div>
                                                         </span>
                                                     </h4>
                                                 </div>
-                                                <div id={{app.class}} class="panel-collapse collapse">
-                                                <!-- set COLOR-->
-                                                    <div class="panel-body">
-                                                    <div class="row">
-                                                        <div class="col-sm-1"></div>
-                                                        <div class="col-sm-9" style="word-wrap: break-word;">{{application.subject|safe|escape}}</div>
-                                                        <div class="col-sm-2"><a href="applicationDetail/{{app.class}}" class="btn btn-info">View application</a></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-9"></div>
-                                                        <div class="col-md-2"> - <b><i><a href="#" style="color: green; color">{{application.from}}</a></i></b></div>
-                                                    </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                             {% endwith %}    
                                     {% endfor %}
+                                    {% else %}
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                        <span class="close">x</span>
+                                        </div>
+                                        <font size="5px">
+                                        <div class="modal-body" align="center">
+                                        <p>OOPs!! No Match Found</p>
+                                        <p>Try Again</p>
+                                        </div>
+                                        </font>
+                                        </div>
+                                    {% endif %}
                                     {% csrf_token %}
                                     </div>
                                 </div>
-
+                                </a>
                             </div>
                         </form>
             </div>
@@ -156,10 +210,32 @@
         function deleteApp() {
             document.getElementById("appSelected").submit();
         }
+        function search() {
+            window.location.href = "/searchby/";
+        }
+            
         function selectAll(source) {
             var checkboxes = document.getElementsByName('applicationList');
             for(var i=0, n=checkboxes.length;i<n;i++) {
                 checkboxes[i].checked = source.checked;
+            }
+        }
+
+        var modal = document.getElementById('myModal');
+        var btn = document.getElementById("myBtn");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
         }
     </script>
