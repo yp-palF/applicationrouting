@@ -32,6 +32,10 @@ def home(request):
                                                'date': date})
         return redirect('/dashboard')
     applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    applicationList1 = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[:]
+    for app in applicationList1:
+        if request.user.username in app['value']['facultyList']:
+            applicationList.append(app)
     for application in applicationList:
         application['class'] = application['id']
         application['id'] = "#" + application['id']
@@ -418,3 +422,13 @@ def getNotification(username):
     DBNOTIFICATION = client['notifications']
     notificationList = DBNOTIFICATION.get_view_result('_design/fetch', 'byUsername')[username]
     return notificationList
+
+
+def pdfPage(request, appId):
+    DBAPPLICATIONS = client['applications']
+    app = DBAPPLICATIONS[appId]
+    DBUSERS = client['users']
+    facultyList = []
+    for user in app['facultyList']:
+        facultyList.append(DBUSERS.get_view_result('_design/fetch', 'byUsername')[user][0]['value']['fullName'])
+    return render(request, 'application/pdf.html', {'application': app, 'facultyList': facultyList})
