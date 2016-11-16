@@ -33,7 +33,6 @@ def home(request):
     return render(request, 'application/dashboard.html', {'user': user[0]['value'],
                                                           'applicationList': applicationList,
                                                           'notificationList': getNotification(request.user.username),
-                                                          'notificationList': getNotification(request.user.username),
                                                           'i': getNotificationlength(request.user.username)})
 
 
@@ -428,8 +427,9 @@ def editDesignation(request):
 def addNotification(text, user, link, typeApp):
     DBNOTIFICATION = client['notifications']
     dateCreated = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+    date = str(datetime.datetime.strftime(datetime.datetime.now(), '%d-%m-%Y, %H:%M %p'))
     DBNOTIFICATION.create_document({'text': text, 'to': user, 'dateCreated': dateCreated,
-                                    'read': "false", 'link': link, "type": typeApp})
+                                    'read': "false", 'link': link, 'type': typeApp, 'date': date})
 
 
 def getNotification(username):
