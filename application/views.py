@@ -438,28 +438,14 @@ def addNotification(text, user, link, typeApp):
 
 def getNotification(username):
     DBNOTIFICATION = client['notifications']
-    notificationlist = DBNOTIFICATION.get_view_result('_design/fetch', 'byDate')
+    notificationlist = DBNOTIFICATION.get_view_result('_design/fetch', 'byDate')[:]
     notificationList = []
-    for notification in notificationlist:
-        if notification['value']['to'] == username and notification['value']['read'] == "false":
-            notificationList.append(notification)
-    notificationList.reverse()
-    print("Sad")
-    print(notificationList)
-    return notificationList
-
-
-def getNotificationlength(username):
-    DBNOTIFICATION = client['notifications']
-    notificationlist = DBNOTIFICATION.get_view_result('_design/fetch', 'byDate')
-    notificationList = []
-    i = 0
     for notification in notificationlist:
         val = notification['value']
         if val['to'] == username and val['read'] == "false":
             notificationList.append(notification)
-            i += 1
-    return i
+    notificationList.reverse()
+    return notificationList
 
 
 def read(request, notifyId):
@@ -480,8 +466,8 @@ def notifications(request):
             notificationList.append(notification)
     notificationList.reverse()
     return render(request, 'application/notification.html', {'user': request.user.username,
-                                                              'notificationList': notificationList,
-                                                              'i': getNotificationlength(request.user.username)})
+                                                             'notificationList': notificationList,
+                                                             'i': len(notificationList)})
 
 
 def pdfPage(request, appId):
