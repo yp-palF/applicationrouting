@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -8,7 +9,7 @@ import datetime
 from config import CLOUDANTPASSWORD, CLOUDANTUSERNAME
 import json
 import re
-
+import weasyprint
 client = Cloudant(CLOUDANTUSERNAME, CLOUDANTPASSWORD, account=CLOUDANTUSERNAME)
 client.connect()
 
@@ -189,7 +190,6 @@ def applicationDetail(request, appId):
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         DBCOMMENT = client['comments']
         commentList = DBCOMMENT.get_view_result('_design/fetch', 'byAppId')[appId]
-        print(application)
         status = "hide"
         for faculty in application['facultyList']:
             if faculty == request.user.username and application['status'] == "Disapproved":
@@ -240,7 +240,6 @@ def profile(request):
     if request.method == "GET":
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        print(request.user.username)
         return render(request, 'application/profile.html', {'user': user[0]['value']})
 
 
@@ -323,7 +322,6 @@ def searchby(request):
     applications = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     query = ''
     query = request.GET.get("search")
-    print(query)
     string = 'You searched ' + query + '.'
     date = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
     DBACTIVITYLOG.create_document({'string': string, 'type': 'search',
@@ -500,7 +498,6 @@ def moveToTrash(request):
 
 
 def restore(request):
-    print("AD___________________________________________________________________")
     DBAPPLICATIONS = client['applications']
     DBTRASH = client['trash']
     for appId in request.POST.getlist('applicationList'):
@@ -538,3 +535,15 @@ def trash(request):
                                                       'applicationList': applicationList,
                                                       'notificationList': getNotification(request.user.username)[:6],
                                                       'i': len(notifcationList)})
+
+
+def downloadPDF(request, appId):
+    # create an API client instance
+    pdf = weasyprint.HTML("http://applicationrouting.eu-gb.mybluemix.net/pdfPage/" + appId).write_pdf()
+    response = HttpResponse(content_type="application/pdf")
+    response["Cache-Control"] = "max-age=0"
+    response["Accept-Ranges"] = "none"
+    response["Content-Disposition"] = "attachment; filename=application.pdf"
+    # send the generated PDF
+    response.write(pdf)
+    return response

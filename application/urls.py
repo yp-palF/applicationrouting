@@ -20,7 +20,7 @@ from application.views import signup, logoutUser, members, applicationDetail, go
 from application.views import editProfile, profile, faculty, gymkhana, admindashboard, student
 from application.views import comment, facultyAction, editDesignation, deleteUser
 from application.views import searchby, activitylog, sentApplications, pdfPage, moveToTrash
-from application.views import trash, restore, deleteForever, read, notifications
+from application.views import trash, restore, deleteForever, read, notifications, downloadPDF
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -53,4 +53,6 @@ urlpatterns = [
     url(r'^deleteforever$', deleteForever),
     url(r'^read/(?P<notifyId>\w+)$', read),
     url(r'^notifications', notifications),
+    url(r'^downloadpdf/(?P<appId>\w+)$', downloadPDF),
+
 ]

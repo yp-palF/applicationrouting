@@ -1,17 +1,21 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
-<a href="http://FreeHTMLtoPDF.com/?convert">Download as PDF</a>
+<a href="//FreeHTMLtoPDF.com/?convert">Save as PDF</a>
 <div class="col-md-3"></div>
 <div class="col-md-6">
 <div align="center" style="margin-top: 50px; font-size: 40; color: brown"><b>{{application.title}}</b></div>
 <div align="right">By {{application.from}}<br>{{application.dateCreated}}</div>
 <br>
 <br>
-<div style="font-size: 20px">
-{{application.subject}}
+<div style="font-size: 15px">
+{{application.subject|safe|escape}}
+</div>
 <br><br>
+<div style="font-size: 20px">
 <b>Approved By:</b>
 <br>
+</div>
+<div style="font-size: 15px">
 {% for faculty in facultyList %}
     {{faculty.fullName}} ({{faculty.post}})
     <br>

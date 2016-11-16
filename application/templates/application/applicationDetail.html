@@ -175,9 +175,7 @@
                                 <div class="col-md-11">    {{application.subject|safe|escape}}</div>
 
                                 </div>
-                                {% if application.status == 'Approved' %}
-                                <div align="right"><a href="/pdfPage/{{appId}}"><b>Generate PDF</b></a></div>
-                                {% endif %}
+                                <div align="right"><a href="/downloadpdf/{{appId}}"><b>Download as PDF</b></a></div>
                                 {% if  status != 'hide'%}
                                 <div class="row">
                                 <form method="POST" action="/facultyAction/{{appId}}">
