@@ -6,15 +6,18 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def resetCloudantDB(request):
-    #client.delete_database('users')
-    #client.delete_database('applications')
-    #client.delete_database('comments')
-    #client.delete_database('activitylog')
+    client.delete_database('users')
+    client.delete_database('applications')
+    client.delete_database('comments')
+    client.delete_database('activitylog')
+    client.delete_database('notifications')
+    client.delete_database('trash')
     DB1 = client.create_database('users')
     DB2 = client.create_database('applications')
     DB3 = client.create_database('comments')
     DB4 = client.create_database('activitylog')
     DB5 = client.create_database('notifications')
+    DB6 = client.create_database('trash')
     populateData('a')
     createDesignDoc('a')
     deleteSqlite('a')

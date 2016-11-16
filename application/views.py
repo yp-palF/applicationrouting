@@ -30,10 +30,11 @@ def home(request):
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     if user[0]['value']['designation'] == 'admin':
         return redirect('/admindashboard')
+    notificationList = getNotification(request.user.username)
     return render(request, 'application/dashboard.html', {'user': user[0]['value'],
                                                           'applicationList': applicationList,
-                                                          'notificationList': getNotification(request.user.username),
-                                                          'i': getNotificationlength(request.user.username)})
+                                                          'notificationList': notificationList[:6],
+                                                          'i': len(notificationList)})
 
 
 @csrf_protect
@@ -393,8 +394,11 @@ def sentApplications(request):
         application['class'] = application['id']
         application['id'] = "#" + application['id']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    notificationList = getNotification(request.user.username)
     return render(request, 'application/sentapplications.html', {'user': user[0]['value'],
-                                                                 'applicationList': applicationList})
+                                                                 'applicationList': applicationList,
+                                                                 'notificationList': notificationList[:6],
+                                                                 'i': len(notificationList)})
 
 
 def deleteUser(request):
@@ -440,8 +444,10 @@ def getNotification(username):
         if notification['value']['to'] == username and notification['value']['read'] == "false":
             notificationList.append(notification)
     notificationList.reverse()
-    notificationList = notificationList[:6]
+    print("Sad")
+    print(notificationList)
     return notificationList
+
 
 def getNotificationlength(username):
     DBNOTIFICATION = client['notifications']
@@ -449,10 +455,12 @@ def getNotificationlength(username):
     notificationList = []
     i = 0
     for notification in notificationlist:
-        if notification['value']['to'] == username and notification['value']['read'] == "false":
+        val = notification['value']
+        if val['to'] == username and val['read'] == "false":
             notificationList.append(notification)
             i += 1
     return i
+
 
 def read(request, notifyId):
     if request.method == "GET":
@@ -461,6 +469,7 @@ def read(request, notifyId):
         notification['read'] = 'true'
         notification.save()
         return redirect(notification['link'])
+
 
 def notifications(request):
     DBNOTIFICATION = client['notifications']
@@ -538,6 +547,8 @@ def trash(request):
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     if user[0]['value']['designation'] == 'admin':
         return redirect('/admindashboard')
+    notifcationList = getNotification(request.user.username)
     return render(request, 'application/trash.html', {'user': user[0]['value'],
-                                                          'applicationList': applicationList,
-                                                          'notificationList': getNotification(request.user.username)})
+                                                      'applicationList': applicationList,
+                                                      'notificationList': getNotification(request.user.username)[:6],
+                                                      'i': len(notifcationList)})
