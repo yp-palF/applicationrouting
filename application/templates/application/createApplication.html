@@ -223,6 +223,10 @@
                 var ul = document.getElementById("list");
                 form = document.getElementById("formApp");
                 var children = ul.children;
+                if (children.length == 0){
+                    $.notify("No person selected!!!", {position: "top center"});
+                    return;
+                }
                 for (var i = 0; i < children.length; i++) {
                     var chk = document.createElement("input");
                     chk.setAttribute("type", "checkbox");

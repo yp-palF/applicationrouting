@@ -33,6 +33,7 @@ def createDesignDoc(request):
     DBUSERS = client['users']
     DBAPPLICATIONS = client['applications']
     DBNOTIFICATION = client['notifications']
+    DBTRASH = client['trash']
     designDoc = {
         "_id": "_design/fetch",
         "views": {
@@ -116,11 +117,39 @@ def createDesignDoc(request):
                         emit(doc.username, doc);
                     }
                 }""",
+            },
+            "byDate": {
+                "map": """function(doc) {
+                    if (doc.date) {
+                        emit(doc.date, doc);
+                    }
+                }""",
             }
         },
         "language": "javascript"
     }
     DBNOTIFICATION.create_document(designDoc)
+    designDoc = {
+        "_id": "_design/fetch",
+        "views": {
+            "byAppId": {
+                "map": """function(doc) {
+                    if (doc._id) {
+                        emit(doc._id, doc);
+                    }
+                }""",
+            },
+            "byUsername": {
+                "map": """function(doc) {
+                    if (doc.from) {
+                        emit(doc.from, doc);
+                    }
+                }""",
+            }
+        },
+        "language": "javascript"
+    }
+    DBTRASH.create_document(designDoc)
 
 def populateData(request):
     DBUSERS = client['users']

@@ -19,7 +19,8 @@ from application.views import home, loginUser, createApplication, mainpage
 from application.views import signup, logoutUser, members, applicationDetail, googleSignup
 from application.views import editProfile, profile, faculty, gymkhana, admindashboard, student
 from application.views import comment, facultyAction, editDesignation, deleteUser
-from application.views import searchby, activitylog, sentApplications, pdfPage
+from application.views import searchby, activitylog, sentApplications, pdfPage, moveToTrash
+from application.views import trash, restore, deleteForever, read, notifications
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -46,4 +47,10 @@ urlpatterns = [
     url(r'^sentApplications', sentApplications),
     url(r'^activitylog', activitylog),
     url(r'^pdfPage/(?P<appId>\w+)$', pdfPage),
+    url(r'^movetotrash$', moveToTrash),
+    url(r'^restore$', restore),
+    url(r'^trash$', trash),
+    url(r'^deleteforever$', deleteForever),
+    url(r'^read/(?P<notifyId>\w+)$', read),
+    url(r'^notifications', notifications),
 ]

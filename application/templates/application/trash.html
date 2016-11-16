@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
-    <title>e Router| Dashboard</title>
+    <title>e Router| Trash</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
@@ -25,80 +25,7 @@
                 <form method="GET" action='/searchby'>
                 <input name='search' type='text' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
                 </form>
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle">
-                    {% if i is not 0 %}
-                     <span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">{{i}}</span></span>
-                    {% else %}
-                     <span class="glyphicon glyphicon-bell"></span>
-                    {% endif %}
-                    </a>
-                    <ul class="dropdown-menu">
-                        {% for notification in notificationList %}
-                        {% if notification.value.type == 'create' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-envelope" style="color: orange;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'comment' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-comment" style="color: green;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'approve' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-ok-sign" style="color: green;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'disapprove' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-remove-sign" style="color: red;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'designation' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-education" style="color: black;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'forward' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-circle-arrow-right" style="color: blue;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                        <li class="dropdown-footer" align="center">
-                            <a href="/notifications" align="center">
-                            See all notifications
-                            <i class="glyphicon glyphicon-chevron-right" style="color: #FF5274;"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                <li><a href="#"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a></li>
                 <li><a href="/profile"><span class="glyphicon glyphicon-wrench"></span></a></li>
                 <li class="dropdown">
                     <a style="margin-top: -7px; margin-bottom: -10px" class="dropdown-toggle" type="button" data-toggle="dropdown"><img src='{{user.picUrl}}' style="height: 35px" class="img img-circle"><span class="caret"></span></a>
@@ -114,7 +41,7 @@
         <div id="sidebar-wrapper" style="height: 100vh">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
-                <li class="active">
+                <li>
                     <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
                 </li>
                 <li>
@@ -123,7 +50,7 @@
                 <li>
                     <a href="/sentApplications"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="/trash"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
                 </li>
                 <li>
@@ -141,8 +68,8 @@
                         <div  style="padding-left: 50px; padding-right: 50px; padding-top: 30px; border-radius: 8px; background-color: #F5F5F5; " class="col-lg-12">
                             <div class="row" style="margin-bottom: 10px; background-color: #999999; padding: 10px; border-radius: 10px">
                                     <input style="margin-left: 2.8%;margin-right: 20px;" type="checkbox" onclick="selectAll(this)">
-                                    <input type="submit" onclick="deleteApp()" name="submit" value="Delete" class="btn btn-sm btn-success">
-                                    <input type="submit" onclick="" name="submit" style="margin-left: 17px;" value="Send Reminder" class="btn btn-sm btn-success">
+                                    <input type="submit" onclick="deleteApp()" name="submit" value="Delete Forever" class="btn btn-sm btn-success">
+                                    <input type="submit" onclick="restoreApp()" name="submit" style="margin-left: 17px;" value="Restore" class="btn btn-sm btn-success">
                             </div>
                             <div class="row">
                                     <div class="panel-group" id="accordion">
@@ -177,7 +104,6 @@
                                                     <div class="row">
                                                         <div class="col-sm-1"></div>
                                                         <div class="col-sm-9" style="word-wrap: break-word;">{{application.subject|safe|escape}}</div>
-                                                        <div class="col-sm-2"><a href="applicationDetail/{{app.class}}" class="btn btn-info">View application</a></div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-9"></div>
@@ -209,7 +135,11 @@
             $('#menu ul').hide();
         });
         function deleteApp() {
-            document.getElementById("appSelected").action = '/movetotrash';
+            document.getElementById("appSelected").action = '/deleteforever';
+            document.getElementById("appSelected").submit();
+        }
+        function restoreApp() {
+            document.getElementById("appSelected").action = '/restore';
             document.getElementById("appSelected").submit();
         }
         function selectAll(source) {

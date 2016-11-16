@@ -67,18 +67,11 @@
         <div class="container" style="padding-top:15px;">
   <div class="row">
     <!-- left column -->
-    <div class="col-md-4 col-sm-6 col-xs-12">
-      <div class="text-center">
-        <img src="{{user.picUrl}}" class="avatar img-circle img-thumbnail" alt="avatar">
-        <h6>Upload a different photo...</h6>
-        <input name="dp" type="file" class="text-center center-block well well-sm">
-      </div>
-    </div>
     <!-- edit form column -->
     <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
       <h3 style="color: #FF5274;"><b>Personal Information</b></h3>
       <br>
-      <form class="form-horizontal" role="form" method="POST">
+      <form class="form-horizontal" id="formId" role="form" method="POST">
         <div class="form-group">
           <label class="col-lg-3 control-label">Full Name:</label>
           <div class="col-lg-7">
@@ -92,9 +85,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-lg-3 control-label">Company:</label>
+          <label class="col-lg-3 control-label">College:</label>
           <div class="col-lg-7">
-            <input class="form-control" name="collegename" required="required" value="{{user.collegeName}}" type="text">
+            <input id="clgName" class="form-control" name="collegename" required="required" value="{{user.collegeName}}" type="text">
           </div>
         </div>
         <div class="form-group">
@@ -107,7 +100,7 @@
           <label class="col-lg-3 control-label">Date of Birth:</label>
           <div class="col-lg-7">
             <span class="wpcf7-form-control-wrap email-680">
-                    <input type="text" id="datepicker" name="dob" required="required" value="{{user.dob}}" size="45" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email" aria-required="true" placeholder="">
+                    <input id="DOB" type="text" id="datepicker" name="dob" required="required" value="{{user.dob}}" size="45" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email" aria-required="true" placeholder="">
             </span>
         </div>
         </div>
@@ -163,7 +156,7 @@
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-7">
-            <input class="btn btn-primary" value="Save Changes" type="submit">
+            <input class="btn btn-primary" value="Save Changes" onclick="saveChanges()">
             <span></span>
             <input class="btn btn-default" value="Cancel" type="reset">
           </div>
@@ -191,6 +184,9 @@
             for(var i=0, n=checkboxes.length;i<n;i++) {
                 checkboxes[i].checked = source.checked;
             }
+        }
+        function saveChanges(){
+          document.getElementById("formId").submit();
         }
     </script>
 </body>

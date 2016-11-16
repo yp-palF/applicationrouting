@@ -18,19 +18,6 @@ client.connect()
 def home(request):
     DBAPPLICATIONS = client['applications']
     DBUSER = client['users']
-    DBACTIVITYLOG = client['activitylog']
-    if request.method == "POST":
-        if request.POST['submit'] == 'Delete':
-            for appId in request.POST.getlist('applicationList'):
-                doc = DBAPPLICATIONS[appId]
-                title = doc['title']
-                doc.delete()
-                string = 'You deleted an application named ' + title + '.'
-                date = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
-                DBACTIVITYLOG.create_document({'string': string, 'type': 'delete',
-                                               'username': request.user.username,
-                                               'date': date})
-        return redirect('/dashboard')
     applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     applicationList1 = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[:]
     for app in applicationList1:
@@ -45,7 +32,9 @@ def home(request):
         return redirect('/admindashboard')
     return render(request, 'application/dashboard.html', {'user': user[0]['value'],
                                                           'applicationList': applicationList,
-                                                          'notificationList': getNotification(request.user.username)})
+                                                          'notificationList': getNotification(request.user.username),
+                                                          'notificationList': getNotification(request.user.username),
+                                                          'i': getNotificationlength(request.user.username)})
 
 
 @csrf_protect
@@ -317,6 +306,13 @@ def comment(request, appId):
     DBCOMMENT.create_document({'appId': appId, 'body': request.POST['body'],
                                'username': request.user.username, 'picUrl': picUrl,
                                'dateCreated': dateCreated})
+    facultyList = DBAPPLICATIONS[appId]['facultyList']
+    text = request.user.username + " commented on " + title
+    for faculty in facultyList:
+        if faculty is not request.user.username:           
+            addNotification(text, faculty, "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "comment")
+    if DBAPPLICATIONS[appId]['from'] is not request.user.username:
+        addNotification(text, DBAPPLICATIONS[appId]['from'], "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "comment")
     return redirect('/applicationDetail/' + appId)
 
 
@@ -347,15 +343,31 @@ def facultyAction(request, appId):
     DBAPPLICATIONS = client['applications']
     application = DBAPPLICATIONS[appId]
     if request.POST['submit'] == "Approved":
+        facultyList = DBAPPLICATIONS[appId]['facultyList']
+        text = request.user.username + " approved an application " + application['title']
+        for faculty in facultyList:
+            if faculty is not request.user.username:           
+                addNotification(text, faculty, "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "approve")
+        if DBAPPLICATIONS[appId]['from'] is not request.user.username:
+            addNotification(text, DBAPPLICATIONS[appId]['from'], "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "approve")
         idx = application['facultyList'].index(application['nextBy'])
         if (idx + 1) != len(application['facultyList']):
             application['nextBy'] = application['facultyList'][idx + 1]
+            text = request.user.username + " forwarded an application " + application['title']
+            addNotification(text, application['nextBy'], "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "forward")
         else:
             application['status'] = request.POST['submit']
             application['nextBy'] = 'Its Over!!!'
     else:
         application['status'] = request.POST['submit']
-
+        facultyList = DBAPPLICATIONS[appId]['facultyList']
+        text = request.user.username + " disapproved an application " + application['title']
+        for faculty in facultyList:
+            if faculty is not request.user.username:           
+                addNotification(text, faculty, "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "disapprove")
+        if DBAPPLICATIONS[appId]['from'] is not request.user.username:
+            addNotification(text, DBAPPLICATIONS[appId]['from'], "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "disapprove")
+    
     application.save()
     return redirect('/applicationDetail/' + appId)
 
@@ -408,6 +420,8 @@ def editDesignation(request):
     else:
         user['designation'] = 'Student'
     user.save()
+    text = "Admin assigned you designation " + user['designation']
+    addNotification(text, user['username'], "http://applicationrouting.eu-gb.mybluemix.net/profile", "designation")
     return redirect(request.POST['next'])
 
 
@@ -420,8 +434,45 @@ def addNotification(text, user, link, typeApp):
 
 def getNotification(username):
     DBNOTIFICATION = client['notifications']
-    notificationList = DBNOTIFICATION.get_view_result('_design/fetch', 'byUsername')[username]
+    notificationlist = DBNOTIFICATION.get_view_result('_design/fetch', 'byDate')
+    notificationList = []
+    for notification in notificationlist:
+        if notification['value']['to'] == username and notification['value']['read'] == "false":
+            notificationList.append(notification)
+    notificationList.reverse()
+    notificationList = notificationList[:6]
     return notificationList
+
+def getNotificationlength(username):
+    DBNOTIFICATION = client['notifications']
+    notificationlist = DBNOTIFICATION.get_view_result('_design/fetch', 'byDate')
+    notificationList = []
+    i = 0
+    for notification in notificationlist:
+        if notification['value']['to'] == username and notification['value']['read'] == "false":
+            notificationList.append(notification)
+            i += 1
+    return i
+
+def read(request, notifyId):
+    if request.method == "GET":
+        DBNOTIFICATION = client['notifications']
+        notification = DBNOTIFICATION[notifyId]
+        notification['read'] = 'true'
+        notification.save()
+        return redirect(notification['link'])
+
+def notifications(request):
+    DBNOTIFICATION = client['notifications']
+    notificationlist = DBNOTIFICATION.get_view_result('_design/fetch', 'byDate')
+    notificationList = []
+    for notification in notificationlist:
+        if notification['value']['to'] == request.user.username and notification['value']['read'] == "false":
+            notificationList.append(notification)
+    notificationList.reverse()
+    return render(request, 'application/notification.html', {'user': request.user.username,
+                                                              'notificationList': notificationList,
+                                                              'i': getNotificationlength(request.user.username)})
 
 
 def pdfPage(request, appId):
@@ -434,3 +485,59 @@ def pdfPage(request, appId):
         result = view[user]
         facultyList.append({'fullName': result[0]['value']['fullName'], 'post': result[0]['value']['post']})
     return render(request, 'application/pdf.html', {'application': app, 'facultyList': facultyList})
+
+
+def moveToTrash(request):
+    DBACTIVITYLOG = client['activitylog']
+    DBAPPLICATIONS = client['applications']
+    DBTRASH = client['trash']
+    for appId in request.POST.getlist('applicationList'):
+        doc = DBAPPLICATIONS[appId]
+        title = doc['title']
+        DBTRASH.create_document(doc)
+        doc.delete()
+        string = 'You deleted an application named ' + title + '.'
+        date = str(datetime.datetime.strftime(datetime.datetime.now(), '%B %d, %Y, %H:%M %p'))
+        DBACTIVITYLOG.create_document({'string': string, 'type': 'delete',
+                                       'username': request.user.username,
+                                       'date': date})
+    return redirect('/dashboard')
+
+
+def restore(request):
+    print("AD___________________________________________________________________")
+    DBAPPLICATIONS = client['applications']
+    DBTRASH = client['trash']
+    for appId in request.POST.getlist('applicationList'):
+        doc = DBTRASH[appId]
+        DBAPPLICATIONS.create_document(doc)
+        doc.delete()
+    return redirect('/trash')
+
+
+def deleteForever(request):
+    DBTRASH = client['trash']
+    for appId in request.POST.getlist('applicationList'):
+        doc = DBTRASH[appId]
+        doc.delete()
+    return redirect('/trash')
+
+
+def trash(request):
+    DBTRASH = client['trash']
+    DBUSER = client['users']
+    applicationList = DBTRASH.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    applicationList1 = DBTRASH.get_view_result('_design/fetch', 'byUsername')[:]
+    for app in applicationList1:
+        if request.user.username in app['value']['facultyList']:
+            applicationList.append(app)
+    for application in applicationList:
+        application['class'] = application['id']
+        application['id'] = "#" + application['id']
+    # applicationList = [application1, application2, application3]
+    user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
+    if user[0]['value']['designation'] == 'admin':
+        return redirect('/admindashboard')
+    return render(request, 'application/trash.html', {'user': user[0]['value'],
+                                                          'applicationList': applicationList,
+                                                          'notificationList': getNotification(request.user.username)})
