@@ -1,24 +1,30 @@
+<html>
+<head>
 {% load static %}
-<link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
-<a href="//FreeHTMLtoPDF.com/?convert">Save as PDF</a>
-<div class="col-md-3"></div>
-<div class="col-md-6">
-<div align="center" style="margin-top: 50px; font-size: 40; color: brown"><b>{{application.title}}</b></div>
-<div align="right">By {{application.from}}<br>{{application.dateCreated}}</div>
+<link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">>
+</head>
+<body topmargin="50px">
+<font color="brown" size="7">
+<center>
+<b>{{application.title}}</b>
+</center>
+</font>
+<p align="right">By {{application.from}}<br>{{application.dateCreated}}</p>
 <br>
 <br>
-<div style="font-size: 15px">
+<font size='4'>
 {{application.subject|safe|escape}}
-</div>
+</font>
 <br><br>
-<div style="font-size: 20px">
+<font size="5">
 <b>Approved By:</b>
 <br>
-</div>
-<div style="font-size: 15px">
+</font>
+<font size= "3">
 {% for faculty in facultyList %}
     {{faculty.fullName}} ({{faculty.post}})
     <br>
 {% endfor %}
-</div>
-</div>
+</font>
+</body>
+</html>
