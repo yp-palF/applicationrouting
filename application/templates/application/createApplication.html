@@ -192,12 +192,12 @@
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper" style="max-height: 90vh;">
-        <div style="margin-top: 70px; margin-left: 20%;">
+        <div style="margin-top: 40px; margin-left: 20%;">
             <form style="" action="/createApplication" method="POST" id="formApp" class="formApp">
             <input type="hidden" name="subject" id="subject">
             <div class="row">
                 <div class="col-md-7">
-                    <textarea class="title" placeholder="Title..." name="title" style="resize: none; width: 100%; height: 56px" id="title"></textarea>
+                    <textarea class="title" placeholder="Title..." name="title" style="resize: none; width: 104%; height: 96px" id="title"></textarea>
                 </div>
                 <div class="col-md-2">
                     <input type="date" name="dueDate" value="{{date}}" min="{{date}}" style="width: 150px; margin-bottom: 8px">
@@ -208,6 +208,14 @@
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
                     </select>
+                    <div style="margin-top: 5px">
+                    <select name="type" class="type" style="width: 150px" id="type">
+                        <option value="" disabled selected style="display: none;">General</option>
+                        <option value="LT Permission">LT Permission</option>
+                        <option value="Leave Application">Leave Application</option>
+                        <option value="Hostel Issues">Hostel Issues</option>
+                        <option value="SAC Occupancy">SAC Occupancy</option>
+                    </select></div>
                 </div>
             </div>
             <div class="row">

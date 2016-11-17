@@ -584,7 +584,7 @@ def trash(request):
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def downloadPDF(request, appId):
     # create an API client instance
-    pdf = weasyprint.HTML("http://testrouter.eu-gb.mybluemix.net/pdfPage/" + appId).write_pdf()
+    pdf = weasyprint.HTML("http://applicationrouting.eu-gb.mybluemix.net/pdfPage/" + appId).write_pdf()
     response = HttpResponse(content_type="application/pdf")
     response["Cache-Control"] = "max-age=0"
     response["Accept-Ranges"] = "none"
