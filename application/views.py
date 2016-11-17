@@ -307,9 +307,12 @@ def admindashboard(request):
             return redirect('/dashboard')
         x = usernameView[:]
         total = len(x)
-        gymkhanaMem = desigView['Gymkhana'][:]
-        studentMem = desigView['Student'][:]
-        facultyMem = desigView['Faculty'][:]
+        try:
+            gymkhanaMem = desigView['Gymkhana'][:]
+            studentMem = desigView['Student'][:]
+            facultyMem = desigView['Faculty'][:]
+        except Exception:
+            return HttpResponse("""<h2>Network error!!! Please refresh</h2>""")
         gymkhana = len(gymkhanaMem)
         students = len(studentMem)
         faculty = len(facultyMem)
