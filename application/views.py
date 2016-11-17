@@ -93,8 +93,13 @@ def signup(request):
         picUrl = request.POST['picUrl']
         fullName = request.POST['fullName']
         # Saving in sqlite
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.save()
+        try:
+            user = User.objects.create_user(username=username, email=email, password=password)
+            user.save()
+        except Exception:
+            return render(request, 'application/signup.html', {
+                'msg': 'Username already exists',
+                'email': email, 'picUrl': picUrl, 'fullName': fullName})
         # Saving in cloudant
         DBUSERS = client['users']
         newUser = {'username': username, 'email': email, 'picUrl': picUrl, 'fullName': fullName, 'designation': 'User'}
@@ -300,10 +305,14 @@ def admindashboard(request):
         userList = desigView['User'][:]
         if user[0]['value']['designation'] != 'admin':
             return redirect('/dashboard')
-        total = len(usernameView[:])
-        gymkhana = len(desigView['Gymkhana'][:])
-        students = len(desigView['Student'][:])
-        faculty = len(desigView['Faculty'][:])
+        x = usernameView[:]
+        total = len(x)
+        gymkhanaMem = desigView['Gymkhana'][:]
+        studentMem = desigView['Student'][:]
+        facultyMem = desigView['Faculty'][:]
+        gymkhana = len(gymkhanaMem)
+        students = len(studentMem)
+        faculty = len(facultyMem)
         return render(
             request, 'application/admindashboard.html',
             {'user': user[0]['value'], 'newUserList': userList, 'total': total,

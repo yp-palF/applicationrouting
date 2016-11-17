@@ -202,7 +202,7 @@ img.resize{
             <div id="container_demo" >
                 <div id="wrapper">
                     <div id="login" class="animate form">
-                        <form method="POST" action='/signup' autocomplete="on"> 
+                        <form method="POST" onsubmit="return check(this)" action='/signup' autocomplete="on"> 
                             <center><img  style="margin-top: 9%" src="{{picUrl}}" class="avatar img-circle img-thumbnail" alt="avatar"></center>
                             <p> 
                                 <input type="hidden" value="{{picUrl}}" name="picUrl" />
@@ -227,6 +227,9 @@ img.resize{
                                 <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Please confirm your password </label>
                                 <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
                             </p>
+                            <p id="msg">
+                                {{msg}}
+                            </p>
                             {% csrf_token %}
                             <p class="signin button"> 
                                 <input type="submit" value="Sign up"/> 
@@ -243,4 +246,12 @@ img.resize{
         </section>
     </div>
 </body>
+<script type="text/javascript">
+    function check(element){
+        if(document.getElementById("passwordsignup_confirm").value!=document.getElementById("passwordsignup").value){
+            document.getElementById("msg").innerHTML = "Passwords do not match";
+            return false;
+        }
+    }
+</script>
 </html>
