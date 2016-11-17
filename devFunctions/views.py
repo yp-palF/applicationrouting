@@ -18,7 +18,7 @@ def resetCloudantDB(request):
     DB4 = client.create_database('activitylog')
     DB5 = client.create_database('notifications')
     DB6 = client.create_database('trash')
-    populateData('a')
+    #populateData('a')
     createDesignDoc('a')
     deleteSqlite('a')
     if DB1.exists() and DB2.exists():

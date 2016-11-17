@@ -3,7 +3,7 @@
 <head>
     {% load static %}
 
-  <title>e - Router|Admin</title>
+  <title>e - Router| Admin</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -71,13 +71,10 @@
                 <span class="navbar-brand"><i>e</i> Router</span>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li style="line-height: 2; padding-top: 2%;"><input name='search' type='search' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
-                <li><a href="#"><span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">3</span></span></a></li>
-                <li><a href="/profile"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li><a href="/adminprofile"><span class="glyphicon glyphicon-wrench"></span></a></li>
                 <li class="dropdown">
                     <a style="margin-top: -7px; margin-bottom: -10px" class="dropdown-toggle" type="button" data-toggle="dropdown"><img src='{{user.picUrl}}' style="height: 35px" class="img img-circle"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"><span class="glyphicon glyphicon-time"></span> Activity Log</a></li>
                         <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
                     </ul>
                 </li>
@@ -100,9 +97,6 @@
                 </li>
                 <li class="active">
                     <a href="/faculty"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Faculty Users</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
                 </li>
             </ul>
         </div><!-- /#sidebar-wrapper -->
@@ -176,12 +170,6 @@
     </div>
     
     <script>
-        $('#searchbox').focus(function() {
-            $('#searchbox').animate({width: "100%"});
-        });
-        $('#searchbox').blur(function() {
-            $('#searchbox').animate({width: "60%"});
-        });
      $("#menu-toggle-2").click(function(e) {
         $("#wrapper").toggleClass("toggled-2");
         $('#menu ul').hide();

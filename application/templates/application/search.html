@@ -3,7 +3,7 @@
 <head>
     {% load static %}
 
-  <title>e Router|Search Applications</title>
+  <title>e - Router| Search Applications</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
@@ -101,7 +101,7 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle">
                     {% if i is not 0 %}
-                     <span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">{{i}}</span></span>
+                     <span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">{{ni}}</span></span>
                     {% else %}
                      <span class="glyphicon glyphicon-bell"></span>
                     {% endif %}
@@ -198,7 +198,7 @@
                     <a href="/sentApplications"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
                 </li>
                 <li>
-                    <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
+                    <a href="/trash"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
                 </li>
                 <li>
                     <a href="/members"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
@@ -250,7 +250,6 @@
                                     {% else %}
                                         <div class="modal-content">
                                         <div class="modal-header">
-                                        <span class="close">x</span>
                                         </div>
                                         <font size="5px">
                                         <div class="modal-body" align="center">

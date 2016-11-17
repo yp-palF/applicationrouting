@@ -3,7 +3,7 @@
 <head>
     {% load static %}
 
-    <title>Router| Dashboard</title>
+    <title>e - Router| New Application</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
@@ -23,60 +23,56 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static "application/js/modal.js" %}"></script>
     <script src="{% static "application/js/notify.js" %}"></script>
-
-
 </head>
 <body style="height: 100vh">
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Approval List</h4>
-        </div>
-        <div class="modal-body">
-            <div style="border: groove; min-height: 40px; padding: 0px">
-              <ul id="list" style="margin: 0px; padding-left: 2px; padding-right: 2px; padding-top: 5px; list-style: none;"></ul>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Approval List</h4>
             </div>
-              {% if facultyList|length != 0 %}
-              <h4><b>Faculties</b></h4>
-              <div class="row">
-              {% for faculty in facultyList %}
-                <div class="col-md-3" style="text-align: center; min-height: 180px" onclick="addToList(this)" id="{{faculty.value.username}}">
-                    <img src="{{faculty.value.picUrl}}" class="img-circle" style="height: 100px; width: 88px">
-                    <b style="color: brown">{{faculty.value.post}}</b><br>
-                    {{faculty.value.username}}
+            <div class="modal-body">
+                <div style="border: groove; min-height: 40px; padding: 0px">
+                    <ul id="list" style="margin: 0px; padding-left: 2px; padding-right: 2px; padding-top: 5px; list-style: none;"></ul>
                 </div>
-              {% endfor %}
-              {% endif %}
-              </div>
-              {% if gymkhanaList|length != 0 %}
-              <h4><b>Gymkhana Members</b></h4>
-              <div class="row">
-              {% for gymkhana in gymkhanaList %}
-                <div class="col-md-3" style="text-align: center; min-height: 180px" onclick="addToList(this)" id="{{gymkhana.value.username}}">
-                    <img src="{{gymkhana.value.picUrl}}" class="img-circle" style="height: 100px; width: 88px;">
-                    <b style="color: brown">{{gymkhana.value.post}}</b><br>
-                    {{gymkhana.value.username}}
-                </div>
-              {% endfor %}
-              {% endif %}
-              </div>
+                {% if facultyList|length != 0 %}
+                    <h4><b>Faculties</b></h4>
+                    <div class="row">
+                        {% for faculty in facultyList %}
+                            <div class="col-md-3" style="text-align: center; min-height: 180px" onclick="addToList(this)" id="{{faculty.value.username}}">
+                                <img src="{{faculty.value.picUrl}}" class="img-circle" style="height: 100px; width: 88px">
+                                <b style="color: brown">{{faculty.value.post}}</b><br>
+                                {{faculty.value.username}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if gymkhanaList|length != 0 %}
+                    <h4><b>Gymkhana Members</b></h4>
+                    <div class="row">
+                        {% for gymkhana in gymkhanaList %}
+                            <div class="col-md-3" style="text-align: center; min-height: 180px" onclick="addToList(this)" id="{{gymkhana.value.username}}">
+                                <img src="{{gymkhana.value.picUrl}}" class="img-circle" style="height: 100px; width: 88px;">
+                                <b style="color: brown">{{gymkhana.value.post}}</b><br>
+                                {{gymkhana.value.username}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="send()">Send Application</button>
+            </div>      
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" onclick="send()">Send Application</button>
-      </div>
-      
     </div>
-  </div></div></div>
-    <nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
-        <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
-            <ul class="nav navbar-nav">
+</div>
+<nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
+    <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
+        <ul class="nav navbar-nav">
                 <li style="cursor: pointer;"><a style="font-size:18px" data-toggle="collapse" id="menu-toggle-2"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
             </ul>
             <div class="navbar-header">
@@ -187,7 +183,7 @@
                     <a href="/sentApplications"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
                 </li>
                 <li>
-                    <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
+                    <a href="/trash"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
                 </li>
                 <li>
                     <a href="/members"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
@@ -225,6 +221,7 @@
             </form>
         </div>
         </div>
+        </div>
     <script>
         $('#searchbox').focus(function() {
             $('#searchbox').animate({width: "100%"});
@@ -239,12 +236,12 @@
         $(document).ready(function() {
             $("#datepicker").datepicker();
         });
-  </script>
-<script type="text/javascript">
-  bkLib.onDomLoaded(function() {
-        new nicEditor().panelInstance('area1');
-        nicEditors.findEditor( "area1" ).setContent( '' );
-  });
+    </script>
+    <script type="text/javascript">
+      bkLib.onDomLoaded(function() {
+            new nicEditor().panelInstance('area1');
+            nicEditors.findEditor( "area1" ).setContent( '' );
+      });
     </script>
         <script type="text/javascript">
             function proceed() {
@@ -257,8 +254,9 @@
                     $(".subject").notify("Body is required", {position: "top center"});
                 else if(document.getElementById('priority').selectedIndex == 0)
                     $(".priority").notify("Priority is required", {position: "top left"});
-                else
+                else{
                     $('#myModal').modal();
+                }
             }
             function addToList(element){
                 username=element.id;
@@ -302,6 +300,7 @@
                 }
                 for (var i = 0; i < children.length; i++) {
                     var chk = document.createElement("input");
+                    chk.setAttribute("style", 'display: None');
                     chk.setAttribute("type", "checkbox");
                     chk.setAttribute("name", "facultyList");
                     chk.setAttribute("value", children[i].id);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
-    <title>e Router| Dashboard</title>
+    <title>e - Router| Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
@@ -135,6 +135,9 @@
         <div id="page-content-wrapper" style="max-height: 90vh;">
             <div class="row"><div class="col-lg-12" style="height: 40px"></div></div>
                 <div class="row"><div class="col-sm-12"></div></div>
+            {% if applicationList|length == 0 %}
+                <center><h3 style="color: green">No application created yet! Click <a href='/createApplication'>here</a> to create.</h3></center>
+            {% else %}
                 <div class="container-fluid xyz col-sm-12">
                     <form method="POST" id="appSelected">
                     <!-- set COLOR -->
@@ -195,6 +198,7 @@
                             </div>
                         </form>
             </div>
+            {% endif %}
         </div>
     </div>
     <script>

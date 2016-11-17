@@ -2,7 +2,7 @@
 <head>
 <html>
     <meta charset="UTF-8" />
-    <title>Login</title>
+    <title>e - Router| Login</title>
     {% load static %}
     <link rel="shortcut icon" href="../favicon.ico"> 
     <link rel="stylesheet" type="text/css" href="{% static "application/css/demo.css" %}"/>
@@ -185,7 +185,7 @@ img.resize{
         <section>               
             <div id="container_demo" >
                 <div id="wrapper">
-                    <div id="login" class="animate form">
+                    <div id="login" class="animate form noti">
                         <form autocomplete="on" method="POST">
                             <h1>Log in</h1> 
                             <p> 
@@ -197,21 +197,10 @@ img.resize{
                             {% csrf_token %}
                                 <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
                             </p>
-                            
+                            <div id='msg'>{{msg}}</div>
                             <p class="login button"> 
                                 <input type="submit" class="btn btn-fill btn-large btn-margin-right" value="Login" />
-                                <!--<input type="submit" value="Login" /> -->
-                            </p>
-                            <p class="change_link">
-                                Not a member yet ?
-
-                                <a href="/signup" class="to_register">Sign Up</a>
-                            <br>
-                            
-                                Forgot password
-                                <a href="#toregister" class="to_register">Reset password</a>
-                            </p>
-                                
+                            </p>                           
                         </form>
                     </div>                  
                 </div>

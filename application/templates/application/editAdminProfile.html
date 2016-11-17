@@ -25,89 +25,10 @@
                 <span class="navbar-brand"><i>e</i> Router</span>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li style="line-height: 2; padding-top: 2%;">
-                <form method="GET" action='/searchby'>
-                <input name='search' type='text' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
-                </form>
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle">
-                    {% if i is not 0 %}
-                     <span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">{{i}}</span></span>
-                    {% else %}
-                     <span class="glyphicon glyphicon-bell"></span>
-                    {% endif %}
-                    </a>
-                    <ul class="dropdown-menu">
-                        {% for notification in notificationList %}
-                        {% if notification.value.type == 'create' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-envelope" style="color: orange;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'comment' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-comment" style="color: green;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'approve' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-ok-sign" style="color: green;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'disapprove' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-remove-sign" style="color: red;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'designation' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-education" style="color: black;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% elif notification.value.type == 'forward' %}
-                        <li>
-                        <a href="read/{{notification.id}}">
-                            <div>
-                            <i class="glyphicon glyphicon-circle-arrow-right" style="color: blue;"></i>&nbsp;{{notification.value.text}}
-                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
-                            </div>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                        <li class="dropdown-footer" align="center">
-                            <a href="/notifications" align="center">
-                            See all notifications
-                            <i class="glyphicon glyphicon-chevron-right" style="color: #FF5274;"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="/profile"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li><a href="/adminprofile"><span class="glyphicon glyphicon-wrench"></span></a></li>
                 <li class="dropdown">
                     <a style="margin-top: -7px; margin-bottom: -10px" class="dropdown-toggle" type="button" data-toggle="dropdown"><img src='{{user.picUrl}}' style="height: 35px" class="img img-circle"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/activitylog"><span class="glyphicon glyphicon-time"></span> Activity Log</a></li>
                         <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
                     </ul>
                 </li>
@@ -120,19 +41,16 @@
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
                 <li>
-                    <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span>&nbsp;&nbsp;Dashboard</a>
+                    <a href="/admindashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
                 </li>
                 <li>
-                    <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span>&nbsp;&nbsp;New Application</a>
+                    <a href="/student"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span> Student Users</a>
                 </li>
                 <li>
-                    <a href="/sentApplications"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>&nbsp;&nbsp;Sent Applications</a>
+                    <a href="/gymkhana"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Gymkhana Users</a>
                 </li>
                 <li>
-                    <a href="/trash"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>&nbsp;&nbsp;Trash</a>
-                </li>
-                <li>
-                    <a href="/members"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>&nbsp;&nbsp;Members</a>
+                    <a href="/faculty"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Faculty Users</a>
                 </li>
             </ul>
         </div><!-- /#sidebar-wrapper -->
@@ -239,12 +157,6 @@
   </div>
 </div>
     <script>
-        $('#searchbox').focus(function() {
-            $('#searchbox').animate({width: "100%"});
-        });
-        $('#searchbox').blur(function() {
-            $('#searchbox').animate({width: "60%"});
-        });
         $("#menu-toggle-2").click(function(e) {
             $("#wrapper").toggleClass("toggled-2");
             $('#menu ul').hide();

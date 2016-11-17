@@ -21,6 +21,7 @@ from application.views import editProfile, profile, faculty, gymkhana, admindash
 from application.views import comment, facultyAction, editDesignation, deleteUser
 from application.views import searchby, activitylog, sentApplications, pdfPage, moveToTrash
 from application.views import trash, restore, deleteForever, read, notifications, downloadPDF
+from application.views import adminProfile, editAdminProfile
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -54,5 +55,6 @@ urlpatterns = [
     url(r'^read/(?P<notifyId>\w+)$', read),
     url(r'^notifications', notifications),
     url(r'^downloadpdf/(?P<appId>\w+)$', downloadPDF),
-
+    url(r'adminprofile', adminProfile),
+    url(r'^editAdminProfile', editAdminProfile),
 ]
