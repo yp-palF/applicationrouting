@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from devFunctions.views import resetCloudantDB, populateData, createDesignDoc, deleteSqlite
+from devFunctions.views import displayUsers, setUserPassword
 urlpatterns = [
     url(r'^resetdb$', resetCloudantDB),
     url(r'^populatedata$', populateData),
     url(r'^createdd$', createDesignDoc),
     url(r'^resetsqlite$', deleteSqlite),
+    url(r'^displayUsers$', displayUsers),
+    url(r'^setUserPassword$', setUserPassword),
 ]

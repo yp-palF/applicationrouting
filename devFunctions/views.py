@@ -165,3 +165,23 @@ def populateData(request):
         data = json.load(data_file)
         for application in data:
             DBAPPLICATIONS.create_document(application)
+
+
+def displayUsers(request):
+    return HttpResponse(User.objects.all())
+
+
+def setUserPassword(request):
+    DBUSER = client['users']
+    userList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
+    for user in userList:
+        username = user['value']['username']
+        email = user['value']['email']
+        if username == 'Admin':
+            password = 'admin'
+        elif username == 'Student':
+            password = 'student'
+        else:
+            password = username.lower()
+        user = User.objects.create_user(username=username, email=email, password=password)
+        user.save()
